@@ -603,11 +603,11 @@ def rollup_reading() -> list[int]:
     return created
 
 
-# --- Digest item actions (practice growth hooks, handlers built out in §5) ----
+# --- Digest item flags (the info-sheet action lives in growth.py) --------------
 
 def item_action(item_id: int, action: str) -> bool:
     with db.tx() as conn:
-        item = conn.execute("SELECT * FROM news_items WHERE id = ?", (item_id,)).fetchone()
+        item = conn.execute("SELECT id FROM news_items WHERE id = ?", (item_id,)).fetchone()
         if item is None:
             return False
         if action == "opportunity":
@@ -619,21 +619,5 @@ def item_action(item_id: int, action: str) -> bool:
             conn.execute(
                 "UPDATE news_items SET flagged_newsletter = 1 - flagged_newsletter"
                 " WHERE id = ?", (item_id,))
-            return True
-        if action == "info_sheet":
-            existing = conn.execute(
-                "SELECT id FROM practice_outputs WHERE kind = 'info_sheet'"
-                " AND source_kind = 'news_item' AND source_id = ?"
-                " AND status != 'dismissed'", (item_id,),
-            ).fetchone()
-            if existing:
-                return True
-            conn.execute(
-                "INSERT INTO practice_outputs (kind, title, source_kind, source_id,"
-                " status, notes, created_at) VALUES ('info_sheet', ?, 'news_item', ?,"
-                " 'idea', ?, ?)",
-                (f"Patient info sheet: {item['title']}"[:300], item_id,
-                 item["link"] or "", db.now_iso()),
-            )
             return True
     return False

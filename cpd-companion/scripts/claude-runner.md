@@ -34,6 +34,18 @@ Drain the pending claude jobs:
      on the stated goals and register — never invent achievements or
      commitments; leave placeholders where input is missing. Result key:
      `pdp_md`.
+   - `info_sheet`: draft a patient information page from a digest item. **Use
+     the `east-neuro-patient-page` skill** so the page matches the East
+     Neurology house style. It is a draft for clinician review: mark uncertain
+     statements with `[review]`, no doses unless supplied, include the source
+     link. Result keys: `title`, `target_site`, `html` (complete page).
+   - `opportunity_scan`: quarterly — turn the quarter's digest items into 2-3
+     service-opportunity briefs per the job's prompt. Ground clinical claims in
+     the supplied items; frame market/competitor statements as questions to
+     verify. Result key: `briefs` (array of `{title, brief_md, target_site}`).
+   - `referrer_newsletter`: quarterly — draft the "What's new in neurology" GP
+     newsletter from the flagged items only; generic referral guidance, doctor
+     edits before sending. Result key: `newsletter_md`.
 3. `POST /api/jobs/{id}/result` with the JSON result.
 4. If a job cannot be completed, `POST /api/jobs/{id}/fail` with `{"error": "<why>"}`.
 5. Finish with a one-line summary of how many jobs you completed.

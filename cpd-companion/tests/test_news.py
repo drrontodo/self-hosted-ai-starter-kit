@@ -280,7 +280,7 @@ def test_item_actions(client, monkeypatch):
     news.poll_feed(_feed_row("rss", "tga.gov.au/feeds/alert.xml"))
     login(client)
     with db.tx() as conn:
-        item_id = conn.execute("SELECT id FROM news_items ORDER BY id LIMIT 1").fetchone()["id"]
+        item_id = conn.execute("SELECT id FROM news_items WHERE guid = 'tga-1'").fetchone()["id"]
 
     r = client.post(f"/digest/{item_id}/action/info_sheet", follow_redirects=False)
     assert r.status_code == 303

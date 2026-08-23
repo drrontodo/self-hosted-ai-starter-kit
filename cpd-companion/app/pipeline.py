@@ -8,7 +8,7 @@ by the nightly Claude Code run) -> draft activity + evidence, awaiting sign-off.
 import json
 import re
 
-from . import config, db, medicolegal, news, pdp, reviews
+from . import config, db, growth, medicolegal, news, pdp, reviews
 
 
 def create_meeting(
@@ -148,6 +148,15 @@ def handle_job_result(job_id: int, result: dict) -> dict:
 
         if job["kind"] == "pdp_draft":
             return pdp.apply_draft_result(conn, job, result)
+
+        if job["kind"] == "info_sheet":
+            return growth.apply_info_sheet_result(conn, job, result)
+
+        if job["kind"] == "opportunity_scan":
+            return growth.apply_opportunity_result(conn, job, result)
+
+        if job["kind"] == "referrer_newsletter":
+            return growth.apply_newsletter_result(conn, job, result)
 
         # Unknown kinds: store the result verbatim so future modules can define their own.
         conn.execute(

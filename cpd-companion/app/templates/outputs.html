@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Outputs — CPD Companion{% endblock %}
+{% block content %}
+<h1>Practice outputs</h1>
+
+<p class="muted">Assets produced from CPD activity — patient info sheets drafted from
+digest items (East Neurology house style), quarterly service-opportunity briefs,
+referrer newsletters, and the improvement backlog. Review a draft, publish it to the
+relevant site, and it stays tracked here (published pages get flagged when new digest
+items touch their topic).</p>
+
+<div class="feed-ops">
+  <form method="post" action="/outputs/run/scan">
+    <button type="submit" class="secondary">Run opportunity scan now</button></form>
+  <form method="post" action="/outputs/run/newsletter">
+    <button type="submit" class="secondary">Build referrer newsletter
+      ({{ flagged_newsletter }} flagged item{{ 's' if flagged_newsletter != 1 }})</button></form>
+  <form method="post" action="/outputs/run/refresh-check">
+    <button type="submit" class="secondary">Check published pages for refreshes</button></form>
+</div>
+
+{% if not grouped %}
+<p class="muted">Nothing yet — use the action buttons on the <a href="/digest">Digest</a>
+page to start the loop.</p>
+{% endif %}
+
+{% for kind, outputs in grouped.items() %}
+<h2>{{ kind_labels.get(kind, kind.replace('_', ' ')) }}</h2>
+<table>
+  <tr><th>Title</th><th>Status</th><th>Site</th><th>Created</th><th></th></tr>
+  {% for o in outputs %}
+  <tr>
+    <td>
+      {% if o.needs_refresh %}<span class="flags" title="{{ o.notes }}">⟳ refresh?</span> {% endif %}
+      {{ o.title }}
+      {% if o.path %} — <a href="/outputs/{{ o.id }}/download">view draft</a>{% endif %}
+      {% if o.notes and not o.needs_refresh and kind == 'info_sheet' %}
+        <span class="muted small">({{ o.notes[:80] }})</span>{% endif %}
+    </td>
+    <td>{{ o.status }}</td>
+    <td>{{ o.target_site or '—' }}</td>
+    <td>{{ o.created_at[:10] }}</td>
+    <td class="row-actions">
+      {% if o.status == 'draft' %}
+      <form method="post" action="/outputs/{{ o.id }}/status">
+        <input type="hidden" name="status" value="published">
+        <button type="submit" class="secondary">published</button></form>
+      {% endif %}
+      {% if o.kind == 'improvement_action' and o.status != 'done' %}
+      <form method="post" action="/outputs/{{ o.id }}/status">
+        <input type="hidden" name="status" value="done">
+        <button type="submit" class="secondary">done</button></form>
+      {% endif %}
+      {% if o.needs_refresh %}
+      <form method="post" action="/outputs/{{ o.id }}/refresh-clear">
+        <button type="submit" class="secondary">refresh handled</button></form>
+      {% endif %}
+      <form method="post" action="/outputs/{{ o.id }}/status">
+        <input type="hidden" name="status" value="dismissed">
+        <button type="submit" class="secondary">dismiss</button></form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endfor %}
+{% endblock %}

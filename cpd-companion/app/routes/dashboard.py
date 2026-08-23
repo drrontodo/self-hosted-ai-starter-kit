@@ -9,7 +9,7 @@ from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import RedirectResponse, Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from .. import auth, config, db, medicolegal, news, pdp, pipeline, reviews
+from .. import auth, config, db, growth, medicolegal, news, pdp, pipeline, reviews
 
 router = APIRouter()
 templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent.parent / "templates"))
@@ -366,7 +366,9 @@ def digest_mark_read(request: Request, item_id: int, seconds: int = Form(0, ge=0
 def digest_item_action(request: Request, item_id: int, action: str):
     if r := _guard(request):
         return r
-    if action in ("info_sheet", "opportunity", "newsletter"):
+    if action == "info_sheet":
+        growth.request_info_sheet(item_id)
+    elif action in ("opportunity", "newsletter"):
         news.item_action(item_id, action)
     return RedirectResponse("/digest", status_code=303)
 
@@ -613,6 +615,67 @@ def output_set_status(request: Request, output_id: int, status: str = Form(...))
     from urllib.parse import urlparse
 
     return RedirectResponse(urlparse(target).path or "/reviews", status_code=303)
+
+
+@router.get("/outputs")
+def outputs_page(request: Request):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        flagged_newsletter = conn.execute(
+            "SELECT COUNT(*) AS n FROM news_items WHERE flagged_newsletter = 1"
+        ).fetchone()["n"]
+    return templates.TemplateResponse(request, "outputs.html", {
+        "grouped": growth.outputs_by_kind(),
+        "flagged_newsletter": flagged_newsletter,
+        "kind_labels": {
+            "info_sheet": "Patient info sheets",
+            "opportunity_brief": "Service opportunity briefs",
+            "newsletter": "Referrer newsletters",
+            "improvement_action": "Practice improvement actions",
+        },
+    })
+
+
+@router.post("/outputs/run/{job_kind}")
+def outputs_run(request: Request, job_kind: str):
+    if r := _guard(request):
+        return r
+    if job_kind == "scan":
+        growth.quarterly_opportunity_scan()
+    elif job_kind == "newsletter":
+        growth.quarterly_referrer_newsletter()
+    elif job_kind == "refresh-check":
+        growth.flag_refreshes()
+    return RedirectResponse("/outputs", status_code=303)
+
+
+@router.post("/outputs/{output_id}/refresh-clear")
+def output_refresh_clear(request: Request, output_id: int):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        conn.execute(
+            "UPDATE practice_outputs SET needs_refresh = 0, updated_at = ? WHERE id = ?",
+            (db.now_iso(), output_id))
+    return RedirectResponse("/outputs", status_code=303)
+
+
+@router.get("/outputs/{output_id}/download")
+def output_download(request: Request, output_id: int):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        row = conn.execute("SELECT * FROM practice_outputs WHERE id = ?",
+                           (output_id,)).fetchone()
+    if row is None or not row["path"]:
+        return RedirectResponse("/outputs", status_code=303)
+    path = Path(row["path"]).resolve()
+    if not path.is_file() or not path.is_relative_to(config.DATA_DIR.resolve()):
+        return Response("output file not found", status_code=404)
+    from fastapi.responses import FileResponse
+
+    return FileResponse(path, filename=path.name)
 
 
 @router.get("/pdp")

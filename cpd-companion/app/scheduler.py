@@ -5,7 +5,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from . import config, db, medicolegal, news, reviews, rollup
+from . import config, db, growth, medicolegal, news, reviews, rollup
 
 log = logging.getLogger("cpd.scheduler")
 
@@ -92,6 +92,13 @@ def start() -> None:
     _scheduler.add_job(reviews.poll_reviews, "cron", hour=5, minute=10, id="reviews_poll")
     _scheduler.add_job(reviews.maybe_open_cycle, "cron", day=2, hour=6, minute=40,
                        id="review_cycle")
+    # §5 practice growth: quarterly scans/newsletter; weekly refresh check.
+    _scheduler.add_job(growth.quarterly_opportunity_scan, "cron", month="1,4,7,10",
+                       day=3, hour=6, minute=50, id="opportunity_scan")
+    _scheduler.add_job(growth.quarterly_referrer_newsletter, "cron", month="1,4,7,10",
+                       day=3, hour=7, minute=0, id="referrer_newsletter")
+    _scheduler.add_job(growth.flag_refreshes, "cron", day_of_week="mon", hour=6,
+                       minute=15, id="refresh_check")
     _scheduler.start()
 
 

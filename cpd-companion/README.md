@@ -2,7 +2,7 @@
 
 Self-hosted tracker for RACP MyCPD requirements. See [../docs/cme-tracker/SPEC.md](../docs/cme-tracker/SPEC.md) for the full specification and the research reports behind it.
 
-**Built so far (Phases 1–4 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), the patient-feedback loop (daily Google reviews polling + quarterly themed review cycles with a practice-improvement backlog), the PDP builder, per-activity evidence upload, the monthly email-harvest runner prompt, MyCPD CSV export, and nightly backups.
+**Built so far (Phases 1–5 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), the patient-feedback loop (daily Google reviews polling + quarterly themed review cycles with a practice-improvement backlog), the PDP builder, per-activity evidence upload, the monthly email-harvest runner prompt, the practice growth loop (digest items → house-style patient info sheets, quarterly service-opportunity briefs and referrer newsletters, published-page refresh flagging), MyCPD CSV export, and nightly backups.
 
 ## Run it (Windows server, Docker Desktop)
 
@@ -92,6 +92,20 @@ until you confirm it in the Inbox.
 
 **Evidence:** any activity's edit page now accepts file uploads (stored
 hash-stamped in the evidence vault) and serves existing artefacts back.
+
+### Practice growth loop (§5)
+
+The **Outputs** page tracks every asset produced from CPD activity, idea →
+draft → published. *Draft patient info sheet* on a digest item queues an
+`info_sheet` claude job whose runner uses the **east-neuro-patient-page**
+skill, so drafts arrive as complete pages in the East Neurology house style
+(saved under `data/outputs/`, reviewable/downloadable from the dashboard).
+Quarterly jobs turn the quarter's news + PBS diffs into 2-3
+service-opportunity briefs (`opportunity_scan`) and the flagged items into a
+"What's new in neurology" GP newsletter (`referrer_newsletter` — flags are
+consumed on inclusion). Published outputs are re-checked weekly against new
+digest items and flagged ⟳ when their topic resurfaces, so the condition
+library stays guideline-current.
 
 ## Logging research/development time from Claude Code
 

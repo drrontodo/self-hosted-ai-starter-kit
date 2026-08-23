@@ -19,6 +19,7 @@ services:
       - ./data/audio:/data/audio
       - ./data/transcripts:/data/transcripts
       - ./data/inbox:/data/inbox
+      - ./data/outputs:/data/outputs
 
 volumes:
   cpd_data:

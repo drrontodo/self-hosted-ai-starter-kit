@@ -55,9 +55,19 @@ TRANSCRIPT_DIR = DATA_DIR / "transcripts"
 INBOX_DIR = DATA_DIR / "inbox"
 MEDICOLEGAL_INBOX = INBOX_DIR / "medicolegal"
 REVIEWS_INBOX = INBOX_DIR / "reviews"
+OUTPUTS_DIR = DATA_DIR / "outputs"
+
+PRACTICE_SITES = [
+    "eastneurology.com.au",
+    "autonomicsaustralia.com.au",
+    "potstestingsydney.com.au",
+    "burningfeet.com.au",
+    "sydneyheadachecentre.com.au",
+    "neurologylegal.com.au",
+]
 
 
 def ensure_dirs() -> None:
     for d in (DATA_DIR, EVIDENCE_DIR, BACKUP_DIR, AUDIO_DIR, TRANSCRIPT_DIR,
-              MEDICOLEGAL_INBOX, REVIEWS_INBOX):
+              MEDICOLEGAL_INBOX, REVIEWS_INBOX, OUTPUTS_DIR):
         d.mkdir(parents=True, exist_ok=True)
