@@ -64,6 +64,10 @@ def _summary_prompt(meta: dict) -> str:
 def handle_job_result(job_id: int, result: dict) -> dict:
     """Apply a posted job result; returns a description of what happened."""
     with db.tx() as conn:
+        # Serialise with concurrent posts/failures so a job can only ever be
+        # completed once (the drain script is sequential, but nothing forces
+        # callers to be).
+        conn.execute("BEGIN IMMEDIATE")
         job = conn.execute("SELECT * FROM jobs WHERE id = ?", (job_id,)).fetchone()
         if job is None:
             return {"error": "job not found"}
@@ -100,11 +104,11 @@ def handle_job_result(job_id: int, result: dict) -> dict:
                 return {"error": "result must include 'title' and 'summary_md'"}
             mapping = config.MEETING_TYPES.get(meta.get("meeting_type"), config.MEETING_TYPES["other"])
             doc_path = config.EVIDENCE_DIR / f"meeting_{job_id}_minutes.md"
-            doc_path.write_text(
+            doc_bytes = (
                 f"# {title}\n\nDate: {meta.get('date')}\nParticipants: {meta.get('participants')}\n"
-                f"Duration: {meta.get('duration_minutes')} minutes\n\n{summary_md}\n",
-                encoding="utf-8",
-            )
+                f"Duration: {meta.get('duration_minutes')} minutes\n\n{summary_md}\n"
+            ).encode("utf-8")
+            doc_path.write_bytes(doc_bytes)
             now = db.now_iso()
             cur = conn.execute(
                 "INSERT INTO activities (date, category, activity_type, title, description,"
@@ -122,18 +126,30 @@ def handle_job_result(job_id: int, result: dict) -> dict:
                 ),
             )
             activity_id = cur.lastrowid
-            evidence_rows = [(activity_id, "generated_doc", str(doc_path), now)]
+            import hashlib
+
+            evidence_rows = [(activity_id, "generated_doc", str(doc_path),
+                              hashlib.sha256(doc_bytes).hexdigest(), now)]
             if meta.get("transcript_file"):
+                transcript_sha = (
+                    hashlib.sha256(str(meta.get("transcript", "")).encode()).hexdigest()
+                    if meta.get("transcript") else None)
                 evidence_rows.append(
-                    (activity_id, "file", str(config.TRANSCRIPT_DIR / meta["transcript_file"]), now)
+                    (activity_id, "file", str(config.TRANSCRIPT_DIR / meta["transcript_file"]),
+                     transcript_sha, now)
                 )
             conn.executemany(
-                "INSERT INTO evidence (activity_id, kind, path_or_url, created_at) VALUES (?, ?, ?, ?)",
+                "INSERT INTO evidence (activity_id, kind, path_or_url, sha256, created_at)"
+                " VALUES (?, ?, ?, ?, ?)",
                 evidence_rows,
             )
+            # Scrub the transcript out of the completed job's payload; it lives
+            # in TRANSCRIPT_DIR, not the jobs table.
+            scrubbed = {k: v for k, v in meta.items() if k != "transcript"}
             conn.execute(
-                "UPDATE jobs SET status = 'done', result = ?, completed_at = ? WHERE id = ?",
-                (json.dumps({"activity_id": activity_id}), now, job_id),
+                "UPDATE jobs SET status = 'done', result = ?, payload = ?, completed_at = ?"
+                " WHERE id = ?",
+                (json.dumps({"activity_id": activity_id}), json.dumps(scrubbed), now, job_id),
             )
             return {"job": job_id, "status": "done", "draft_activity_id": activity_id}
 
@@ -167,6 +183,55 @@ def handle_job_result(job_id: int, result: dict) -> dict:
             (json.dumps(result), db.now_iso(), job_id),
         )
         return {"job": job_id, "status": "done"}
+
+
+# Job kinds whose payloads carry bulky/sensitive text (report contents,
+# transcripts): scrub them down to reference keys on any terminal status so
+# the jobs table (and its nightly backups) never mirrors the source material.
+_SENSITIVE_PAYLOAD_KINDS = ("report_extract", "meeting_summary", "transcribe_meeting")
+_REFERENCE_KEYS = ("report_id", "audit_id", "cycle_id", "output_id", "year",
+                   "item_ids", "meeting_type", "date", "audio_file",
+                   "transcript_file", "duration_minutes")
+
+
+def handle_job_failure(job_id: int, error: str) -> dict:
+    """Mark a job failed and unwind module state so the work can be retried.
+
+    Without this, a runner POSTing /fail (as claude-runner.md instructs) would
+    permanently wedge the module that queued the job: reports stuck 'queued',
+    info-sheet outputs stuck 'idea'. Audits and review cycles recover through
+    their own requeue paths (ensure_monthly_audit / maybe_open_cycle)."""
+    with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
+        job = conn.execute("SELECT * FROM jobs WHERE id = ?", (job_id,)).fetchone()
+        if job is None:
+            return {"error": "job not found"}
+        if job["status"] != "pending":
+            return {"error": f"job already {job['status']}"}
+        payload = json.loads(job["payload"] or "{}")
+        stored_payload = job["payload"]
+        if job["kind"] in _SENSITIVE_PAYLOAD_KINDS:
+            stored_payload = json.dumps(
+                {k: payload[k] for k in _REFERENCE_KEYS if k in payload})
+        conn.execute(
+            "UPDATE jobs SET status = 'failed', error = ?, payload = ?, completed_at = ?"
+            " WHERE id = ?",
+            (error[:2000], stored_payload, db.now_iso(), job_id),
+        )
+        if job["kind"] == "report_extract" and payload.get("report_id"):
+            conn.execute(
+                "UPDATE reports SET extract_status = 'pending'"
+                " WHERE id = ? AND extract_status = 'queued'",
+                (payload["report_id"],),
+            )
+        if job["kind"] == "info_sheet" and payload.get("output_id"):
+            conn.execute(
+                "UPDATE practice_outputs SET status = 'dismissed', notes = ?,"
+                " updated_at = ? WHERE id = ? AND status = 'idea'",
+                (f"drafting job failed: {error[:200]}", db.now_iso(),
+                 payload["output_id"]),
+            )
+    return {"job": job_id, "status": "failed"}
 
 
 def meeting_queue_overview() -> list[dict]:

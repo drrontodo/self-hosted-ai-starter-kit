@@ -14,7 +14,9 @@ Check the <a href="/log">Log</a> for its current state.</p>
 {% for a in rows %}
 <article class="draft-card">
   <h3>{{ a.title }}</h3>
-  <p class="meta">{{ a.date }} · Category {{ a.category }} · {{ a.activity_type.replace('_', ' ') }} · source: {{ a.source_module }}</p>
+  <p class="meta">{{ a.date }} · Category {{ a.category }} · {{ a.activity_type.replace('_', ' ') }} · source: {{ a.source_module }}
+    {% if a.tags %} · <span class="flags">tags: {{ a.tags.replace('_', ' ').replace(',', ', ') }}</span>
+    (<a href="/activity/{{ a.id }}">edit</a> to change){% endif %}</p>
   <pre class="desc">{{ a.description }}</pre>
   <form method="post" action="/inbox/{{ a.id }}/confirm" class="confirm-form">
     <label>Minutes <input type="number" name="minutes" value="{{ a.minutes }}" min="1" max="1440" required></label>

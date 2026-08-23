@@ -201,8 +201,15 @@ def test_stale_confirm_redirects_with_notice(client):
 def test_external_ref_dedupe(client):
     body = {"date": "2026-07-01", "category": 1, "activity_type": "meeting",
             "title": "ANZAN webinar", "minutes": 60, "external_ref": "gmail-msg-123"}
-    assert client.post("/api/activities", headers=KEY, json=body).status_code == 201
+    r = client.post("/api/activities", headers=KEY, json=body)
+    assert r.status_code == 201
     assert client.post("/api/activities", headers=KEY, json=body).status_code == 409
+    # the external reference is recorded as evidence (SPEC M6 email harvest)
+    with db.tx() as conn:
+        ev = conn.execute("SELECT * FROM evidence WHERE activity_id = ?",
+                          (r.json()["id"],)).fetchall()
+    assert len(ev) == 1
+    assert ev[0]["kind"] == "email_ref" and ev[0]["path_or_url"] == "gmail-msg-123"
 
 
 def test_activity_patch_and_soft_delete(client):

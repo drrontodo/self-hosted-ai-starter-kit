@@ -244,14 +244,20 @@ def ensure_monthly_audit(period: str | None = None) -> dict:
     """
     period = period or previous_month()
     checklist = get_checklist()
+    year, month = int(period[:4]), int(period[5:7])
+    period_end = f"{year + (month == 12):04d}-{(month % 12) + 1:02d}-01"
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         audit = conn.execute("SELECT * FROM audits WHERE period = ?", (period,)).fetchone()
         if audit is not None and audit["status"] == "signed_off":
             return {"period": period, "status": "signed_off", "audit_id": audit["id"]}
+        # Sweep every unattached report detected up to the period's end, not
+        # just the period's own month — reports detected after an earlier month
+        # was signed off roll forward instead of being stranded.
         unattached = conn.execute(
             "SELECT * FROM reports WHERE audit_id IS NULL AND backfill = 0"
-            " AND detected_at LIKE ?",
-            (f"{period}%",),
+            " AND detected_at < ?",
+            (period_end,),
         ).fetchall()
         if audit is None:
             if not unattached:
@@ -264,7 +270,14 @@ def ensure_monthly_audit(period: str | None = None) -> dict:
         else:
             audit_id = audit["id"]
             if not unattached:
-                return {"period": period, "status": audit["status"], "audit_id": audit_id}
+                pending = conn.execute(
+                    "SELECT 1 FROM jobs WHERE kind = 'medicolegal_audit'"
+                    " AND status = 'pending'").fetchone()
+                if audit["status"] != "drafting" or pending:
+                    return {"period": period, "status": audit["status"],
+                            "audit_id": audit_id}
+                # 'drafting' with no live job: the drafting job failed — fall
+                # through to recompute metrics and queue a fresh one.
         conn.executemany("UPDATE reports SET audit_id = ? WHERE id = ?",
                          [(audit_id, r["id"]) for r in unattached])
         reports = conn.execute(
@@ -336,6 +349,10 @@ def sign_off(audit_id: int, final_text: str, minutes: int) -> int | None:
     Returns the activity id, or None if the audit is missing/already signed off.
     """
     with db.tx() as conn:
+        # BEGIN IMMEDIATE serialises the check-then-act so a double-submitted
+        # sign-off cannot create two confirmed activities (same convention as
+        # the rollups).
+        conn.execute("BEGIN IMMEDIATE")
         audit = conn.execute("SELECT * FROM audits WHERE id = ?", (audit_id,)).fetchone()
         if audit is None or audit["status"] == "signed_off":
             return None
@@ -367,12 +384,8 @@ def sign_off(audit_id: int, final_text: str, minutes: int) -> int | None:
         lines += ["", "| Checklist element | Present |", "|---|---|"]
         for key, pct in aggregate.get("sections_pct", {}).items():
             lines.append(f"| {labels.get(key, key)} | {pct}% |")
-        doc.write_text("\n".join(lines), encoding="utf-8")
-        conn.execute(
-            "INSERT INTO evidence (activity_id, kind, path_or_url, created_at)"
-            " VALUES (?, 'generated_doc', ?, ?)",
-            (activity_id, str(doc), now),
-        )
+        db.add_generated_evidence(conn, activity_id, doc,
+                                  "\n".join(lines).encode("utf-8"))
         conn.execute(
             "UPDATE audits SET final_text = ?, status = 'signed_off', activity_id = ?,"
             " signed_off_at = ? WHERE id = ?",
@@ -456,6 +469,7 @@ def queue_extractions(limit: int | None = None) -> dict:
     queued: list[int] = []
     skipped: list[int] = []
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         rows = conn.execute(
             "SELECT * FROM reports WHERE extract_status = 'pending'"
             " AND parse_error = '' ORDER BY id LIMIT ?",
@@ -515,9 +529,13 @@ def apply_extract_result(conn, job, result: dict) -> dict:
         )
         created += 1
     conn.execute("UPDATE reports SET extract_status = 'done' WHERE id = ?", (report_id,))
+    # Scrub the report text out of the completed job so the jobs table never
+    # becomes a lingering mirror of the report archive (backups included).
     conn.execute(
-        "UPDATE jobs SET status = 'done', result = ?, completed_at = ? WHERE id = ?",
-        (json.dumps({"report_id": report_id, "snippets": created}), now, job["id"]),
+        "UPDATE jobs SET status = 'done', result = ?, payload = ?, completed_at = ?"
+        " WHERE id = ?",
+        (json.dumps({"report_id": report_id, "snippets": created}),
+         json.dumps({"report_id": report_id}), now, job["id"]),
     )
     return {"job": job["id"], "status": "done", "snippets_created": created}
 
@@ -552,6 +570,7 @@ def log_curation_session(minutes: int) -> int | None:
     snippets reviewed."""
     since = db.get_setting("library_last_logged_at", "")
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         reviewed = conn.execute(
             "SELECT * FROM response_snippets WHERE reviewed_at IS NOT NULL"
             " AND reviewed_at > ? ORDER BY reviewed_at", (since,),
@@ -579,12 +598,8 @@ def log_curation_session(minutes: int) -> int | None:
         for s in approved:
             lines += [f"## {s['condition'] or 'General'} — {s['topic'] or 'untopiced'}",
                       "", f"**Q:** {s['question']}", "", f"**A:** {s['answer']}", ""]
-        doc.write_text("\n".join(lines), encoding="utf-8")
-        conn.execute(
-            "INSERT INTO evidence (activity_id, kind, path_or_url, created_at)"
-            " VALUES (?, 'generated_doc', ?, ?)",
-            (activity_id, str(doc), now),
-        )
+        db.add_generated_evidence(conn, activity_id, doc,
+                                  "\n".join(lines).encode("utf-8"))
     db.set_setting("library_last_logged_at", db.now_iso())
     return activity_id
 

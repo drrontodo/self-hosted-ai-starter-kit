@@ -1,3 +1,4 @@
+import hashlib
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime
@@ -242,6 +243,20 @@ def now_iso() -> str:
 
 def today_iso() -> str:
     return datetime.now(config.TZ).date().isoformat()
+
+
+def add_generated_evidence(conn, activity_id: int, path, content: bytes,
+                           kind: str = "generated_doc") -> None:
+    """Write a generated evidence document and its hash-stamped evidence row.
+
+    SPEC promises every vault artefact is hash-stamped; writing file + row +
+    hash in one place keeps the modules honest about it."""
+    path.write_bytes(content)
+    conn.execute(
+        "INSERT INTO evidence (activity_id, kind, path_or_url, sha256, created_at)"
+        " VALUES (?, ?, ?, ?, ?)",
+        (activity_id, kind, str(path), hashlib.sha256(content).hexdigest(), now_iso()),
+    )
 
 
 def get_setting(key: str, default: str = "") -> str:

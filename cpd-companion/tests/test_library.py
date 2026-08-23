@@ -87,7 +87,11 @@ def test_extraction_queue_prescrub_and_batching(client):
                             (report_id,)).fetchone()["extract_status"] == "done"
         drafts = conn.execute("SELECT * FROM response_snippets WHERE status = 'draft'"
                               " AND source_report_id = ?", (report_id,)).fetchall()
+        done_job = conn.execute("SELECT * FROM jobs WHERE id = ?", (job["id"],)).fetchone()
     assert len(drafts) == 1
+    # the report text is scrubbed from the completed job's payload
+    assert "mild traumatic brain injury" not in (done_job["payload"] or "")
+    assert json.loads(done_job["payload"])["report_id"] == report_id
 
 
 def test_curation_search_export_and_cpd(client):

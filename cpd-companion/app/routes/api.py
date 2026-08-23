@@ -122,6 +122,15 @@ def create_activity(activity: ActivityIn):
                 ),
             )
             new_id = cur.lastrowid
+            if activity.external_ref:
+                # The external reference (e.g. a Gmail message id from the
+                # email harvest) doubles as an evidence reference, per SPEC M6
+                # — it counts toward audit readiness and appears in the bundle.
+                conn.execute(
+                    "INSERT INTO evidence (activity_id, kind, path_or_url, created_at)"
+                    " VALUES (?, 'email_ref', ?, ?)",
+                    (new_id, activity.external_ref, now),
+                )
     except sqlite3.IntegrityError:
         raise HTTPException(409, f"an activity with external_ref {activity.external_ref!r} already exists")
     return {"id": new_id, "status": "draft"}
@@ -201,14 +210,10 @@ def post_job_result(job_id: int, result: dict):
 
 @router.post("/jobs/{job_id}/fail")
 def post_job_failure(job_id: int, body: dict):
-    with db.tx() as conn:
-        row = conn.execute("SELECT status FROM jobs WHERE id = ?", (job_id,)).fetchone()
-        if row is None:
-            raise HTTPException(404, "job not found")
-        if row["status"] != "pending":
-            raise HTTPException(422, f"job already {row['status']}")
-        conn.execute(
-            "UPDATE jobs SET status = 'failed', error = ?, completed_at = ? WHERE id = ?",
-            (str(body.get("error", "unknown"))[:2000], db.now_iso(), job_id),
-        )
-    return {"job": job_id, "status": "failed"}
+    from .. import pipeline
+
+    outcome = pipeline.handle_job_failure(job_id, str(body.get("error", "unknown")))
+    if "error" in outcome:
+        raise HTTPException(404 if outcome["error"] == "job not found" else 422,
+                            outcome["error"])
+    return outcome

@@ -36,10 +36,12 @@ creates a confirmed Cat 2 activity with the feedback summary as evidence.</p>
 </table>
 {% endif %}
 
+{% if cycle.status in ('drafting', 'review') %}
 {% if cycle.status == 'drafting' %}
-<p class="notice">The themes draft is queued for the nightly Claude run — check back after
-the queue drains.</p>
-{% elif cycle.status == 'review' %}
+<p class="notice">The themes draft is queued for the nightly Claude run — it will appear
+below when the queue drains (or is automatically re-queued if the job failed). You can
+also write the summary yourself and sign off now.</p>
+{% endif %}
 <h3>Review &amp; sign off</h3>
 <form method="post" action="/reviews/{{ cycle.id }}/signoff" class="signoff-form">
   <label>Themes summary (edit freely — becomes the Cat 2 evidence document)

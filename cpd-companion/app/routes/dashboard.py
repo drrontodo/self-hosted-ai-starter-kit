@@ -100,6 +100,18 @@ def _mandatory_summary(year: int) -> dict:
         ).fetchone()
     total = totals["total"] or 0
     with_evidence = totals["with_evidence"] or 0
+    # When a mandatory counter is behind, suggest recent digest items the
+    # nightly digest flagged as plausibly qualifying (SPEC M6).
+    suggestions: dict[str, list] = {"cultural_safety": [], "ethics": []}
+    if cultural < 2 or ethics < 2:
+        with db.tx() as conn:
+            flagged = conn.execute(
+                "SELECT id, title, link, digest_flags FROM news_items"
+                " WHERE digest_flags != '' ORDER BY id DESC LIMIT 30").fetchall()
+        for item in flagged:
+            for flag in ("cultural_safety", "ethics"):
+                if flag in item["digest_flags"] and len(suggestions[flag]) < 3:
+                    suggestions[flag].append(item)
     return {
         "cultural_safety": cultural,
         "ethics": ethics,
@@ -108,6 +120,7 @@ def _mandatory_summary(year: int) -> dict:
         "evidence_total": total,
         "evidence_with": with_evidence,
         "evidence_pct": round(100 * with_evidence / total) if total else 0,
+        "suggestions": suggestions,
     }
 
 
@@ -838,7 +851,7 @@ def evidence_download(request: Request, evidence_id: int):
         return r
     with db.tx() as conn:
         row = conn.execute("SELECT * FROM evidence WHERE id = ?", (evidence_id,)).fetchone()
-    if row is None or row["kind"] == "url":
+    if row is None or row["kind"] in ("url", "email_ref"):
         return RedirectResponse("/log", status_code=303)
     path = Path(row["path_or_url"]).resolve()
     if not path.is_file() or not path.is_relative_to(config.DATA_DIR.resolve()):
@@ -926,8 +939,9 @@ def export_audit_bundle(request: Request, year: int):
                 continue
             md.append("Evidence:")
             for e in attached:
-                if e["kind"] == "url":
-                    md.append(f"- URL: {e['path_or_url']}")
+                if e["kind"] in ("url", "email_ref"):
+                    md.append(f"- {'Email reference' if e['kind'] == 'email_ref' else 'URL'}:"
+                              f" {e['path_or_url']}")
                     continue
                 path = Path(e["path_or_url"])
                 arcname = f"evidence/activity-{a['id']}/{path.name}"

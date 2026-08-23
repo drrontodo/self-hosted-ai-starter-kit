@@ -49,8 +49,16 @@
     <td>{{ '✅ done' if mandatory.annual_conversation_done else '⬜ not done' }}</td>
     <td><form method="post" action="/mandatory/annual_conversation/toggle"><input type="hidden" name="year" value="{{ year }}"><button type="submit" class="secondary">toggle</button></form></td>
   </tr>
-  <tr><td>Cultural safety activities (need 2)</td><td colspan="2">{{ mandatory.cultural_safety }} tagged</td></tr>
-  <tr><td>Ethics / professional behaviour activities (need 2)</td><td colspan="2">{{ mandatory.ethics }} tagged</td></tr>
+  <tr><td>Cultural safety activities (need 2)</td><td colspan="2">{{ mandatory.cultural_safety }} tagged
+    {% if mandatory.cultural_safety < 2 and mandatory.suggestions.cultural_safety %}
+    <div class="muted small">from the digest:
+      {% for s in mandatory.suggestions.cultural_safety %}<a href="/digest">{{ s.title[:70] }}</a>{{ '; ' if not loop.last }}{% endfor %}
+    </div>{% endif %}</td></tr>
+  <tr><td>Ethics / professional behaviour activities (need 2)</td><td colspan="2">{{ mandatory.ethics }} tagged
+    {% if mandatory.ethics < 2 and mandatory.suggestions.ethics %}
+    <div class="muted small">from the digest:
+      {% for s in mandatory.suggestions.ethics %}<a href="/digest">{{ s.title[:70] }}</a>{{ '; ' if not loop.last }}{% endfor %}
+    </div>{% endif %}</td></tr>
   <tr><td>Audit readiness (confirmed entries with evidence attached)</td>
       <td colspan="2">{{ mandatory.evidence_with }}/{{ mandatory.evidence_total }} ({{ mandatory.evidence_pct }}%)</td></tr>
 </table>

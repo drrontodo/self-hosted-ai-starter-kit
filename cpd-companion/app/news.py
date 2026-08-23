@@ -10,6 +10,7 @@ stub it; the poller records per-feed status instead of raising, so one broken
 feed never blocks the rest.
 """
 
+import calendar
 import hashlib
 import html
 import json
@@ -17,7 +18,7 @@ import logging
 import re
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timezone
 
 import httpx
 
@@ -116,6 +117,16 @@ def _http_get(url: str, params: dict | None = None) -> httpx.Response:
     return resp
 
 
+def safe_err(exc: Exception) -> str:
+    """Exception text safe to persist/log: never echo URL query strings, which
+    can carry API keys (NCBI, Google Places)."""
+    if isinstance(exc, httpx.HTTPStatusError):
+        return f"HTTP {exc.response.status_code} from {exc.request.url.host}"
+    if isinstance(exc, httpx.RequestError):
+        return f"{type(exc).__name__} contacting {exc.request.url.host}"
+    return re.sub(r"(?i)([?&](?:key|api_key)=)[^&'\"\s]+", r"\1REDACTED", str(exc))
+
+
 _TAG_RE = re.compile(r"<[^>]+>")
 
 
@@ -145,8 +156,10 @@ def _entry_published(entry) -> str | None:
         parsed = entry.get(key)
         if parsed:
             try:
-                return time.strftime("%Y-%m-%d", parsed)
-            except (TypeError, ValueError):
+                # feedparser normalises to UTC; date it in the local timezone.
+                stamp = datetime.fromtimestamp(calendar.timegm(parsed), tz=timezone.utc)
+                return stamp.astimezone(config.TZ).strftime("%Y-%m-%d")
+            except (TypeError, ValueError, OverflowError, OSError):
                 continue
     return None
 
@@ -267,8 +280,8 @@ def poll_all_feeds() -> dict:
             status = f"ok: {new} new"
             total_new += new
         except Exception as exc:  # noqa: BLE001 - keep polling the other feeds
-            status = f"error: {str(exc)[:300]}"
-            log.warning("feed %s failed: %s", feed["name"], exc)
+            status = f"error: {safe_err(exc)[:300]}"
+            log.warning("feed %s failed: %s", feed["name"], safe_err(exc))
         results[feed["name"]] = status
         with db.tx() as conn:
             conn.execute(
@@ -360,12 +373,13 @@ def pbs_monthly_diff() -> dict:
     try:
         current = _fetch_pbs_items()
     except Exception as exc:  # noqa: BLE001 - surfaced on the feeds page
-        db.set_setting("pbs_last_status", f"error: {str(exc)[:300]}")
+        db.set_setting("pbs_last_status", f"error: {safe_err(exc)[:300]}")
         db.set_setting("pbs_last_run", db.now_iso())
-        return {"error": str(exc)}
+        return {"error": safe_err(exc)}
     stamp = datetime.now(config.TZ).strftime("%Y%m")
     new_items = 0
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         previous = _latest_snapshot(conn, "pbs")
         if previous is not None:
             for code, item in current.items():
@@ -377,14 +391,19 @@ def pbs_monthly_diff() -> dict:
                 detail = f"ATC {item['atc']}, PBS code {code}."
                 if old:
                     detail += f" Previous entry: {json.dumps(old)}. Now: {json.dumps(item)}."
-                _insert_item(
+                # The guid carries a content hash so a second distinct change to
+                # the same item within a month still lands (identical re-runs
+                # still dedupe), and only real inserts are counted.
+                content = hashlib.sha256(
+                    json.dumps(item, sort_keys=True).encode()).hexdigest()[:10]
+                if _insert_item(
                     conn, feed_id=None, source="PBS schedule",
-                    guid=f"pbs:{stamp}:{code}",
+                    guid=f"pbs:{stamp}:{code}:{content}",
                     link=f"https://www.pbs.gov.au/medicine/item/{code}",
                     title=title, summary=detail, published_at=db.today_iso(),
                     section="Drugs & regulatory AU",
-                )
-                new_items += 1
+                ):
+                    new_items += 1
         _save_snapshot(conn, "pbs", current)
     db.set_setting("pbs_last_status",
                    f"ok: {len(current)} tracked items, {new_items} new/changed")
@@ -410,12 +429,13 @@ def stroke_guidelines_diff() -> dict:
     try:
         page = _http_get(url).text
     except Exception as exc:  # noqa: BLE001 - surfaced on the feeds page
-        db.set_setting("stroke_last_status", f"error: {str(exc)[:300]}")
+        db.set_setting("stroke_last_status", f"error: {safe_err(exc)[:300]}")
         db.set_setting("stroke_last_run", db.now_iso())
-        return {"error": str(exc)}
+        return {"error": safe_err(exc)}
     lines = _page_lines(page)
     added = 0
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         previous = _latest_snapshot(conn, "stroke_foundation")
         if previous is not None:
             old_lines = set(previous.get("lines", []))
@@ -463,6 +483,7 @@ def _digest_prompt() -> str:
 def queue_digest_job() -> int | None:
     """Create the nightly `digest` claude job over undigested items (if any)."""
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         pending = conn.execute(
             "SELECT id FROM jobs WHERE kind = 'digest' AND status = 'pending'"
         ).fetchone()
@@ -497,7 +518,10 @@ def apply_digest_result(conn, job, result: dict) -> dict:
     known_ids = {i["id"] for i in payload.get("items", [])}
     updated = 0
     for entry in items:
-        if not isinstance(entry, dict) or entry.get("id") not in known_ids:
+        entry_id = entry.get("id") if isinstance(entry, dict) else None
+        # ids come from integer primary keys; anything else (lists, strings…)
+        # is malformed runner output and is skipped, not a 500.
+        if not isinstance(entry_id, int) or entry_id not in known_ids:
             continue
         digest = str(entry.get("digest", "")).strip()
         if not digest:
@@ -512,7 +536,7 @@ def apply_digest_result(conn, job, result: dict) -> dict:
         conn.execute(
             "UPDATE news_items SET llm_digest = ?, section = ?, digest_flags = ?"
             " WHERE id = ?",
-            (digest[:2000], section, flags, entry["id"]),
+            (digest[:2000], section, flags, entry_id),
         )
         updated += 1
     overview = str(result.get("overview_md", "")).strip()
@@ -557,8 +581,10 @@ def rollup_reading() -> list[int]:
         ).fetchall()
         groups: dict[tuple, list] = {}
         for r in rows:
-            day = datetime.fromisoformat(r["read_at"]).date()
-            groups.setdefault((day.year, day.isocalendar()[1]), []).append(r)
+            # Key on the full ISO pair so year-boundary weeks label correctly
+            # (e.g. 2025-12-29 belongs to ISO 2026-W01, not "2025 week 1").
+            iso = datetime.fromisoformat(r["read_at"]).date().isocalendar()
+            groups.setdefault((iso[0], iso[1]), []).append(r)
         for (year, week), items in groups.items():
             minutes = round(sum(i["read_seconds"] for i in items) / 60)
             if minutes <= 0:
@@ -566,16 +592,23 @@ def rollup_reading() -> list[int]:
                                  [(i["id"],) for i in items])
                 continue
             last_day = max(i["read_at"] for i in items)[:10]
+            # Digest cultural-safety/ethics flags carry through to the draft's
+            # tags, so confirming the reading feeds the mandatory counters; the
+            # human still signs the draft (and can edit tags on the edit page).
+            tags = ",".join(sorted({
+                f for i in items for f in (i["digest_flags"] or "").split(",")
+                if f in config.TAG_OPTIONS
+            }))
             now = db.now_iso()
             cur = conn.execute(
                 "INSERT INTO activities (date, category, activity_type, title,"
-                " description, minutes, source_module, status, created_at)"
-                " VALUES (?, 1, 'reading', ?, ?, ?, 'news', 'draft', ?)",
+                " description, minutes, source_module, status, tags, created_at)"
+                " VALUES (?, 1, 'reading', ?, ?, ?, 'news', 'draft', ?, ?)",
                 (
                     last_day,
                     f"Neurology literature & news reading — {year} week {week}",
                     f"{len(items)} digest items read; see the attached reading log.",
-                    minutes, now,
+                    minutes, tags, now,
                 ),
             )
             activity_id = cur.lastrowid
@@ -591,12 +624,8 @@ def rollup_reading() -> list[int]:
                 lines.append(f"| {i['read_at'][:10]} | {i['source'].replace('|', '/')}"
                              f" | {cell} | {item_min} |")
             lines += ["", f"Total: {minutes} minutes across {len(items)} items."]
-            doc.write_text("\n".join(lines), encoding="utf-8")
-            conn.execute(
-                "INSERT INTO evidence (activity_id, kind, path_or_url, created_at)"
-                " VALUES (?, 'generated_doc', ?, ?)",
-                (activity_id, str(doc), now),
-            )
+            db.add_generated_evidence(conn, activity_id, doc,
+                                      "\n".join(lines).encode("utf-8"))
             conn.executemany("UPDATE news_items SET rolled_up = 1 WHERE id = ?",
                              [(i["id"],) for i in items])
             created.append(activity_id)

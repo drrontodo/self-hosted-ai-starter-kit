@@ -28,7 +28,7 @@ For each event found, `POST /api/activities` with header
   "activity_type": "meeting",
   "title": "<event name>",
   "description": "<what it was; who organised it; source email subject + date>",
-  "minutes": <duration from the invite; if unknown, use 60 and say so in the description>,
+  "minutes": <duration from the invite/agenda; if not stated, use 0 — never guess>,
   "source_module": "email_harvest",
   "external_ref": "gmail-<message-id>"
 }
@@ -43,9 +43,15 @@ Rules:
   presenting with feedback received, or peer-review exchanges → 2;
   audit-related meetings → 3. When unsure, use 1 — the category can be fixed at
   sign-off.
-- Minutes must come from the invite/agenda; never estimate generously. If the
-  duration is unknown, use 60 and flag it in the description for correction at
-  sign-off.
+- Minutes must come from the invite/agenda; never estimate. If the duration is
+  not stated, post `"minutes": 0` and note that in the description — the Inbox
+  confirm form requires at least 1 minute, so the doctor must enter the real
+  figure before the entry can count. Fabricated minutes are the one thing this
+  system must never produce.
+- `external_ref` is automatically recorded as an `email_ref` evidence
+  reference on the draft, so harvested entries count toward audit readiness;
+  still remind the user to attach actual certificates (via the activity's edit
+  page) where they exist.
 - Teaching/committee work and journal-club presentations count too; note the
   role in the description.
 - Do NOT post anything that is not evidenced by an actual email. Never invent

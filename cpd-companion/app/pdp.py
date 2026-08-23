@@ -81,6 +81,7 @@ def queue_draft(year: int) -> int | None:
     if row["status"] == "completed":
         return None
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         pending = conn.execute(
             "SELECT id FROM jobs WHERE kind = 'pdp_draft' AND status = 'pending'"
         ).fetchone()
@@ -126,6 +127,7 @@ def apply_draft_result(conn, job, result: dict) -> dict:
 def complete(year: int, final_md: str, minutes: int) -> int | None:
     """Dashboard completion: evidence doc + confirmed Cat 2 activity + mandatory tick."""
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         row = conn.execute("SELECT * FROM pdp WHERE year = ?", (year,)).fetchone()
         if row is None or row["status"] == "completed":
             return None
@@ -140,13 +142,10 @@ def complete(year: int, final_md: str, minutes: int) -> int | None:
         )
         activity_id = cur.lastrowid
         doc = config.EVIDENCE_DIR / f"pdp-{year}-a{activity_id}.md"
-        doc.write_text(f"# Professional Development Plan — {year}\n\n{final_md.strip()}\n",
-                       encoding="utf-8")
-        conn.execute(
-            "INSERT INTO evidence (activity_id, kind, path_or_url, created_at)"
-            " VALUES (?, 'generated_doc', ?, ?)",
-            (activity_id, str(doc), now),
-        )
+        db.add_generated_evidence(
+            conn, activity_id, doc,
+            f"# Professional Development Plan — {year}\n\n{final_md.strip()}\n"
+            .encode("utf-8"))
         conn.execute(
             "UPDATE pdp SET draft_md = ?, status = 'completed', activity_id = ?,"
             " completed_at = ? WHERE year = ?",

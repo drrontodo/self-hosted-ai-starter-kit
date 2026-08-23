@@ -18,6 +18,7 @@ from datetime import datetime, timezone
 import httpx
 
 from . import config, db
+from .news import safe_err
 
 log = logging.getLogger("cpd.reviews")
 
@@ -112,9 +113,9 @@ def poll_reviews() -> dict:
         db.set_setting("reviews_last_run", db.now_iso())
         return {"inbox_new": inbox_new, "places_new": places_new}
     except Exception as exc:  # noqa: BLE001 - surfaced on the reviews page
-        db.set_setting("reviews_last_status", f"error: {str(exc)[:300]}")
+        db.set_setting("reviews_last_status", f"error: {safe_err(exc)[:300]}")
         db.set_setting("reviews_last_run", db.now_iso())
-        return {"inbox_new": inbox_new, "error": str(exc)}
+        return {"inbox_new": inbox_new, "error": safe_err(exc)}
 
 
 # --- review cycles --------------------------------------------------------------
@@ -145,10 +146,36 @@ def maybe_open_cycle(force: bool = False) -> dict:
     except ValueError:
         pass
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         unfinished = conn.execute(
             "SELECT id, status FROM review_cycles WHERE status != 'signed_off'"
             " ORDER BY id DESC LIMIT 1").fetchone()
         if unfinished:
+            if unfinished["status"] == "drafting":
+                pending = conn.execute(
+                    "SELECT 1 FROM jobs WHERE kind = 'review_themes'"
+                    " AND status = 'pending'").fetchone()
+                if not pending:
+                    # The drafting job failed: re-queue it from the cycle's own
+                    # reviews so the cycle cannot wedge in 'drafting' forever.
+                    cycle_reviews = conn.execute(
+                        "SELECT * FROM reviews WHERE cycle_id = ?"
+                        " ORDER BY review_date, id", (unfinished["id"],)).fetchall()
+                    payload = {
+                        "cycle_id": unfinished["id"],
+                        "reviews": [
+                            {"author": r["author"], "rating": r["rating"],
+                             "text": r["text"], "date": r["review_date"]}
+                            for r in cycle_reviews
+                        ],
+                    }
+                    conn.execute(
+                        "INSERT INTO jobs (kind, engine, payload, prompt, created_at)"
+                        " VALUES ('review_themes', 'claude', ?, ?, ?)",
+                        (json.dumps(payload), _themes_prompt(len(cycle_reviews)),
+                         db.now_iso()),
+                    )
+                    return {"status": "requeued", "cycle_id": unfinished["id"]}
             return {"status": "cycle_in_progress", "cycle_id": unfinished["id"]}
         if not force:
             last = conn.execute(
@@ -230,6 +257,7 @@ def apply_themes_result(conn, job, result: dict) -> dict:
 def sign_off_cycle(cycle_id: int, final_text: str, reflection: str, minutes: int) -> int | None:
     """Dashboard sign-off: confirmed Cat 2 activity + feedback-summary evidence."""
     with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
         cycle = conn.execute("SELECT * FROM review_cycles WHERE id = ?", (cycle_id,)).fetchone()
         if cycle is None or cycle["status"] == "signed_off":
             return None
@@ -264,12 +292,8 @@ def sign_off_cycle(cycle_id: int, final_text: str, reflection: str, minutes: int
         if done_actions:
             lines += ["", "## Actions completed from previous cycles", ""]
             lines += [f"- {a['title']}" for a in done_actions]
-        doc.write_text("\n".join(lines), encoding="utf-8")
-        conn.execute(
-            "INSERT INTO evidence (activity_id, kind, path_or_url, created_at)"
-            " VALUES (?, 'generated_doc', ?, ?)",
-            (activity_id, str(doc), now),
-        )
+        db.add_generated_evidence(conn, activity_id, doc,
+                                  "\n".join(lines).encode("utf-8"))
         conn.execute(
             "UPDATE review_cycles SET final_text = ?, status = 'signed_off',"
             " activity_id = ?, signed_off_at = ? WHERE id = ?",

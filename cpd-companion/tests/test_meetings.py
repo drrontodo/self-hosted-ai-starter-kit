@@ -1,6 +1,7 @@
 import os
 
 from tests.test_app import KEY, client, login  # noqa: F401 - reuse env setup + fixture
+from app import db
 
 
 def test_meeting_pipeline_end_to_end(client):  # noqa: F811
@@ -62,6 +63,12 @@ def test_meeting_pipeline_end_to_end(client):  # noqa: F811
     data_dir = os.environ["CPD_DATA_DIR"]
     evidence_files = os.listdir(os.path.join(data_dir, "evidence"))
     assert any(f.startswith(f"meeting_{summary_job_id}") for f in evidence_files)
+
+    # the transcript is scrubbed from the completed job's payload
+    with db.tx() as conn:
+        done_job = conn.execute("SELECT * FROM jobs WHERE id = ?",
+                                (summary_job_id,)).fetchone()
+    assert "We reviewed the fall" not in (done_job["payload"] or "")
 
 
 def test_job_fail_path(client):  # noqa: F811

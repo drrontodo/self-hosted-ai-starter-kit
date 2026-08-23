@@ -71,18 +71,42 @@ activity with a generated reading log attached as evidence.</p>
 
 <script>
 (function () {
+  // Accumulated seconds survive the page reloads that the action buttons
+  // cause (sessionStorage, per-item), so flagging an item mid-read never
+  // loses the reading time already earned.
+  var STORE = "cpd-read-timers";
   var counters = {};
+  try { counters = JSON.parse(sessionStorage.getItem(STORE) || "{}"); } catch (e) {}
+
+  function paint(d, seconds) {
+    var t = d.querySelector(".timer");
+    if (t) t.textContent = Math.floor(seconds / 60) + ":" +
+      String(seconds % 60).padStart(2, "0");
+    var input = d.querySelector(".seconds-input");
+    if (input) input.value = seconds;
+  }
+
+  document.querySelectorAll("details.news-item").forEach(function (d) {
+    if (counters[d.dataset.item]) paint(d, counters[d.dataset.item]);
+    var readForm = d.querySelector("form[action$='/read']");
+    if (readForm) readForm.addEventListener("submit", function () {
+      delete counters[d.dataset.item];
+      try { sessionStorage.setItem(STORE, JSON.stringify(counters)); } catch (e) {}
+    });
+  });
+
   setInterval(function () {
     if (document.hidden) return;
+    var changed = false;
     document.querySelectorAll("details.news-item[open]").forEach(function (d) {
       var id = d.dataset.item;
       counters[id] = (counters[id] || 0) + 1;
-      var t = d.querySelector(".timer");
-      if (t) t.textContent = Math.floor(counters[id] / 60) + ":" +
-        String(counters[id] % 60).padStart(2, "0");
-      var input = d.querySelector(".seconds-input");
-      if (input) input.value = counters[id];
+      changed = true;
+      paint(d, counters[id]);
     });
+    if (changed) {
+      try { sessionStorage.setItem(STORE, JSON.stringify(counters)); } catch (e) {}
+    }
   }, 1000);
 })();
 </script>

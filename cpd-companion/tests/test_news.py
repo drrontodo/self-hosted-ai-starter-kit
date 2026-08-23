@@ -175,6 +175,14 @@ def test_digest_result_requires_items_array(client, monkeypatch):
     jobs = client.get("/api/jobs", headers=KEY, params={"engine": "claude"}).json()
     assert any(j["id"] == job_id for j in jobs)
 
+    # malformed ids (lists, strings, unknowns) are skipped, not a 500
+    r = client.post(f"/api/jobs/{job_id}/result", headers=KEY, json={
+        "items": [{"id": [1], "digest": "x"}, {"id": "1", "digest": "x"},
+                  {"id": None, "digest": "x"}, "not-a-dict"],
+    })
+    assert r.status_code == 200
+    assert r.json()["updated_items"] == 0
+
 
 def test_mark_read_and_reading_rollup(client, monkeypatch):
     monkeypatch.setattr(news, "_http_get", lambda url, params=None: FakeResponse(RSS_BODY))
@@ -231,13 +239,25 @@ def test_pbs_diff_baseline_then_changes(client, monkeypatch):
     assert any("changed on the PBS" in t for t in titles)
     assert any("newly listed on the PBS" in t for t in titles)
     assert all(i["section"] == "Drugs & regulatory AU" for i in items)
-    # re-run within the month: guid dedupe, no duplicates
+    # re-run within the month: guid dedupe, no duplicates, honest count
     out = news.pbs_monthly_diff()
+    assert out["new_or_changed"] == 0
     with db.tx() as conn:
         n = conn.execute("SELECT COUNT(*) AS n FROM news_items WHERE source = 'PBS schedule'"
                          ).fetchone()["n"]
     assert n == 2
     assert db.get_setting("pbs_last_status").startswith("ok:")
+
+    # a SECOND distinct change to the same item within the month still lands
+    third = dict(second)
+    third["1234B"] = dict(second["1234B"], restriction="R")
+    monkeypatch.setattr(news, "_fetch_pbs_items", lambda: third)
+    out = news.pbs_monthly_diff()
+    assert out["new_or_changed"] == 1
+    with db.tx() as conn:
+        n = conn.execute("SELECT COUNT(*) AS n FROM news_items WHERE source = 'PBS schedule'"
+                         ).fetchone()["n"]
+    assert n == 3
 
 
 def test_pbs_fetch_failure_recorded_not_raised(client, monkeypatch):

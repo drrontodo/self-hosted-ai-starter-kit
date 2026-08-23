@@ -2,54 +2,40 @@
 
 Read this, then [SPEC.md](SPEC.md) (full design + rationale), then [`cpd-companion/README.md`](../../cpd-companion/README.md). The research behind the spec is in [research/](research/).
 
-## State as of 2026-08-23
+## State as of 2026-08-23 (second session)
 
-**Built, tested (22 pytest tests), live-smoke-tested, and adversarially reviewed** (all high/medium findings fixed):
+**All build-plan phases (1–6), M7, and M5b are built, tested (60 pytest tests), live-smoke-tested, and adversarially reviewed.** The app is feature-complete against SPEC.md:
 
-- FastAPI + SQLite app in `cpd-companion/` — auth (API key for `/api`, bcrypt-or-plaintext cookie login with throttling for the dashboard), activities register with draft→confirmed sign-off, dashboard (progress bars vs RACP minimums, mandatory-items widget with PDP/Annual-Conversation toggles, audit-readiness score, year navigation), activity log + editing, draft inbox with stale-write protection, MyCPD CSV export (formula-injection-escaped).
-- **M1 sessions module**: `POST /api/sessions` + weekly rollup into draft Cat 1 activities, grouped per (project, calendar year, ISO week), timezone-correct, race-safe (`BEGIN IMMEDIATE`).
-- **M7 meetings module**: audio upload → `whisper` job (host drain script `scripts/drain_whisper.py` uses faster-whisper) → `claude` job (drain via `scripts/drain_claude.ps1` + `scripts/claude-runner.md`) → de-identified minutes + draft activity + evidence files.
-- Generic **jobs queue** (`jobs` table, `engine` = `claude`|`whisper`; `GET /api/jobs`, `POST /api/jobs/{id}/result|fail`) — **this is the substrate for every remaining LLM feature**: add a new `kind`, enqueue with a self-contained `prompt` + `payload`, teach `pipeline.handle_job_result()` what to do with the result, and document the kind in `scripts/claude-runner.md`.
-- Nightly backup job, scheduler singleton lock, Docker deployment (named volume for the DB, bind mounts for evidence/audio/backups), `scripts/probe_sources.py` to verify feeds from the user's network.
+- **Core (Phase 1):** FastAPI + SQLite in `cpd-companion/` — auth, activities register with draft→confirmed sign-off, dashboard (progress vs RACP minimums, mandatory-items widget, audit-readiness score), log/inbox/edit screens, MyCPD CSV export, nightly backups, generic jobs queue (`claude`/`whisper` engines).
+- **M1 sessions** → weekly draft Cat 1 rollups. **M7 meetings** → whisper transcript → de-identified minutes → draft + evidence.
+- **M3 news digest (Phase 2):** `feeds` table seeded from the research shortlist (TGA, 6 PubMed E-utilities queries, journal eTOCs — unverified URLs carry a status note; fix via `scripts/probe_sources.py` from the home network). Daily polling, PBS schedule monthly diff + Stroke Foundation living-guidelines diff (both snapshot-then-diff; first run is baseline only), nightly `digest` claude job (sections + cultural-safety/ethics flags), digest page with visibility-aware reading timer, weekly reading rollup → draft Cat 1 + reading-log evidence, per-item growth buttons.
+- **M5 medicolegal audit (Phase 3):** watched `data/inbox/medicolegal`, hash detection, local docx/pdf/txt extraction, objective metrics vs configurable checklist (default NSW UCPR Sch 7; `medicolegal_checklist` setting), monthly `medicolegal_audit` claude job **from anonymised metrics only** (no filenames/text in payloads), sign-off with page timer → confirmed Cat 3 + de-identified evidence, month-on-month trend table. Signed-off audits are immune to late job results.
+- **M5b response library:** `report_extract` claude job per report (pre-scrubbed text; absolute de-identification + generic Q&A templates per condition/topic in the doctor's own wording), curation page (approve/edit/reject = human de-id check), full-text search, md/JSON export for the medicolegal app, `backfill/` subfolder for old reports (excluded from monthly audits), weekly batches (`report_extract_batch` setting, default 5), curation sessions loggable as confirmed Cat 2.
+- **M2 reviews (Phase 4):** daily Places poll (needs `GOOGLE_PLACES_API_KEY` + `EAST_NEURO_PLACE_ID` in `.env`; JSON exports in `data/inbox/reviews` work without), quarterly cycles (`review_cycle_months` setting), `review_themes` job, improvement backlog (practice_outputs), sign-off → confirmed Cat 2 + feedback-summary evidence listing completed actions.
+- **M6 (Phase 4):** PDP builder page (`pdp_draft` claude pre-draft; completion → evidence + confirmed Cat 2 + mandatory tick), email-harvest standing prompt (`scripts/email-harvest.md`, external_ref dedupe), evidence upload/download on the activity edit page.
+- **§5 growth loop (Phase 5):** `info_sheet` job (runner uses the **east-neuro-patient-page skill**), quarterly `opportunity_scan` + `referrer_newsletter` (newsletter consumes flags), weekly refresh flagging of published outputs, Outputs page.
+- **Phase 6:** per-year audit-bundle zip (`/export/audit-bundle/{year}` — register CSV + markdown + all evidence; missing files flagged), `CPD_COOKIE_SECURE` flag, Tailscale notes in the README.
 
 ## Hard conventions — do not break
 
-1. **API callers can only create drafts.** Confirmation (an entry counting toward CPD totals) happens exclusively through the logged-in dashboard. This is the integrity model: automated clients must never self-certify hours. Same spirit everywhere: minutes come from measured/user-entered time, never LLM-estimated; LLM jobs must never invent content (see the de-identification and no-invention rules in `claude-runner.md`).
-2. All DB access via `db.tx()`; schema changes go into `db.SCHEMA` as idempotent `CREATE ... IF NOT EXISTS` (there is no migration tool; the only deployed DB so far is disposable, so plain schema edits are still OK — say so in the commit if you rely on that).
-3. All LLM work via the jobs queue (the user's Claude Max subscription drains it) — **no Anthropic API calls, no API keys**.
-4. `pytest` in `cpd-companion/` must pass; add tests for each new module (see `tests/` for the pattern — env vars are set before importing the app).
-5. Evidence artefacts are files in `EVIDENCE_DIR` + `evidence` rows; every module that creates activities should attach evidence (the audit-readiness score depends on it).
+1. **API callers can only create drafts.** Confirmation happens exclusively through the logged-in dashboard; minutes come from measured/user-entered time, never LLM-estimated; LLM jobs never invent content (see the STRICT RULES blocks in every prompt and `scripts/claude-runner.md`). LLM job results can never touch signed-off/completed records — every `apply_*_result` checks and skips.
+2. All DB access via `db.tx()`; schema changes go into `db.SCHEMA` as idempotent `CREATE ... IF NOT EXISTS` (no migration tool; the deployed DB is still treated as disposable — if that changes, add a migration path before touching table shapes).
+3. All LLM work via the jobs queue (drained by `scripts/drain_claude.ps1` + `scripts/claude-runner.md` on the user's Claude Max subscription) — **no Anthropic API calls, no API keys**. Every new job kind gets: a queue function, an `apply_*` handler dispatched from `pipeline.handle_job_result()`, a STRICT RULES prompt, and a section in `claude-runner.md`.
+4. `pytest` in `cpd-companion/` must pass; add tests for each new module (env vars set before importing the app — see `tests/test_app.py`).
+5. Every module that creates activities attaches evidence (files in `EVIDENCE_DIR` + `evidence` rows); the audit-readiness score depends on it.
 6. Commit and push to the branch you are on (`git branch --show-current`); run an adversarial code-review subagent over your changes against SPEC.md before finishing, and fix what it finds.
 
-## Remaining work, in order
+## Deployment notes / first-run checklist
 
-### Phase 2 — News digest & reading log (SPEC §3 M3)
-- Feed poller (APScheduler + `feedparser`) over the shortlist in `research/news-sources.md` §4; feeds configurable in a `feeds` table/settings page. Store in `news_items` (dedupe on link/guid).
-- PubMed via E-utilities (esearch reldate=7 + efetch abstracts) for the six subspecialty queries; PBS Schedule API monthly diff; Stroke Foundation updates-page scrape — see research doc for URLs/limits.
-- Nightly `digest` claude job: cluster + summarise new items into sections; flag cultural-safety/ethics-relevant items.
-- Digest dashboard page with a visibility-aware reading timer; mark-read stamps `read_seconds`; weekly rollup into a draft Cat 1 reading activity + generated reading-log PDF/markdown as evidence.
-- Per-item action buttons (wire the buttons now, implement handlers in Phase 5): *Draft patient info sheet*, *Flag as opportunity*, *Add to referrer newsletter*.
+1. `.env`: set the core secrets, plus (optional) `CPD_NCBI_API_KEY`, `GOOGLE_PLACES_API_KEY` + `EAST_NEURO_PLACE_ID`, `CPD_PBS_SUBSCRIPTION_KEY` if the PBS API needs one from your network.
+2. Run `python scripts/probe_sources.py` from the deployment network; fix any feed URLs marked unverified on the Feeds page (delete + re-add).
+3. Schedule on the host (Task Scheduler): nightly `drain_whisper.py` then `drain_claude.ps1`; monthly email-harvest session per `scripts/email-harvest.md`.
+4. Smoke-test the PBS "run now" button (Feeds page) — the v3 API shape was written defensively (`CPD_PBS_API_BASE`) because it could not be reached from the build network.
+5. Drop a few old reports into `data/inbox/medicolegal/backfill` and mine a batch from the Library page to calibrate extraction quality before trusting the weekly cadence.
 
-### Phase 3 — Medicolegal audit (SPEC §3 M5)
-- Watched folder `inbox/medicolegal` (add bind mount), hash-based new-file detection, docx/pdf text extraction, objective metrics in code (dates, turnaround, section presence per configurable checklist — default NSW UCPR Sch 7 expert-report elements).
-- Monthly `medicolegal_audit` claude job drafting the audit vs checklist; sign-off screen; de-identified audit doc as Cat 3 evidence. Month-on-month trend table.
+## Remaining ideas (nothing blocking)
 
-### Phase 4 — Reviews, email harvest, PDP builder (SPEC §3 M2, M6)
-- Google Places daily poll (key + place ID in `.env`; `scripts/probe_sources.py` already tests the call) with `review_hash` dedupe; quarterly review-cycle screen; `review_themes` claude job; Cat 2 entry + feedback-summary evidence + **practice improvement backlog** (tracked actions).
-- Email harvest: a standing prompt file (like `claude-runner.md`) for a monthly Claude Code session with the Gmail connector: find meeting invites/certificates/registrations, POST draft activities with `external_ref` (dedupe is already enforced server-side).
-- PDP builder per SPEC §3 M6: guided RACP-template form, claude pre-draft from goals + register, evidence doc, ticks the mandatory tracker.
-- Evidence upload UI on the activity edit page (files → `EVIDENCE_DIR`, sha256, evidence row) — small but currently missing.
-
-### Phase 5 — Practice growth loop (SPEC §5)
-- `practice_outputs` table + pipeline. `info_sheet` claude job: instruct the runner to use the **`east-neuro-patient-page` skill** (available in the user's Claude Code environment) so drafts match the East Neurology house style; store draft HTML in `practice_outputs`, review/download from the dashboard.
-- Quarterly `opportunity_scan` claude job over the quarter's news + PBS diffs → service-opportunity briefs (the "business improvement LLM call"). Quarterly `referrer_newsletter` job from flagged items.
-- Published-output refresh flagging (new digest items matching sources of published outputs).
-
-### Phase 6 — Hardening & audit bundle
-- Audit-bundle zip export per CPD year (register + all evidence). Tailscale setup notes. `Secure` cookie flag once HTTPS exists. Optional: lock file for requirements.
-
-## Copy-paste prompt for the fresh session
-
-See the conversation summary, or use:
-
-> Read docs/cme-tracker/HANDOVER.md and follow it: continue building the CPD Companion from Phase 2 onward, keeping the hard conventions, adding tests, running an adversarial review before finishing, and committing/pushing as you go.
+- Requirements lock file (optional hardening).
+- M4 voice-note quick-add; MSF survey generator (SPEC §1 playbook items not yet needed).
+- If the deployed DB stops being disposable: introduce a migration tool before the next schema change.
+- Tailscale HTTPS (`tailscale serve`) + `CPD_COOKIE_SECURE=1` once phone access is wanted.
