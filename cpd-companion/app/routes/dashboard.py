@@ -9,7 +9,7 @@ from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import RedirectResponse, Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from .. import auth, config, db, medicolegal, news, pipeline
+from .. import auth, config, db, medicolegal, news, pdp, pipeline, reviews
 
 router = APIRouter()
 templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent.parent / "templates"))
@@ -251,10 +251,14 @@ def activity_edit_form(request: Request, activity_id: int):
         return r
     with db.tx() as conn:
         row = conn.execute("SELECT * FROM activities WHERE id = ?", (activity_id,)).fetchone()
+        evidence = conn.execute(
+            "SELECT * FROM evidence WHERE activity_id = ? ORDER BY id", (activity_id,)
+        ).fetchall()
     if row is None:
         return RedirectResponse("/log", status_code=303)
     return templates.TemplateResponse(request, "activity_edit.html", {
         "a": row, "activity_types": config.ACTIVITY_TYPES, "tag_options": config.TAG_OPTIONS,
+        "evidence": evidence,
     })
 
 
@@ -530,6 +534,174 @@ def audit_signoff(
         return RedirectResponse(f"/audits/{audit_id}", status_code=303)
     medicolegal.sign_off(audit_id, final_text, minutes)
     return RedirectResponse("/audits", status_code=303)
+
+
+@router.get("/reviews")
+def reviews_page(request: Request):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        cycle = conn.execute(
+            "SELECT * FROM review_cycles WHERE status != 'signed_off'"
+            " ORDER BY id DESC LIMIT 1").fetchone()
+        cycle_reviews = []
+        if cycle:
+            cycle_reviews = conn.execute(
+                "SELECT * FROM reviews WHERE cycle_id = ? ORDER BY review_date, id",
+                (cycle["id"],)).fetchall()
+        pending_count = conn.execute(
+            "SELECT COUNT(*) AS n FROM reviews WHERE cycle_id IS NULL").fetchone()["n"]
+        history = conn.execute(
+            "SELECT * FROM review_cycles WHERE status = 'signed_off'"
+            " ORDER BY id DESC LIMIT 8").fetchall()
+        backlog = conn.execute(
+            "SELECT * FROM practice_outputs WHERE kind = 'improvement_action'"
+            " AND status NOT IN ('done', 'dismissed') ORDER BY id DESC").fetchall()
+        done_recent = conn.execute(
+            "SELECT * FROM practice_outputs WHERE kind = 'improvement_action'"
+            " AND status IN ('done', 'dismissed') ORDER BY updated_at DESC LIMIT 8"
+        ).fetchall()
+    return templates.TemplateResponse(request, "reviews.html", {
+        "cycle": cycle, "cycle_reviews": cycle_reviews, "pending_count": pending_count,
+        "history": history, "backlog": backlog, "done_recent": done_recent,
+        "poll_status": db.get_setting("reviews_last_status", "never run"),
+        "poll_run": db.get_setting("reviews_last_run"),
+    })
+
+
+@router.post("/reviews/poll")
+def reviews_poll(request: Request):
+    if r := _guard(request):
+        return r
+    reviews.poll_reviews()
+    return RedirectResponse("/reviews", status_code=303)
+
+
+@router.post("/reviews/open-cycle")
+def reviews_open_cycle(request: Request):
+    if r := _guard(request):
+        return r
+    reviews.maybe_open_cycle(force=True)
+    return RedirectResponse("/reviews", status_code=303)
+
+
+@router.post("/reviews/{cycle_id}/signoff")
+def reviews_signoff(
+    request: Request,
+    cycle_id: int,
+    final_text: str = Form(..., max_length=60000),
+    reflection: str = Form("", max_length=20000),
+    minutes: int = Form(..., ge=1, le=1440),
+):
+    if r := _guard(request):
+        return r
+    if final_text.strip():
+        reviews.sign_off_cycle(cycle_id, final_text, reflection, minutes)
+    return RedirectResponse("/reviews", status_code=303)
+
+
+@router.post("/outputs/{output_id}/status")
+def output_set_status(request: Request, output_id: int, status: str = Form(...)):
+    if r := _guard(request):
+        return r
+    if status in ("idea", "draft", "published", "done", "dismissed"):
+        with db.tx() as conn:
+            conn.execute(
+                "UPDATE practice_outputs SET status = ?, updated_at = ? WHERE id = ?",
+                (status, db.now_iso(), output_id))
+    target = request.headers.get("referer") or "/reviews"
+    from urllib.parse import urlparse
+
+    return RedirectResponse(urlparse(target).path or "/reviews", status_code=303)
+
+
+@router.get("/pdp")
+def pdp_page(request: Request, year: int | None = None):
+    if r := _guard(request):
+        return r
+    year = year or dt.datetime.now(config.TZ).year
+    row = pdp.get_or_create(year)
+    with db.tx() as conn:
+        drafting = conn.execute(
+            "SELECT 1 FROM jobs WHERE kind = 'pdp_draft' AND status = 'pending'"
+        ).fetchone() is not None
+    return templates.TemplateResponse(request, "pdp.html", {
+        "p": row, "year": year, "current_year": dt.datetime.now(config.TZ).year,
+        "drafting": drafting,
+    })
+
+
+@router.post("/pdp/{year}/save")
+async def pdp_save(request: Request, year: int):
+    if r := _guard(request):
+        return r
+    form = await request.form()
+    pdp.save_form(year, {k: form.get(k, "") for k in pdp.FORM_FIELDS})
+    if form.get("queue_draft"):
+        pdp.queue_draft(year)
+    return RedirectResponse(f"/pdp?year={year}", status_code=303)
+
+
+@router.post("/pdp/{year}/complete")
+def pdp_complete(
+    request: Request,
+    year: int,
+    final_md: str = Form(..., max_length=60000),
+    minutes: int = Form(..., ge=1, le=1440),
+):
+    if r := _guard(request):
+        return r
+    if final_md.strip():
+        pdp.complete(year, final_md, minutes)
+    return RedirectResponse(f"/pdp?year={year}", status_code=303)
+
+
+@router.post("/activity/{activity_id}/evidence")
+async def evidence_upload(request: Request, activity_id: int,
+                          upload: UploadFile = File(...)):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        activity = conn.execute("SELECT id FROM activities WHERE id = ?",
+                                (activity_id,)).fetchone()
+    if activity is None:
+        return RedirectResponse("/log", status_code=303)
+    data = await upload.read()
+    if data:
+        import hashlib
+        import re as re_mod
+
+        safe = re_mod.sub(r"[^A-Za-z0-9._-]", "_", upload.filename or "evidence")
+        path = config.EVIDENCE_DIR / f"a{activity_id}_{safe}"
+        # never silently overwrite an existing evidence file
+        counter = 1
+        while path.exists():
+            path = config.EVIDENCE_DIR / f"a{activity_id}_{counter}_{safe}"
+            counter += 1
+        path.write_bytes(data)
+        with db.tx() as conn:
+            conn.execute(
+                "INSERT INTO evidence (activity_id, kind, path_or_url, sha256, created_at)"
+                " VALUES (?, 'file', ?, ?, ?)",
+                (activity_id, str(path), hashlib.sha256(data).hexdigest(), db.now_iso()),
+            )
+    return RedirectResponse(f"/activity/{activity_id}", status_code=303)
+
+
+@router.get("/evidence/{evidence_id}")
+def evidence_download(request: Request, evidence_id: int):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        row = conn.execute("SELECT * FROM evidence WHERE id = ?", (evidence_id,)).fetchone()
+    if row is None or row["kind"] == "url":
+        return RedirectResponse("/log", status_code=303)
+    path = Path(row["path_or_url"]).resolve()
+    if not path.is_file() or not path.is_relative_to(config.DATA_DIR.resolve()):
+        return Response("evidence file not found", status_code=404)
+    from fastapi.responses import FileResponse
+
+    return FileResponse(path, filename=path.name)
 
 
 @router.get("/export/mycpd.csv")

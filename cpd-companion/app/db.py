@@ -147,6 +147,45 @@ CREATE TABLE IF NOT EXISTS reports (
     audit_id INTEGER REFERENCES audits(id) ON DELETE SET NULL
 );
 
+CREATE TABLE IF NOT EXISTS review_cycles (
+    id INTEGER PRIMARY KEY,
+    opened_at TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'open'
+        CHECK (status IN ('open', 'drafting', 'review', 'signed_off')),
+    themes_draft TEXT DEFAULT '',
+    final_text TEXT DEFAULT '',
+    activity_id INTEGER,
+    signed_off_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS reviews (
+    id INTEGER PRIMARY KEY,
+    review_hash TEXT NOT NULL UNIQUE,
+    author TEXT DEFAULT '',
+    rating INTEGER,
+    text TEXT DEFAULT '',
+    review_date TEXT,
+    first_seen TEXT NOT NULL,
+    cycle_id INTEGER REFERENCES review_cycles(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS pdp (
+    id INTEGER PRIMARY KEY,
+    year INTEGER NOT NULL UNIQUE,
+    goals TEXT DEFAULT '',
+    planned_cat1 TEXT DEFAULT '',
+    planned_cat2 TEXT DEFAULT '',
+    planned_cat3 TEXT DEFAULT '',
+    timeframes TEXT DEFAULT '',
+    success_measures TEXT DEFAULT '',
+    draft_md TEXT DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'editing'
+        CHECK (status IN ('editing', 'drafting', 'completed')),
+    activity_id INTEGER,
+    created_at TEXT NOT NULL,
+    completed_at TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_activities_status_date ON activities(status, date);
 CREATE INDEX IF NOT EXISTS idx_sessions_rollup ON sessions_log(rolled_up, cpd_relevant);
 CREATE INDEX IF NOT EXISTS idx_jobs_status_engine ON jobs(status, engine);

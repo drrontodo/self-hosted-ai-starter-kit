@@ -2,7 +2,7 @@
 
 Self-hosted tracker for RACP MyCPD requirements. See [../docs/cme-tracker/SPEC.md](../docs/cme-tracker/SPEC.md) for the full specification and the research reports behind it.
 
-**Built so far (Phases 1–3 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), MyCPD CSV export, and nightly backups.
+**Built so far (Phases 1–4 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), the patient-feedback loop (daily Google reviews polling + quarterly themed review cycles with a practice-improvement backlog), the PDP builder, per-activity evidence upload, the monthly email-harvest runner prompt, MyCPD CSV export, and nightly backups.
 
 ## Run it (Windows server, Docker Desktop)
 
@@ -66,6 +66,32 @@ queue). Review and sign off on the **Audits** page: the sign-off creates a
 confirmed Cat 3 activity (minutes timer-tracked while the review page is open)
 with the de-identified audit document as evidence, and the month-on-month
 table gives the measure → reflect → re-measure cycle Cat 3 requires.
+
+### Patient feedback, PDP, email harvest (M2 + M6)
+
+**Reviews:** set `GOOGLE_PLACES_API_KEY` and `EAST_NEURO_PLACE_ID` in `.env`
+for the daily Places poll (the API returns ~5 reviews per call; daily polling
+with hash dedupe accumulates them), and/or drop JSON exports
+(`[{author, rating, text, date}]`) into `data/inbox/reviews`. A review cycle
+opens quarterly (configurable via the `review_cycle_months` setting, or the
+"Open a review cycle now" button): a `review_themes` claude job drafts
+praise/complaint themes and suggested actions, the actions land in the
+practice-improvement backlog on the **Reviews** page, and sign-off creates a
+confirmed Cat 2 activity with the feedback summary (including actions
+completed since previous cycles) as evidence.
+
+**PDP:** the **PDP** page is a guided RACP-template form; "queue Claude
+pre-draft" turns your stated goals + activity register into a `pdp_draft` job.
+Completing the plan generates the evidence document, logs a confirmed Cat 2
+activity, and ticks the mandatory-items tracker.
+
+**Email harvest:** run a monthly Claude Code session with the Gmail connector
+using [scripts/email-harvest.md](scripts/email-harvest.md) — it posts draft
+activities with `external_ref` dedupe, so re-runs are safe and nothing counts
+until you confirm it in the Inbox.
+
+**Evidence:** any activity's edit page now accepts file uploads (stored
+hash-stamped in the evidence vault) and serves existing artefacts back.
 
 ## Logging research/development time from Claude Code
 

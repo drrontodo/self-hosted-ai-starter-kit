@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}PDP — CPD Companion{% endblock %}
+{% block content %}
+<h1>Professional Development Plan — {{ year }}
+  <span class="year-nav">
+    <a href="/pdp?year={{ year - 1 }}">&larr; {{ year - 1 }}</a>
+    {% if year < current_year + 1 %}<a href="/pdp?year={{ year + 1 }}">{{ year + 1 }} &rarr;</a>{% endif %}
+  </span>
+</h1>
+
+{% if p.status == 'completed' %}
+<p class="notice">✅ Completed — the mandatory-items tracker is ticked and the plan is
+attached to <a href="/activity/{{ p.activity_id }}">this Cat 2 activity</a>.</p>
+<div class="draft-card"><div class="desc">{{ p.draft_md }}</div></div>
+{% else %}
+
+<p class="muted">Follow the RACP PDP template: state your development goals and planned
+activities, optionally let Claude pre-draft the full plan from your goals plus your
+activity register, then edit and complete. Completing it generates the evidence
+document, logs a confirmed Cat 2 activity, and ticks the mandatory tracker.
+(<a href="https://www.racp.edu.au/fellows/mycpd" target="_blank" rel="noopener">RACP
+templates ↗</a>)</p>
+
+<form method="post" action="/pdp/{{ year }}/save" class="grid-form pdp-form">
+  <label class="wide">Development goals (one per line)
+    <textarea name="goals" rows="4">{{ p.goals }}</textarea></label>
+  <label class="wide">Planned Cat 1 activities (educational)
+    <textarea name="planned_cat1" rows="2">{{ p.planned_cat1 }}</textarea></label>
+  <label class="wide">Planned Cat 2 activities (reviewing performance)
+    <textarea name="planned_cat2" rows="2">{{ p.planned_cat2 }}</textarea></label>
+  <label class="wide">Planned Cat 3 activities (measuring outcomes)
+    <textarea name="planned_cat3" rows="2">{{ p.planned_cat3 }}</textarea></label>
+  <label class="wide">Timeframes
+    <textarea name="timeframes" rows="2">{{ p.timeframes }}</textarea></label>
+  <label class="wide">Success measures
+    <textarea name="success_measures" rows="2">{{ p.success_measures }}</textarea></label>
+  <button type="submit">Save</button>
+  {% if drafting %}
+  <p class="muted wide">A pre-draft job is queued for the nightly Claude run.</p>
+  {% else %}
+  <button type="submit" name="queue_draft" value="1" class="secondary">
+    Save + queue Claude pre-draft</button>
+  {% endif %}
+</form>
+
+<h2>Plan document</h2>
+<form method="post" action="/pdp/{{ year }}/complete" class="signoff-form">
+  <label>The PDP (pre-draft appears here after the queue drains; edit freely)
+    <textarea name="final_md" rows="16" required
+      placeholder="## Development goals&#10;…">{{ p.draft_md }}</textarea>
+  </label>
+  <label>Minutes spent on the plan
+    <input type="number" name="minutes" id="minutes-input" min="1" max="1440" required value="1">
+    <span class="muted small">auto-counts while this page is visible (<span id="timer">0:00</span>)</span>
+  </label>
+  <button type="submit">Complete PDP — evidence + Cat 2 entry + mandatory tick</button>
+</form>
+<script>
+(function () {
+  var seconds = 0, edited = false;
+  var input = document.getElementById("minutes-input");
+  input.addEventListener("input", function () { edited = true; });
+  setInterval(function () {
+    if (document.hidden) return;
+    seconds += 1;
+    document.getElementById("timer").textContent =
+      Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+    if (!edited) input.value = Math.max(1, Math.round(seconds / 60));
+  }, 1000);
+})();
+</script>
+{% endif %}
+{% endblock %}

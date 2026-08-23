@@ -9,6 +9,8 @@ BACKUP_DIR = DATA_DIR / "backups"
 
 API_KEY = os.environ.get("CPD_API_KEY", "")
 NCBI_API_KEY = os.environ.get("CPD_NCBI_API_KEY", "")
+GOOGLE_PLACES_API_KEY = os.environ.get("GOOGLE_PLACES_API_KEY", "")
+GOOGLE_PLACE_ID = os.environ.get("EAST_NEURO_PLACE_ID", "")
 PBS_API_BASE = os.environ.get("CPD_PBS_API_BASE", "https://data-api.health.gov.au/pbs/api/v3")
 PBS_SUBSCRIPTION_KEY = os.environ.get("CPD_PBS_SUBSCRIPTION_KEY", "")
 DASHBOARD_PASSWORD = os.environ.get("CPD_DASHBOARD_PASSWORD", "")
@@ -32,6 +34,7 @@ ACTIVITY_TYPES = [
     "meeting",
     "teaching",
     "incident_review",
+    "pdp",
     "other",
 ]
 

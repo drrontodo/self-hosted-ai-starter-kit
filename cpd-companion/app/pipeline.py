@@ -8,7 +8,7 @@ by the nightly Claude Code run) -> draft activity + evidence, awaiting sign-off.
 import json
 import re
 
-from . import config, db, medicolegal, news
+from . import config, db, medicolegal, news, pdp, reviews
 
 
 def create_meeting(
@@ -142,6 +142,12 @@ def handle_job_result(job_id: int, result: dict) -> dict:
 
         if job["kind"] == "medicolegal_audit":
             return medicolegal.apply_audit_result(conn, job, result)
+
+        if job["kind"] == "review_themes":
+            return reviews.apply_themes_result(conn, job, result)
+
+        if job["kind"] == "pdp_draft":
+            return pdp.apply_draft_result(conn, job, result)
 
         # Unknown kinds: store the result verbatim so future modules can define their own.
         conn.execute(

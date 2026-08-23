@@ -25,6 +25,15 @@ Drain the pending claude jobs:
      per the job's `prompt`, using only the supplied metrics — never invent
      report contents or parties, and note missing data instead of estimating.
      Result key: `audit_md`.
+   - `review_themes`: payload contains one review cycle's accumulated Google
+     reviews. Draft praise/complaint themes grounded strictly in the review
+     texts and 0-6 concrete practice-improvement actions; never invent
+     feedback. Result keys: `themes_md`, `actions` (array of strings).
+   - `pdp_draft`: payload contains the doctor's stated PDP goals plus their
+     CPD register and progress. Pre-draft the RACP-template PDP building only
+     on the stated goals and register — never invent achievements or
+     commitments; leave placeholders where input is missing. Result key:
+     `pdp_md`.
 3. `POST /api/jobs/{id}/result` with the JSON result.
 4. If a job cannot be completed, `POST /api/jobs/{id}/fail` with `{"error": "<why>"}`.
 5. Finish with a one-line summary of how many jobs you completed.
