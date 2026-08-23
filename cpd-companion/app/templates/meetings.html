@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Meeting recordings</h1>
+<p class="muted">Upload a recording of a professional meeting (Annual Conversation, peer case
+discussion, M&amp;M/outcomes meeting, journal club). It is transcribed locally by faster-whisper,
+then summarised into de-identified minutes and a reflection draft that lands in your
+<a href="/inbox">Inbox</a> for sign-off. Avoid speaking patient names during the meeting; the
+summariser strips any identifiers it finds. Audio never leaves the server.</p>
+
+<details class="add-form" open>
+  <summary>Upload a recording</summary>
+  <form method="post" action="/meetings/upload" enctype="multipart/form-data" class="grid-form">
+    <label class="wide">Audio file <input type="file" name="audio" accept="audio/*,video/*" required></label>
+    <label>Meeting type
+      <select name="meeting_type">
+        {% for key, m in meeting_types.items() %}
+        <option value="{{ key }}">{{ m.label }} (Cat {{ m.category }})</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Date <input type="date" name="date" value="{{ today }}" required></label>
+    <label>Duration (minutes) <input type="number" name="duration_minutes" min="1" max="600" required></label>
+    <label class="wide">Participants (roles/names of clinicians, no patients)
+      <input type="text" name="participants" placeholder="e.g. Dr A (neurologist), practice nurse"></label>
+    <label class="wide">Notes (optional) <textarea name="notes" rows="2"></textarea></label>
+    <label class="inline wide"><input type="checkbox" name="consent" value="yes" required>
+      All participants consented to this recording</label>
+    <button type="submit">Upload &amp; queue transcription</button>
+  </form>
+</details>
+
+<h2>Pipeline</h2>
+{% if queue %}
+<table>
+  <tr><th>Job</th><th>Stage</th><th>Status</th><th>Meeting</th><th>Date</th></tr>
+  {% for j in queue %}
+  <tr>
+    <td>{{ j.id }}</td>
+    <td>{{ 'Transcription (whisper)' if j.kind == 'transcribe_meeting' else 'Minutes (claude)' }}</td>
+    <td>{{ j.status }}</td>
+    <td>{{ meeting_types.get(j.meta.meeting_type, {}).get('label', j.meta.meeting_type) }}</td>
+    <td>{{ j.meta.date }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<p class="muted">Pending whisper jobs are drained by <code>scripts/drain_whisper.py</code>;
+pending claude jobs by the nightly Claude Code run (or run either manually).</p>
+{% else %}
+<p class="muted">No recordings yet.</p>
+{% endif %}
+{% endblock %}

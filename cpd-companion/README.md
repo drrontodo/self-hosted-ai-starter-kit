@@ -2,7 +2,7 @@
 
 Self-hosted tracker for RACP MyCPD requirements. See [../docs/cme-tracker/SPEC.md](../docs/cme-tracker/SPEC.md) for the full specification and the research reports behind it.
 
-**Phase 1 (this code):** FastAPI + SQLite app with dashboard (progress bars, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, MyCPD CSV export, and nightly backups.
+**Built so far (Phases 1 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), MyCPD CSV export, and nightly backups.
 
 ## Run it (Windows server, Docker Desktop)
 
@@ -14,13 +14,26 @@ docker compose up -d --build
 ```
 
 Dashboard: http://localhost:8340 (or http://<server-ip>:8340 from other LAN devices).
-Data (SQLite db, evidence, nightly backups) lives in `cpd-companion/data/` on the host — include it in your normal backup routine.
 
-Without Docker: `pip install -r requirements.txt`, set the same env vars plus `CPD_DATA_DIR=C:\cpd-data`, then `uvicorn app.main:app --host 0.0.0.0 --port 8340`.
+Storage layout: the SQLite database lives on a Docker named volume (`cpd_data`) — reliable WAL locking on Docker Desktop. Evidence documents, meeting audio, transcripts, and the nightly backup zips are bind-mounted under `cpd-companion/data/` on the host so you (and `drain_whisper.py`) can reach them from Windows; include `data/backups/` in your normal backup routine — each zip contains the full database plus evidence.
+
+Without Docker: `pip install -r requirements.txt`, set the same env vars plus `CPD_DATA_DIR=C:\cpd-data`, then `uvicorn app.main:app --host 0.0.0.0 --port 8340`. Run a **single process** (no `--workers`) — the scheduler and SQLite assume it.
+
+### Meeting recordings (Annual Conversation, peer discussions, M&M)
+
+Upload a recording on the **Meetings** page (with participant consent — required checkbox). Then, on the host:
+
+```powershell
+$env:CPD_API_KEY = "<your key>"
+python scripts\drain_whisper.py --base-url http://localhost:8340 --data-dir .\data   # GPU transcription
+.\scripts\drain_claude.ps1                                                           # de-identified minutes via Claude Code
+```
+
+Schedule both in Task Scheduler (whisper first) for hands-off processing. The result lands in the Inbox as a draft with the minutes document and transcript attached as evidence.
 
 ## Logging research/development time from Claude Code
 
-Add this to the `CLAUDE.md` of each medical dev project (or your global `~/.claude/CLAUDE.md`):
+Add this to the `CLAUDE.md` of each medical dev project (or your global `~/.claude/CLAUDE.md`). The snippet is bash-style; Claude Code sessions on Windows should translate to their shell (in PowerShell use `$env:CPD_API_KEY` and `curl.exe`, not the `curl` alias):
 
 ```markdown
 ## CPD logging
@@ -48,7 +61,8 @@ All `/api/*` endpoints require the `X-API-Key` header.
 |---|---|
 | `POST /api/sessions` | Log a Claude Code session report |
 | `POST /api/rollup` | Trigger the weekly rollup immediately |
-| `GET/POST /api/activities`, `PATCH/DELETE /api/activities/{id}` | Activity CRUD (used by later modules and the email-harvest runner) |
+| `GET/POST /api/activities`, `PATCH/DELETE /api/activities/{id}` | Activity CRUD. API callers can only create **drafts** and discard — confirming an entry (making it count) is dashboard-only, so automated clients can never self-certify hours. `external_ref` deduplicates re-runs. DELETE is a soft discard. |
+| `GET /api/jobs`, `POST /api/jobs/{id}/result`, `POST /api/jobs/{id}/fail` | The LLM/transcription job queue drained by `drain_whisper.py` and `drain_claude.ps1` |
 | `GET /api/progress?year=2026` | Category totals vs RACP minimums |
 | `GET /health` | Liveness check (no auth) |
 

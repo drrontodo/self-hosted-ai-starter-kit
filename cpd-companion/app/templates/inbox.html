@@ -4,6 +4,11 @@
 <p class="muted">Only confirm entries that reflect genuine activity and time. Trim the minutes if the
 auto-captured figure overstates your active involvement.</p>
 
+{% if stale %}
+<p class="error">Entry {{ stale }} had already been confirmed or discarded elsewhere — nothing was changed.
+Check the <a href="/log">Log</a> for its current state.</p>
+{% endif %}
+
 {% if not rows %}<p class="muted">Nothing pending.</p>{% endif %}
 
 {% for a in rows %}

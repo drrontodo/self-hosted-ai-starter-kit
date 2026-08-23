@@ -39,6 +39,8 @@
   {% endfor %}
   &middot; Year:
   <a href="/log?year={{ year - 1 }}">{{ year - 1 }}</a> <strong>{{ year }}</strong>
+  {% if year < current_year %}<a href="/log?year={{ year + 1 }}">{{ year + 1 }}</a>{% endif %}
+  &middot; <a href="/export/mycpd.csv?year={{ year }}">Export {{ year }} CSV</a>
 </p>
 
 {% if rows %}

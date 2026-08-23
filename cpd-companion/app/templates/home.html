@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ year }} CPD progress</h1>
+<h1>{{ year }} CPD progress
+  <span class="year-nav">
+    <a href="/?year={{ year - 1 }}">&larr; {{ year - 1 }}</a>
+    {% if year < current_year %}<a href="/?year={{ year + 1 }}">{{ year + 1 }} &rarr;</a>{% endif %}
+  </span>
+</h1>
 
 {% set t = prog.targets %}
 <section class="bars">
@@ -31,6 +36,25 @@
 {% if drafts %}
 <p class="notice"><a href="/inbox">{{ drafts }} draft {{ 'entry' if drafts == 1 else 'entries' }} awaiting your sign-off →</a></p>
 {% endif %}
+
+<h2>Mandatory items — {{ year }}</h2>
+<table class="mandatory">
+  <tr>
+    <td>Professional Development Plan</td>
+    <td>{{ '✅ done' if mandatory.pdp_done else '⬜ not done' }}</td>
+    <td><form method="post" action="/mandatory/pdp/toggle"><input type="hidden" name="year" value="{{ year }}"><button type="submit" class="secondary">toggle</button></form></td>
+  </tr>
+  <tr>
+    <td>Annual Conversation</td>
+    <td>{{ '✅ done' if mandatory.annual_conversation_done else '⬜ not done' }}</td>
+    <td><form method="post" action="/mandatory/annual_conversation/toggle"><input type="hidden" name="year" value="{{ year }}"><button type="submit" class="secondary">toggle</button></form></td>
+  </tr>
+  <tr><td>Cultural safety activities (need 2)</td><td colspan="2">{{ mandatory.cultural_safety }} tagged</td></tr>
+  <tr><td>Ethics / professional behaviour activities (need 2)</td><td colspan="2">{{ mandatory.ethics }} tagged</td></tr>
+  <tr><td>Audit readiness (confirmed entries with evidence attached)</td>
+      <td colspan="2">{{ mandatory.evidence_with }}/{{ mandatory.evidence_total }} ({{ mandatory.evidence_pct }}%)</td></tr>
+</table>
+<p class="muted"><a href="/export/mycpd.csv?year={{ year }}">Download the {{ year }} MyCPD CSV</a></p>
 
 <h2>Recent confirmed activities</h2>
 {% if recent %}

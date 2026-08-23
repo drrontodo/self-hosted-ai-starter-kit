@@ -17,7 +17,8 @@ async def lifespan(app: FastAPI):
     scheduler.shutdown()
 
 
-app = FastAPI(title="CPD Companion", lifespan=lifespan)
+app = FastAPI(title="CPD Companion", lifespan=lifespan,
+              docs_url=None, redoc_url=None, openapi_url=None)
 app.include_router(api.router)
 app.include_router(dashboard.router)
 app.mount("/static", StaticFiles(directory=str(Path(__file__).resolve().parent / "static")), name="static")

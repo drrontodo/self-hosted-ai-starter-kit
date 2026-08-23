@@ -40,9 +40,34 @@ def backup() -> str:
     return str(out)
 
 
+_lock_handle = None
+
+
+def _acquire_singleton_lock() -> bool:
+    """One scheduler across all workers. File lock on POSIX; on native Windows
+    (no fcntl) fall back to the in-process guard — run a single process there."""
+    global _lock_handle
+    try:
+        import fcntl
+    except ImportError:
+        return True
+    config.ensure_dirs()
+    _lock_handle = open(config.DATA_DIR / ".scheduler.lock", "w")
+    try:
+        fcntl.flock(_lock_handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return True
+    except OSError:
+        _lock_handle.close()
+        _lock_handle = None
+        return False
+
+
 def start() -> None:
     global _scheduler
     if _scheduler is not None:
+        return
+    if not _acquire_singleton_lock():
+        log.info("scheduler already running in another worker; skipping")
         return
     _scheduler = BackgroundScheduler(timezone=str(config.TZ))
     _scheduler.add_job(rollup.rollup_sessions, "cron", day_of_week="mon", hour=6, minute=0,

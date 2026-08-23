@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS activities (
     source_module TEXT DEFAULT 'manual',
     status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'confirmed', 'discarded')),
     tags TEXT DEFAULT '',
+    external_ref TEXT UNIQUE,
     created_at TEXT NOT NULL,
     confirmed_at TEXT
 );
@@ -61,6 +62,10 @@ CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value TEXT
 );
+
+CREATE INDEX IF NOT EXISTS idx_activities_status_date ON activities(status, date);
+CREATE INDEX IF NOT EXISTS idx_sessions_rollup ON sessions_log(rolled_up, cpd_relevant);
+CREATE INDEX IF NOT EXISTS idx_jobs_status_engine ON jobs(status, engine);
 """
 
 
@@ -95,6 +100,21 @@ def now_iso() -> str:
 
 def today_iso() -> str:
     return datetime.now(config.TZ).date().isoformat()
+
+
+def get_setting(key: str, default: str = "") -> str:
+    with tx() as conn:
+        row = conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+    return row["value"] if row else default
+
+
+def set_setting(key: str, value: str) -> None:
+    with tx() as conn:
+        conn.execute(
+            "INSERT INTO settings (key, value) VALUES (?, ?)"
+            " ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            (key, value),
+        )
 
 
 def progress(year: int) -> dict:

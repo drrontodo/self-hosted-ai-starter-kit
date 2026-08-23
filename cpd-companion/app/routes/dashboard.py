@@ -1,13 +1,14 @@
+import calendar
 import csv
+import datetime as dt
 import io
-from datetime import datetime
 from pathlib import Path
 
-from fastapi import APIRouter, Form, Request
-from fastapi.responses import RedirectResponse, StreamingResponse
+from fastapi import APIRouter, File, Form, Request, UploadFile
+from fastapi.responses import RedirectResponse, Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from .. import auth, config, db
+from .. import auth, config, db, pipeline
 
 router = APIRouter()
 templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent.parent / "templates"))
@@ -19,11 +20,29 @@ def _minutes_to_hours(minutes: int) -> str:
 
 templates.env.filters["hours"] = _minutes_to_hours
 
+MANDATORY_TOGGLES = ("pdp", "annual_conversation")
 
-def _guard(request: Request) -> RedirectResponse | None:
+
+def _guard(request: Request) -> Response | None:
     if not auth.is_logged_in(request):
         return RedirectResponse("/login", status_code=303)
+    if request.method == "POST":
+        # Same-origin check for cookie-authenticated writes (defence in depth on
+        # top of SameSite=Lax, for when the app is exposed beyond the LAN).
+        origin = request.headers.get("origin") or request.headers.get("referer")
+        if origin:
+            from urllib.parse import urlparse
+
+            if urlparse(origin).netloc not in ("", request.url.netloc):
+                return Response("cross-origin request rejected", status_code=403)
     return None
+
+
+def _csv_cell(value) -> str:
+    text = "" if value is None else str(value)
+    if text[:1] in ("=", "+", "-", "@", "\t", "\r"):
+        return "'" + text
+    return text
 
 
 @router.get("/login")
@@ -33,9 +52,16 @@ def login_form(request: Request):
 
 @router.post("/login")
 def login(request: Request, password: str = Form(...)):
-    if not auth.check_password(password):
+    if auth.login_throttled():
         return templates.TemplateResponse(
-            request, "login.html", {"error": "Wrong password (or CPD_DASHBOARD_PASSWORD not set)."},
+            request, "login.html", {"error": "Too many attempts — wait a minute and retry."},
+            status_code=429,
+        )
+    if not auth.check_password(password):
+        auth.record_login_failure()
+        return templates.TemplateResponse(
+            request, "login.html",
+            {"error": "Wrong password (or no dashboard password configured)."},
             status_code=401,
         )
     response = RedirectResponse("/", status_code=303)
@@ -53,32 +79,83 @@ def logout():
     return response
 
 
+def _mandatory_summary(year: int) -> dict:
+    lo, hi = f"{year}-01-01", f"{year}-12-31"
+    with db.tx() as conn:
+        cultural = conn.execute(
+            "SELECT COUNT(*) AS n FROM activities WHERE status = 'confirmed'"
+            " AND date BETWEEN ? AND ? AND tags LIKE '%cultural_safety%'", (lo, hi),
+        ).fetchone()["n"]
+        ethics = conn.execute(
+            "SELECT COUNT(*) AS n FROM activities WHERE status = 'confirmed'"
+            " AND date BETWEEN ? AND ? AND tags LIKE '%ethics%'", (lo, hi),
+        ).fetchone()["n"]
+        totals = conn.execute(
+            "SELECT COUNT(*) AS total, SUM(EXISTS(SELECT 1 FROM evidence e"
+            " WHERE e.activity_id = a.id)) AS with_evidence"
+            " FROM activities a WHERE a.status = 'confirmed' AND a.date BETWEEN ? AND ?",
+            (lo, hi),
+        ).fetchone()
+    total = totals["total"] or 0
+    with_evidence = totals["with_evidence"] or 0
+    return {
+        "cultural_safety": cultural,
+        "ethics": ethics,
+        "pdp_done": db.get_setting(f"pdp_done_{year}") == "1",
+        "annual_conversation_done": db.get_setting(f"annual_conversation_done_{year}") == "1",
+        "evidence_total": total,
+        "evidence_with": with_evidence,
+        "evidence_pct": round(100 * with_evidence / total) if total else 0,
+    }
+
+
 @router.get("/")
-def home(request: Request):
+def home(request: Request, year: int | None = None):
     if r := _guard(request):
         return r
-    now = datetime.now(config.TZ)
-    year = now.year
+    now = dt.datetime.now(config.TZ)
+    current_year = now.year
+    year = year or current_year
     prog = db.progress(year)
-    day_of_year = now.timetuple().tm_yday
-    pace_min = int(config.ANNUAL_TARGET_MIN * day_of_year / 365)
+    if year == current_year:
+        days_in_year = 366 if calendar.isleap(year) else 365
+        pace_min = min(
+            config.ANNUAL_TARGET_MIN,
+            int(config.ANNUAL_TARGET_MIN * now.timetuple().tm_yday / days_in_year),
+        )
+    else:
+        pace_min = config.ANNUAL_TARGET_MIN
     with db.tx() as conn:
         drafts = conn.execute(
             "SELECT COUNT(*) AS n FROM activities WHERE status = 'draft'"
         ).fetchone()["n"]
         recent = conn.execute(
-            "SELECT * FROM activities WHERE status = 'confirmed' ORDER BY date DESC, id DESC LIMIT 8"
+            "SELECT * FROM activities WHERE status = 'confirmed' AND date BETWEEN ? AND ?"
+            " ORDER BY date DESC, id DESC LIMIT 8",
+            (f"{year}-01-01", f"{year}-12-31"),
         ).fetchall()
     return templates.TemplateResponse(request, "home.html", {
-        "prog": prog, "year": year, "drafts": drafts, "recent": recent, "pace_min": pace_min,
+        "prog": prog, "year": year, "current_year": current_year, "drafts": drafts,
+        "recent": recent, "pace_min": pace_min, "mandatory": _mandatory_summary(year),
     })
+
+
+@router.post("/mandatory/{item}/toggle")
+def mandatory_toggle(request: Request, item: str, year: int = Form(...)):
+    if r := _guard(request):
+        return r
+    if item in MANDATORY_TOGGLES:
+        key = f"{item}_done_{year}"
+        db.set_setting(key, "0" if db.get_setting(key) == "1" else "1")
+    return RedirectResponse(f"/?year={year}", status_code=303)
 
 
 @router.get("/log")
 def log_page(request: Request, year: int | None = None, category: int | None = None):
     if r := _guard(request):
         return r
-    year = year or datetime.now(config.TZ).year
+    current_year = dt.datetime.now(config.TZ).year
+    year = year or current_year
     query = "SELECT * FROM activities WHERE status = 'confirmed' AND date BETWEEN ? AND ?"
     params: list = [f"{year}-01-01", f"{year}-12-31"]
     if category:
@@ -88,7 +165,7 @@ def log_page(request: Request, year: int | None = None, category: int | None = N
     with db.tx() as conn:
         rows = conn.execute(query, params).fetchall()
     return templates.TemplateResponse(request, "log.html", {
-        "rows": rows, "year": year, "category": category,
+        "rows": rows, "year": year, "current_year": current_year, "category": category,
         "activity_types": config.ACTIVITY_TYPES, "tag_options": config.TAG_OPTIONS,
         "today": db.today_iso(),
     })
@@ -97,50 +174,59 @@ def log_page(request: Request, year: int | None = None, category: int | None = N
 @router.post("/log/add")
 def log_add(
     request: Request,
-    date: str = Form(...),
-    category: int = Form(...),
+    date: dt.date = Form(...),
+    category: int = Form(..., ge=1, le=3),
     activity_type: str = Form(...),
-    title: str = Form(...),
-    minutes: int = Form(...),
-    description: str = Form(""),
-    reflection: str = Form(""),
+    title: str = Form(..., max_length=300),
+    minutes: int = Form(..., ge=1, le=1440),
+    description: str = Form("", max_length=20000),
+    reflection: str = Form("", max_length=20000),
     tags: list[str] = Form([]),
 ):
     if r := _guard(request):
         return r
+    if activity_type not in config.ACTIVITY_TYPES:
+        return RedirectResponse("/log", status_code=303)
     now = db.now_iso()
     with db.tx() as conn:
         conn.execute(
             "INSERT INTO activities (date, category, activity_type, title, description, reflection,"
             " minutes, source_module, status, tags, created_at, confirmed_at)"
             " VALUES (?, ?, ?, ?, ?, ?, ?, 'manual', 'confirmed', ?, ?, ?)",
-            (date, category, activity_type, title, description, reflection, minutes,
-             ",".join(tags), now, now),
+            (date.isoformat(), category, activity_type, title, description, reflection, minutes,
+             ",".join(t for t in tags if t in config.TAG_OPTIONS), now, now),
         )
-    return RedirectResponse("/log", status_code=303)
+    return RedirectResponse(f"/log?year={date.year}", status_code=303)
 
 
 @router.get("/inbox")
-def inbox(request: Request):
+def inbox(request: Request, stale: int | None = None):
     if r := _guard(request):
         return r
     with db.tx() as conn:
         rows = conn.execute(
             "SELECT * FROM activities WHERE status = 'draft' ORDER BY date DESC, id DESC"
         ).fetchall()
-    return templates.TemplateResponse(request, "inbox.html", {"rows": rows})
+    return templates.TemplateResponse(request, "inbox.html", {"rows": rows, "stale": stale})
 
 
 @router.post("/inbox/{activity_id}/confirm")
-def inbox_confirm(request: Request, activity_id: int, minutes: int = Form(...), reflection: str = Form("")):
+def inbox_confirm(
+    request: Request,
+    activity_id: int,
+    minutes: int = Form(..., ge=1, le=1440),
+    reflection: str = Form("", max_length=20000),
+):
     if r := _guard(request):
         return r
     with db.tx() as conn:
-        conn.execute(
+        changed = conn.execute(
             "UPDATE activities SET status = 'confirmed', minutes = ?, reflection = ?, confirmed_at = ?"
             " WHERE id = ? AND status = 'draft'",
             (minutes, reflection, db.now_iso(), activity_id),
-        )
+        ).rowcount
+    if changed == 0:
+        return RedirectResponse(f"/inbox?stale={activity_id}", status_code=303)
     return RedirectResponse("/inbox", status_code=303)
 
 
@@ -149,10 +235,12 @@ def inbox_discard(request: Request, activity_id: int):
     if r := _guard(request):
         return r
     with db.tx() as conn:
-        conn.execute(
+        changed = conn.execute(
             "UPDATE activities SET status = 'discarded' WHERE id = ? AND status = 'draft'",
             (activity_id,),
-        )
+        ).rowcount
+    if changed == 0:
+        return RedirectResponse(f"/inbox?stale={activity_id}", status_code=303)
     return RedirectResponse("/inbox", status_code=303)
 
 
@@ -173,32 +261,74 @@ def activity_edit_form(request: Request, activity_id: int):
 def activity_edit(
     request: Request,
     activity_id: int,
-    date: str = Form(...),
-    category: int = Form(...),
+    date: dt.date = Form(...),
+    category: int = Form(..., ge=1, le=3),
     activity_type: str = Form(...),
-    title: str = Form(...),
-    minutes: int = Form(...),
-    description: str = Form(""),
-    reflection: str = Form(""),
+    title: str = Form(..., max_length=300),
+    minutes: int = Form(..., ge=0, le=1440),
+    description: str = Form("", max_length=20000),
+    reflection: str = Form("", max_length=20000),
     tags: list[str] = Form([]),
 ):
     if r := _guard(request):
         return r
+    if activity_type not in config.ACTIVITY_TYPES:
+        return RedirectResponse(f"/activity/{activity_id}", status_code=303)
     with db.tx() as conn:
         conn.execute(
             "UPDATE activities SET date = ?, category = ?, activity_type = ?, title = ?,"
             " minutes = ?, description = ?, reflection = ?, tags = ? WHERE id = ?",
-            (date, category, activity_type, title, minutes, description, reflection,
-             ",".join(tags), activity_id),
+            (date.isoformat(), category, activity_type, title, minutes, description, reflection,
+             ",".join(t for t in tags if t in config.TAG_OPTIONS), activity_id),
         )
-    return RedirectResponse("/log", status_code=303)
+    return RedirectResponse(f"/log?year={date.year}", status_code=303)
+
+
+@router.get("/meetings")
+def meetings(request: Request):
+    if r := _guard(request):
+        return r
+    return templates.TemplateResponse(request, "meetings.html", {
+        "meeting_types": config.MEETING_TYPES,
+        "queue": pipeline.meeting_queue_overview(),
+        "today": db.today_iso(),
+    })
+
+
+@router.post("/meetings/upload")
+async def meetings_upload(
+    request: Request,
+    audio: UploadFile = File(...),
+    meeting_type: str = Form(...),
+    date: dt.date = Form(...),
+    participants: str = Form("", max_length=500),
+    duration_minutes: int = Form(..., ge=1, le=600),
+    notes: str = Form("", max_length=2000),
+    consent: str = Form(...),
+):
+    if r := _guard(request):
+        return r
+    if meeting_type not in config.MEETING_TYPES or consent != "yes":
+        return RedirectResponse("/meetings", status_code=303)
+    audio_bytes = await audio.read()
+    if audio_bytes:
+        pipeline.create_meeting(
+            audio_filename=audio.filename or "recording",
+            audio_bytes=audio_bytes,
+            meeting_type=meeting_type,
+            date=date.isoformat(),
+            participants=participants,
+            duration_minutes=duration_minutes,
+            notes=notes,
+        )
+    return RedirectResponse("/meetings", status_code=303)
 
 
 @router.get("/export/mycpd.csv")
 def export_csv(request: Request, year: int | None = None):
     if r := _guard(request):
         return r
-    year = year or datetime.now(config.TZ).year
+    year = year or dt.datetime.now(config.TZ).year
     with db.tx() as conn:
         rows = conn.execute(
             "SELECT * FROM activities WHERE status = 'confirmed' AND date BETWEEN ? AND ?"
@@ -211,8 +341,9 @@ def export_csv(request: Request, year: int | None = None):
                      "Reflection", "Tags"])
     for a in rows:
         writer.writerow([
-            a["date"], a["category"], a["activity_type"], a["title"],
-            f"{a['minutes'] / 60:.2f}", a["description"], a["reflection"], a["tags"],
+            a["date"], a["category"], _csv_cell(a["activity_type"]), _csv_cell(a["title"]),
+            f"{a['minutes'] / 60:.2f}", _csv_cell(a["description"]), _csv_cell(a["reflection"]),
+            _csv_cell(a["tags"]),
         ])
     buf.seek(0)
     return StreamingResponse(

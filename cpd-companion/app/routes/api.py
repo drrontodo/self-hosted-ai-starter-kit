@@ -1,4 +1,6 @@
 import json
+import sqlite3
+import datetime as dt
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
@@ -11,38 +13,38 @@ router = APIRouter(prefix="/api", dependencies=[Depends(require_api_key)])
 
 class SessionReport(BaseModel):
     project: str = Field(min_length=1, max_length=200)
-    started_at: str | None = None
-    ended_at: str | None = None
+    started_at: dt.datetime | None = None
+    ended_at: dt.datetime | None = None
     active_minutes: int = Field(ge=0, le=24 * 60)
-    topics: list[str] = []
+    topics: list[str] = Field(default=[], max_length=50)
     summary: str = Field(min_length=1, max_length=4000)
-    artefacts: list[str] = []
+    artefacts: list[str] = Field(default=[], max_length=50)
     cpd_relevant: bool = True
 
 
 class ActivityIn(BaseModel):
-    date: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+    date: dt.date
     category: int = Field(ge=1, le=3)
     activity_type: str
     title: str = Field(min_length=1, max_length=300)
-    description: str = ""
-    reflection: str = ""
+    description: str = Field(default="", max_length=20000)
+    reflection: str = Field(default="", max_length=20000)
     minutes: int = Field(ge=0, le=24 * 60)
     source_module: str = "api"
-    status: str = "draft"
-    tags: list[str] = []
+    tags: list[str] = Field(default=[], max_length=10)
+    external_ref: str | None = Field(default=None, max_length=300)
 
 
 class ActivityPatch(BaseModel):
-    date: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$")
+    date: dt.date | None = None
     category: int | None = Field(default=None, ge=1, le=3)
     activity_type: str | None = None
-    title: str | None = None
-    description: str | None = None
-    reflection: str | None = None
+    title: str | None = Field(default=None, max_length=300)
+    description: str | None = Field(default=None, max_length=20000)
+    reflection: str | None = Field(default=None, max_length=20000)
     minutes: int | None = Field(default=None, ge=0, le=24 * 60)
     status: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] | None = Field(default=None, max_length=10)
 
 
 @router.post("/sessions", status_code=201)
@@ -53,8 +55,8 @@ def create_session_report(report: SessionReport):
             " summary, artefacts, cpd_relevant, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 report.project,
-                report.started_at,
-                report.ended_at,
+                report.started_at.isoformat() if report.started_at else None,
+                report.ended_at.isoformat() if report.ended_at else None,
                 report.active_minutes,
                 json.dumps(report.topics),
                 report.summary,
@@ -94,50 +96,58 @@ def list_activities(year: int | None = None, category: int | None = None, status
 
 @router.post("/activities", status_code=201)
 def create_activity(activity: ActivityIn):
+    """API callers always create drafts: confirmation happens only through the
+    dashboard, so an automated client can never self-certify CPD hours."""
     if activity.activity_type not in config.ACTIVITY_TYPES:
         raise HTTPException(422, f"activity_type must be one of {config.ACTIVITY_TYPES}")
-    if activity.status not in ("draft", "confirmed"):
-        raise HTTPException(422, "status must be draft or confirmed")
     now = db.now_iso()
-    with db.tx() as conn:
-        cur = conn.execute(
-            "INSERT INTO activities (date, category, activity_type, title, description, reflection,"
-            " minutes, source_module, status, tags, created_at, confirmed_at)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (
-                activity.date,
-                activity.category,
-                activity.activity_type,
-                activity.title,
-                activity.description,
-                activity.reflection,
-                activity.minutes,
-                activity.source_module,
-                activity.status,
-                ",".join(activity.tags),
-                now,
-                now if activity.status == "confirmed" else None,
-            ),
-        )
-        new_id = cur.lastrowid
-    return {"id": new_id}
+    try:
+        with db.tx() as conn:
+            cur = conn.execute(
+                "INSERT INTO activities (date, category, activity_type, title, description,"
+                " reflection, minutes, source_module, status, tags, external_ref, created_at)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?, ?)",
+                (
+                    activity.date.isoformat(),
+                    activity.category,
+                    activity.activity_type,
+                    activity.title,
+                    activity.description,
+                    activity.reflection,
+                    activity.minutes,
+                    activity.source_module,
+                    ",".join(activity.tags),
+                    activity.external_ref,
+                    now,
+                ),
+            )
+            new_id = cur.lastrowid
+    except sqlite3.IntegrityError:
+        raise HTTPException(409, f"an activity with external_ref {activity.external_ref!r} already exists")
+    return {"id": new_id, "status": "draft"}
 
 
 @router.patch("/activities/{activity_id}")
 def patch_activity(activity_id: int, patch: ActivityPatch):
     fields = patch.model_dump(exclude_none=True)
+    if "date" in fields:
+        fields["date"] = fields["date"].isoformat()
     if "tags" in fields:
         fields["tags"] = ",".join(fields["tags"])
-    if "status" in fields and fields["status"] not in ("draft", "confirmed", "discarded"):
-        raise HTTPException(422, "invalid status")
+    if "activity_type" in fields and fields["activity_type"] not in config.ACTIVITY_TYPES:
+        raise HTTPException(422, f"activity_type must be one of {config.ACTIVITY_TYPES}")
+    if "status" in fields:
+        # Only draft -> discarded is allowed over the API; confirming is dashboard-only.
+        if fields["status"] != "discarded":
+            raise HTTPException(422, "API callers may only set status to 'discarded'")
     if not fields:
         raise HTTPException(422, "no fields to update")
     with db.tx() as conn:
         row = conn.execute("SELECT id, status FROM activities WHERE id = ?", (activity_id,)).fetchone()
         if row is None:
             raise HTTPException(404, "activity not found")
-        if fields.get("status") == "confirmed" and row["status"] != "confirmed":
-            fields["confirmed_at"] = db.now_iso()
+        if row["status"] == "confirmed" and "status" in fields:
+            raise HTTPException(422, "confirmed activities can only be changed from the dashboard")
         sets = ", ".join(f"{k} = ?" for k in fields)
         conn.execute(f"UPDATE activities SET {sets} WHERE id = ?", (*fields.values(), activity_id))
     return {"id": activity_id, "updated": sorted(fields)}
@@ -145,15 +155,60 @@ def patch_activity(activity_id: int, patch: ActivityPatch):
 
 @router.delete("/activities/{activity_id}")
 def delete_activity(activity_id: int):
+    """Soft delete: the register keeps a trace, and evidence rows survive."""
     with db.tx() as conn:
-        deleted = conn.execute("DELETE FROM activities WHERE id = ?", (activity_id,)).rowcount
-    if deleted == 0:
-        raise HTTPException(404, "activity not found")
-    return {"id": activity_id, "deleted": True}
+        row = conn.execute("SELECT id FROM activities WHERE id = ?", (activity_id,)).fetchone()
+        if row is None:
+            raise HTTPException(404, "activity not found")
+        conn.execute("UPDATE activities SET status = 'discarded' WHERE id = ?", (activity_id,))
+    return {"id": activity_id, "discarded": True}
 
 
 @router.get("/progress")
 def get_progress(year: int | None = None):
-    from datetime import datetime
+    return db.progress(year or dt.datetime.now(config.TZ).year)
 
-    return db.progress(year or datetime.now(config.TZ).year)
+
+@router.get("/jobs")
+def list_jobs(engine: str | None = None, status: str = "pending"):
+    query = "SELECT * FROM jobs WHERE status = ?"
+    params: list = [status]
+    if engine:
+        query += " AND engine = ?"
+        params.append(engine)
+    query += " ORDER BY id"
+    with db.tx() as conn:
+        rows = conn.execute(query, params).fetchall()
+    out = []
+    for r in rows:
+        out.append({
+            "id": r["id"], "kind": r["kind"], "engine": r["engine"], "status": r["status"],
+            "payload": json.loads(r["payload"] or "{}"), "prompt": r["prompt"],
+            "created_at": r["created_at"],
+        })
+    return out
+
+
+@router.post("/jobs/{job_id}/result")
+def post_job_result(job_id: int, result: dict):
+    from .. import pipeline
+
+    outcome = pipeline.handle_job_result(job_id, result)
+    if "error" in outcome:
+        raise HTTPException(422, outcome["error"])
+    return outcome
+
+
+@router.post("/jobs/{job_id}/fail")
+def post_job_failure(job_id: int, body: dict):
+    with db.tx() as conn:
+        row = conn.execute("SELECT status FROM jobs WHERE id = ?", (job_id,)).fetchone()
+        if row is None:
+            raise HTTPException(404, "job not found")
+        if row["status"] != "pending":
+            raise HTTPException(422, f"job already {row['status']}")
+        conn.execute(
+            "UPDATE jobs SET status = 'failed', error = ?, completed_at = ? WHERE id = ?",
+            (str(body.get("error", "unknown"))[:2000], db.now_iso(), job_id),
+        )
+    return {"job": job_id, "status": "failed"}

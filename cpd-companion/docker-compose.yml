@@ -1,3 +1,7 @@
+# The SQLite database lives on a named volume (reliable WAL locking on Docker
+# Desktop for Windows); files you interact with from Windows are bind-mounted
+# as subfolders of ./data so drain_whisper.py and your backup routine can see
+# them.
 services:
   cpd-companion:
     build: .
@@ -9,4 +13,11 @@ services:
     environment:
       - CPD_DATA_DIR=/data
     volumes:
-      - ./data:/data
+      - cpd_data:/data
+      - ./data/backups:/data/backups
+      - ./data/evidence:/data/evidence
+      - ./data/audio:/data/audio
+      - ./data/transcripts:/data/transcripts
+
+volumes:
+  cpd_data:
