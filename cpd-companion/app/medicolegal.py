@@ -238,12 +238,36 @@ def previous_month(today: date | None = None) -> str:
 def ensure_monthly_audit(period: str | None = None) -> dict:
     """Create (or update) the audit for a month and queue its drafting job.
 
-    Reports belong to the month they were detected in. Re-running is safe: new
-    reports are attached and a fresh draft queued unless the audit is already
-    signed off.
+    Re-running is safe: unattached reports are swept in and a fresh draft is
+    queued unless the audit is already signed off. Called without a period
+    (the scheduler path), it audits the previous month and then re-queues any
+    older audit stuck in 'drafting' with no live job.
     """
-    period = period or previous_month()
+    if period is not None:
+        return _ensure_period(period)
+    result = _ensure_period(previous_month())
+    with db.tx() as conn:
+        stale = conn.execute(
+            "SELECT period FROM audits WHERE status = 'drafting' AND period < ?"
+            " AND NOT EXISTS (SELECT 1 FROM jobs WHERE kind = 'medicolegal_audit'"
+            "  AND status = 'pending'"
+            "  AND json_extract(payload, '$.audit_id') = audits.id)"
+            " ORDER BY period",
+            (previous_month(),),
+        ).fetchall()
+    requeued = [row["period"] for row in stale
+                if _ensure_period(row["period"]).get("status") == "drafting"]
+    if requeued:
+        result = dict(result, requeued_stale_periods=requeued)
+    return result
+
+
+def _ensure_period(period: str) -> dict:
     checklist = get_checklist()
+    current_month = datetime.now(config.TZ).strftime("%Y-%m")
+    if period > current_month:
+        # A future (or typo'd) period must never sweep up the report pool.
+        return {"period": period, "status": "future_period"}
     year, month = int(period[:4]), int(period[5:7])
     period_end = f"{year + (month == 12):04d}-{(month % 12) + 1:02d}-01"
     with db.tx() as conn:
@@ -272,7 +296,9 @@ def ensure_monthly_audit(period: str | None = None) -> dict:
             if not unattached:
                 pending = conn.execute(
                     "SELECT 1 FROM jobs WHERE kind = 'medicolegal_audit'"
-                    " AND status = 'pending'").fetchone()
+                    " AND status = 'pending'"
+                    " AND json_extract(payload, '$.audit_id') = ?",
+                    (audit_id,)).fetchone()
                 if audit["status"] != "drafting" or pending:
                     return {"period": period, "status": audit["status"],
                             "audit_id": audit_id}
@@ -303,6 +329,14 @@ def ensure_monthly_audit(period: str | None = None) -> dict:
         conn.execute(
             "UPDATE audits SET metrics = ?, status = 'drafting', checklist = ? WHERE id = ?",
             (json.dumps(metrics), json.dumps(checklist), audit_id),
+        )
+        # An audit only ever has one live drafting job: a re-run with fresh
+        # reports supersedes the stale pending one.
+        conn.execute(
+            "UPDATE jobs SET status = 'failed', error = 'superseded by audit re-run',"
+            " completed_at = ? WHERE kind = 'medicolegal_audit' AND status = 'pending'"
+            " AND json_extract(payload, '$.audit_id') = ?",
+            (db.now_iso(), audit_id),
         )
         payload = {"period": period, "audit_id": audit_id, **metrics}
         conn.execute(
@@ -413,7 +447,13 @@ def _prescrub(text: str) -> str:
     queue; the extraction prompt does the real de-identification and the
     curation step is the human check."""
     text = re.sub(r"(?im)^\s*(re|regarding)\s*:.*$", "RE: [redacted]", text)
-    text = re.sub(r"(?i)date of birth\s*[:\-]?\s*\S[^\n]*", "Date of birth: [redacted]", text)
+    # Redact only the date-like token, not the rest of the line — an inline
+    # "…whose date of birth is 12 March 1965, presented with…" must keep the
+    # clinical content that follows.
+    text = re.sub(
+        r"(?i)date of birth\s*(?:is|was)?\s*[:\-]?\s*"
+        r"(?:\d{1,2}(?:st|nd|rd|th)?\s+\w+,?\s+\d{2,4}|\w+\s+\d{1,2},?\s+\d{2,4}|[\d/.\-]+)",
+        "Date of birth: [redacted]", text)
     text = re.sub(r"(?i)\bd\.?o\.?b\.?\s*[:\-]?\s*[\d/.\-]+", "DOB: [redacted]", text)
     text = re.sub(r"(?i)\b(claim|matter|file|reference)\s*(no\.?|number)\s*[:\-]?\s*\S+",
                   r"\1 number: [redacted]", text)
@@ -450,10 +490,13 @@ def _extract_prompt() -> str:
     )
 
 
-def _find_report_file(filename: str):
+def _find_report_file(filename: str, sha256: str):
+    """Resolve a report row back to its file by content hash, not just name —
+    same-named files in inbox/ and backfill/ must never mine the wrong text."""
     for folder in (config.MEDICOLEGAL_INBOX, config.MEDICOLEGAL_BACKFILL):
         candidate = folder / filename
-        if candidate.is_file():
+        if candidate.is_file() and hashlib.sha256(
+                candidate.read_bytes()).hexdigest() == sha256:
             return candidate
     return None
 
@@ -466,39 +509,50 @@ def queue_extractions(limit: int | None = None) -> dict:
                                               str(DEFAULT_EXTRACT_BATCH))))
         except ValueError:
             limit = DEFAULT_EXTRACT_BATCH
-    queued: list[int] = []
-    skipped: list[int] = []
+    # Phase 1: pick the batch and parse the files with NO write lock held —
+    # pdf/docx extraction can be slow and must not block other writers.
     with db.tx() as conn:
-        conn.execute("BEGIN IMMEDIATE")
         rows = conn.execute(
             "SELECT * FROM reports WHERE extract_status = 'pending'"
             " AND parse_error = '' ORDER BY id LIMIT ?",
             (limit,),
         ).fetchall()
-        for r in rows:
-            path = _find_report_file(r["filename"])
-            if path is None:
-                conn.execute("UPDATE reports SET extract_status = 'skipped' WHERE id = ?",
-                             (r["id"],))
-                skipped.append(r["id"])
+    prepared: list[tuple[int, str | None]] = []
+    for r in rows:
+        path = _find_report_file(r["filename"], r["sha256"])
+        if path is None:
+            prepared.append((r["id"], None))
+            continue
+        try:
+            prepared.append((r["id"], _prescrub(extract_text(path))[:EXTRACT_TEXT_LIMIT]))
+        except Exception as exc:  # noqa: BLE001 - mark and continue
+            log.warning("re-extraction failed for %s: %s", r["filename"], exc)
+            prepared.append((r["id"], None))
+    # Phase 2: claim each report atomically (guarded UPDATE) and queue its job.
+    queued: list[int] = []
+    skipped: list[int] = []
+    with db.tx() as conn:
+        conn.execute("BEGIN IMMEDIATE")
+        for report_id, text in prepared:
+            if text is None:
+                if conn.execute(
+                    "UPDATE reports SET extract_status = 'skipped'"
+                    " WHERE id = ? AND extract_status = 'pending'", (report_id,)
+                ).rowcount:
+                    skipped.append(report_id)
                 continue
-            try:
-                text = _prescrub(extract_text(path))[:EXTRACT_TEXT_LIMIT]
-            except Exception as exc:  # noqa: BLE001 - mark and continue
-                log.warning("re-extraction failed for %s: %s", r["filename"], exc)
-                conn.execute("UPDATE reports SET extract_status = 'skipped' WHERE id = ?",
-                             (r["id"],))
-                skipped.append(r["id"])
-                continue
+            if not conn.execute(
+                "UPDATE reports SET extract_status = 'queued'"
+                " WHERE id = ? AND extract_status = 'pending'", (report_id,)
+            ).rowcount:
+                continue  # claimed by a concurrent run
             conn.execute(
                 "INSERT INTO jobs (kind, engine, payload, prompt, created_at)"
                 " VALUES ('report_extract', 'claude', ?, ?, ?)",
-                (json.dumps({"report_id": r["id"], "text": text}), _extract_prompt(),
+                (json.dumps({"report_id": report_id, "text": text}), _extract_prompt(),
                  db.now_iso()),
             )
-            conn.execute("UPDATE reports SET extract_status = 'queued' WHERE id = ?",
-                         (r["id"],))
-            queued.append(r["id"])
+            queued.append(report_id)
         remaining = conn.execute(
             "SELECT COUNT(*) AS n FROM reports WHERE extract_status = 'pending'"
             " AND parse_error = ''").fetchone()["n"]
@@ -567,13 +621,14 @@ def log_curation_session(minutes: int) -> int | None:
     Reviewing one's own report answers and distilling them into standardised
     responses is review of own work product (Cat 2); minutes come from the
     page timer, and the evidence document lists the (generic, de-identified)
-    snippets reviewed."""
-    since = db.get_setting("library_last_logged_at", "")
+    snippets reviewed. Counted snippets are marked `logged` inside the same
+    transaction, so a double submit finds nothing to log and no snippet can be
+    counted twice or slip between a timestamp watermark and the log."""
     with db.tx() as conn:
         conn.execute("BEGIN IMMEDIATE")
         reviewed = conn.execute(
             "SELECT * FROM response_snippets WHERE reviewed_at IS NOT NULL"
-            " AND reviewed_at > ? ORDER BY reviewed_at", (since,),
+            " AND logged = 0 ORDER BY reviewed_at, id",
         ).fetchall()
         if not reviewed:
             return None
@@ -600,7 +655,8 @@ def log_curation_session(minutes: int) -> int | None:
                       "", f"**Q:** {s['question']}", "", f"**A:** {s['answer']}", ""]
         db.add_generated_evidence(conn, activity_id, doc,
                                   "\n".join(lines).encode("utf-8"))
-    db.set_setting("library_last_logged_at", db.now_iso())
+        conn.executemany("UPDATE response_snippets SET logged = 1 WHERE id = ?",
+                         [(s["id"],) for s in reviewed])
     return activity_id
 
 

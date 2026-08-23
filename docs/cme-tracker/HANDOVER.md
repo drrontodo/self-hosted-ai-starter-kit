@@ -4,7 +4,7 @@ Read this, then [SPEC.md](SPEC.md) (full design + rationale), then [`cpd-compani
 
 ## State as of 2026-08-23 (second session)
 
-**All build-plan phases (1–6), M7, and M5b are built, tested (60 pytest tests), live-smoke-tested, and adversarially reviewed.** The app is feature-complete against SPEC.md:
+**All build-plan phases (1–6), M7, and M5b are built, tested (66 pytest tests), live-smoke-tested, and adversarially reviewed twice** (a 5-dimension find→verify pass over Phases 2–6, then a focused pass over the M5b library and the fix commit; all confirmed findings fixed). The app is feature-complete against SPEC.md:
 
 - **Core (Phase 1):** FastAPI + SQLite in `cpd-companion/` — auth, activities register with draft→confirmed sign-off, dashboard (progress vs RACP minimums, mandatory-items widget, audit-readiness score), log/inbox/edit screens, MyCPD CSV export, nightly backups, generic jobs queue (`claude`/`whisper` engines).
 - **M1 sessions** → weekly draft Cat 1 rollups. **M7 meetings** → whisper transcript → de-identified minutes → draft + evidence.

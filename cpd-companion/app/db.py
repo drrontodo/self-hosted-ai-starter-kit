@@ -161,7 +161,8 @@ CREATE TABLE IF NOT EXISTS response_snippets (
     status TEXT NOT NULL DEFAULT 'draft'
         CHECK (status IN ('draft', 'approved', 'rejected')),
     created_at TEXT NOT NULL,
-    reviewed_at TEXT
+    reviewed_at TEXT,
+    logged INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS review_cycles (

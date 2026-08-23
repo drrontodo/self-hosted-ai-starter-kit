@@ -71,7 +71,7 @@ def test_meeting_pipeline_end_to_end(client):  # noqa: F811
     assert "We reviewed the fall" not in (done_job["payload"] or "")
 
 
-def test_job_fail_path(client):  # noqa: F811
+def test_job_fail_path_retries_then_gives_up(client):  # noqa: F811
     login(client)
     r = client.post(
         "/meetings/upload",
@@ -85,3 +85,19 @@ def test_job_fail_path(client):  # noqa: F811
     r = client.post(f"/api/jobs/{jid}/fail", headers=KEY, json={"error": "no GPU today"})
     assert r.json()["status"] == "failed"
     assert client.post(f"/api/jobs/{jid}/fail", headers=KEY, json={"error": "again"}).status_code == 422
+
+    # the audio file survives, so the failure re-queues a retry (capped at 2)
+    retry1 = r.json()["requeued_job_id"]
+    jobs = client.get("/api/jobs", headers=KEY, params={"engine": "whisper"}).json()
+    job1 = next(j for j in jobs if j["id"] == retry1)
+    assert job1["payload"]["retries"] == 1
+    r = client.post(f"/api/jobs/{retry1}/fail", headers=KEY, json={"error": "still no GPU"})
+    retry2 = r.json()["requeued_job_id"]
+    jobs = client.get("/api/jobs", headers=KEY, params={"engine": "whisper"}).json()
+    assert next(j for j in jobs if j["id"] == retry2)["payload"]["retries"] == 2
+    r = client.post(f"/api/jobs/{retry2}/fail", headers=KEY, json={"error": "give up"})
+    assert "requeued_job_id" not in r.json()  # retry cap reached
+    jobs = client.get("/api/jobs", headers=KEY, params={"engine": "whisper"}).json()
+    assert not any(j["kind"] == "transcribe_meeting"
+                   and j["payload"].get("audio_file") == job1["payload"]["audio_file"]
+                   for j in jobs)

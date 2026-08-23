@@ -191,7 +191,9 @@ def handle_job_result(job_id: int, result: dict) -> dict:
 _SENSITIVE_PAYLOAD_KINDS = ("report_extract", "meeting_summary", "transcribe_meeting")
 _REFERENCE_KEYS = ("report_id", "audit_id", "cycle_id", "output_id", "year",
                    "item_ids", "meeting_type", "date", "audio_file",
-                   "transcript_file", "duration_minutes")
+                   "transcript_file", "duration_minutes", "participants",
+                   "notes", "retries")
+_MEETING_MAX_RETRIES = 2
 
 
 def handle_job_failure(job_id: int, error: str) -> dict:
@@ -231,7 +233,42 @@ def handle_job_failure(job_id: int, error: str) -> dict:
                 (f"drafting job failed: {error[:200]}", db.now_iso(),
                  payload["output_id"]),
             )
-    return {"job": job_id, "status": "failed"}
+        # Meeting jobs: the source artefact (audio / transcript file) survives
+        # on disk, so retry a couple of times before staying failed — otherwise
+        # the recording silently never becomes minutes.
+        retries = 0
+        try:
+            retries = int(payload.get("retries", 0))
+        except (TypeError, ValueError):
+            pass
+        requeued = None
+        if retries < _MEETING_MAX_RETRIES:
+            if job["kind"] == "transcribe_meeting" and payload.get("audio_file"):
+                if (config.AUDIO_DIR / payload["audio_file"]).is_file():
+                    retry_payload = dict(payload, retries=retries + 1)
+                    cur = conn.execute(
+                        "INSERT INTO jobs (kind, engine, payload, prompt, created_at)"
+                        " VALUES ('transcribe_meeting', 'whisper', ?, '', ?)",
+                        (json.dumps(retry_payload), db.now_iso()),
+                    )
+                    requeued = cur.lastrowid
+            if job["kind"] == "meeting_summary" and payload.get("transcript_file"):
+                tpath = config.TRANSCRIPT_DIR / payload["transcript_file"]
+                if tpath.is_file():
+                    meta = {k: payload[k] for k in _REFERENCE_KEYS if k in payload}
+                    meta["retries"] = retries + 1
+                    retry_payload = dict(
+                        meta, transcript=tpath.read_text(encoding="utf-8"))
+                    cur = conn.execute(
+                        "INSERT INTO jobs (kind, engine, payload, prompt, created_at)"
+                        " VALUES ('meeting_summary', 'claude', ?, ?, ?)",
+                        (json.dumps(retry_payload), _summary_prompt(meta), db.now_iso()),
+                    )
+                    requeued = cur.lastrowid
+    out = {"job": job_id, "status": "failed"}
+    if requeued:
+        out["requeued_job_id"] = requeued
+    return out
 
 
 def meeting_queue_overview() -> list[dict]:

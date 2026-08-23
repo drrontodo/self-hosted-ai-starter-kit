@@ -48,28 +48,45 @@ library keeps. Check the de-identification: nothing case-specific should survive
 </details>
 {% endfor %}
 
-<form method="post" action="/library/log-session" class="signoff-form log-session">
+{% endif %}
+
+<form method="post" action="/library/log-session" class="signoff-form log-session"
+      id="log-session-form">
   <label>Log this curation session as CPD (Cat 2, minutes timer-tracked)
     <input type="number" name="minutes" id="minutes-input" min="1" max="1440" required value="1">
-    <span class="muted small">auto-counts while this page is visible (<span id="timer">0:00</span>)</span>
+    <span class="muted small">auto-counts while this page is visible, and survives the
+      reload each approve/reject causes (<span id="timer">0:00</span>)</span>
   </label>
   <button type="submit">Log confirmed Cat 2 entry + evidence</button>
 </form>
 <script>
 (function () {
+  // The timer must survive the 303 reload every approve/reject triggers, and
+  // the form stays rendered after the last draft so the finished session can
+  // still be logged with its real measured minutes.
+  var KEY = "cpd-library-timer";
   var seconds = 0, edited = false;
+  try { seconds = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0; } catch (e) {}
   var input = document.getElementById("minutes-input");
-  input.addEventListener("input", function () { edited = true; });
+  var timerEl = document.getElementById("timer");
+  function paint() {
+    if (timerEl) timerEl.textContent = Math.floor(seconds / 60) + ":" +
+      String(seconds % 60).padStart(2, "0");
+    if (input && !edited) input.value = Math.max(1, Math.round(seconds / 60));
+  }
+  if (input) input.addEventListener("input", function () { edited = true; });
+  document.getElementById("log-session-form").addEventListener("submit", function () {
+    try { sessionStorage.removeItem(KEY); } catch (e) {}
+  });
+  paint();
   setInterval(function () {
     if (document.hidden) return;
     seconds += 1;
-    document.getElementById("timer").textContent =
-      Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
-    if (!edited) input.value = Math.max(1, Math.round(seconds / 60));
+    try { sessionStorage.setItem(KEY, String(seconds)); } catch (e) {}
+    paint();
   }, 1000);
 })();
 </script>
-{% endif %}
 
 <h2>Search the library</h2>
 <form method="get" action="/library" class="feed-ops">

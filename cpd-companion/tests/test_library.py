@@ -49,13 +49,36 @@ def test_backfill_scanned_but_excluded_from_audit(client):
 
 def test_extraction_queue_prescrub_and_batching(client):
     login(client)
+    # make the batch deterministic regardless of reports other test modules left
+    with db.tx() as conn:
+        conn.execute(
+            "UPDATE reports SET extract_status = 'done' WHERE extract_status = 'pending'"
+            " AND filename != 'old-2024-report.txt'")
+    _drop_backfill("old-2024-second.txt",
+                   BACKFILL_TEXT.replace("mild traumatic", "moderate traumatic"))
+    medicolegal.scan_inbox()
+    with db.tx() as conn:
+        first_id = conn.execute(
+            "SELECT id FROM reports WHERE filename = 'old-2024-report.txt'"
+        ).fetchone()["id"]
+        second_id = conn.execute(
+            "SELECT id FROM reports WHERE filename = 'old-2024-second.txt'"
+        ).fetchone()["id"]
+
     db.set_setting("report_extract_batch", "1")
     out = medicolegal.queue_extractions()
-    assert len(out["queued"]) == 1
+    assert out["queued"] == [first_id]  # batch of one, oldest first
+    assert out["remaining"] == 1        # the second report stays pending
+    with db.tx() as conn:
+        assert conn.execute("SELECT extract_status FROM reports WHERE id = ?",
+                            (second_id,)).fetchone()["extract_status"] == "pending"
+        # keep the second out of later tests
+        conn.execute("UPDATE reports SET extract_status = 'skipped' WHERE id = ?",
+                     (second_id,))
 
     jobs = client.get("/api/jobs", headers=KEY, params={"engine": "claude"}).json()
     extract_jobs = [j for j in jobs if j["kind"] == "report_extract"]
-    job = extract_jobs[-1]
+    job = next(j for j in extract_jobs if j["payload"]["report_id"] == first_id)
     text = job["payload"]["text"]
     # code-level pre-scrub caught the obvious identifiers
     assert "Smith v Acme" not in text
@@ -147,13 +170,20 @@ def test_curation_search_export_and_cpd(client):
     assert medicolegal.log_curation_session(10) is None
 
 
-def test_missing_file_marked_skipped(client):
+def test_missing_or_mismatched_file_marked_skipped(client):
     with db.tx() as conn:
         conn.execute(
             "INSERT INTO reports (filename, sha256, detected_at) VALUES"
             " ('gone.docx', 'deadbeef' || RANDOM(), ?)", (db.now_iso(),))
+        # same name as a real backfill file, but wrong content hash — must be
+        # skipped, never mined from the other file's text
+        conn.execute(
+            "INSERT INTO reports (filename, sha256, detected_at) VALUES"
+            " ('old-2024-report.txt', ?, ?)", ("0" * 64, db.now_iso()))
     out = medicolegal.queue_extractions(limit=10)
     with db.tx() as conn:
-        row = conn.execute("SELECT * FROM reports WHERE filename = 'gone.docx'").fetchone()
-    assert row["extract_status"] == "skipped"
-    assert row["id"] in out["skipped"]
+        gone = conn.execute("SELECT * FROM reports WHERE filename = 'gone.docx'").fetchone()
+        mismatch = conn.execute("SELECT * FROM reports WHERE sha256 = ?",
+                                ("0" * 64,)).fetchone()
+    assert gone["extract_status"] == "skipped" and gone["id"] in out["skipped"]
+    assert mismatch["extract_status"] == "skipped" and mismatch["id"] in out["skipped"]

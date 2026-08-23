@@ -226,3 +226,10 @@ def test_empty_month_creates_nothing(client):
     assert out["status"] == "no_reports"
     with db.tx() as conn:
         assert conn.execute("SELECT * FROM audits WHERE period = '2019-01'").fetchone() is None
+
+
+def test_future_period_refused(client):
+    out = medicolegal.ensure_monthly_audit("2099-01")
+    assert out["status"] == "future_period"
+    with db.tx() as conn:
+        assert conn.execute("SELECT * FROM audits WHERE period = '2099-01'").fetchone() is None
