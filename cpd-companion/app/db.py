@@ -144,7 +144,23 @@ CREATE TABLE IF NOT EXISTS reports (
     word_count INTEGER NOT NULL DEFAULT 0,
     sections TEXT NOT NULL DEFAULT '{}',
     parse_error TEXT DEFAULT '',
+    backfill INTEGER NOT NULL DEFAULT 0,
+    extract_status TEXT NOT NULL DEFAULT 'pending'
+        CHECK (extract_status IN ('pending', 'queued', 'done', 'skipped')),
     audit_id INTEGER REFERENCES audits(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS response_snippets (
+    id INTEGER PRIMARY KEY,
+    condition TEXT DEFAULT '',
+    topic TEXT DEFAULT '',
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    source_report_id INTEGER REFERENCES reports(id) ON DELETE SET NULL,
+    status TEXT NOT NULL DEFAULT 'draft'
+        CHECK (status IN ('draft', 'approved', 'rejected')),
+    created_at TEXT NOT NULL,
+    reviewed_at TEXT
 );
 
 CREATE TABLE IF NOT EXISTS review_cycles (

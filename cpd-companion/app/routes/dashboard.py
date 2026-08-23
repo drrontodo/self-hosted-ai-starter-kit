@@ -539,6 +539,86 @@ def audit_signoff(
     return RedirectResponse("/audits", status_code=303)
 
 
+@router.get("/library")
+def library_page(request: Request, q: str = ""):
+    if r := _guard(request):
+        return r
+    q = q[:200]
+    with db.tx() as conn:
+        drafts = conn.execute(
+            "SELECT s.*, r.filename AS source_filename FROM response_snippets s"
+            " LEFT JOIN reports r ON r.id = s.source_report_id"
+            " WHERE s.status = 'draft' ORDER BY s.id LIMIT 40").fetchall()
+        counts = {row["extract_status"]: row["n"] for row in conn.execute(
+            "SELECT extract_status, COUNT(*) AS n FROM reports"
+            " WHERE parse_error = '' GROUP BY extract_status")}
+        approved_total = conn.execute(
+            "SELECT COUNT(*) AS n FROM response_snippets WHERE status = 'approved'"
+        ).fetchone()["n"]
+    return templates.TemplateResponse(request, "library.html", {
+        "q": q, "drafts": drafts,
+        "approved": medicolegal.search_snippets(q),
+        "counts": counts, "approved_total": approved_total,
+        "batch": db.get_setting("report_extract_batch",
+                                str(medicolegal.DEFAULT_EXTRACT_BATCH)),
+    })
+
+
+@router.post("/library/queue")
+def library_queue(request: Request, batch: int = Form(0, ge=0, le=50)):
+    if r := _guard(request):
+        return r
+    if batch:
+        db.set_setting("report_extract_batch", str(batch))
+    medicolegal.queue_extractions(batch or None)
+    return RedirectResponse("/library", status_code=303)
+
+
+@router.post("/library/{snippet_id}/review")
+def library_review(
+    request: Request,
+    snippet_id: int,
+    action: str = Form(...),
+    condition: str = Form("", max_length=200),
+    topic: str = Form("", max_length=200),
+    question: str = Form("", max_length=2000),
+    answer: str = Form("", max_length=10000),
+):
+    if r := _guard(request):
+        return r
+    medicolegal.review_snippet(snippet_id, action, {
+        "condition": condition, "topic": topic, "question": question, "answer": answer,
+    })
+    return RedirectResponse("/library", status_code=303)
+
+
+@router.post("/library/log-session")
+def library_log_session(request: Request, minutes: int = Form(..., ge=1, le=1440)):
+    if r := _guard(request):
+        return r
+    medicolegal.log_curation_session(minutes)
+    return RedirectResponse("/library", status_code=303)
+
+
+@router.get("/library/export.md")
+def library_export_md(request: Request):
+    if r := _guard(request):
+        return r
+    return Response(
+        content=medicolegal.library_export_md(), media_type="text/markdown",
+        headers={"Content-Disposition": "attachment; filename=response-library.md"},
+    )
+
+
+@router.get("/library/export.json")
+def library_export_json(request: Request):
+    if r := _guard(request):
+        return r
+    rows = medicolegal.search_snippets()
+    return [{"condition": s["condition"], "topic": s["topic"],
+             "question": s["question"], "answer": s["answer"]} for s in rows]
+
+
 @router.get("/reviews")
 def reviews_page(request: Request):
     if r := _guard(request):

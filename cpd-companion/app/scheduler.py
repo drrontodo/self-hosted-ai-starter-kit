@@ -88,6 +88,9 @@ def start() -> None:
                        id="medicolegal_scan")
     _scheduler.add_job(medicolegal.ensure_monthly_audit, "cron", day=1, hour=6, minute=30,
                        id="medicolegal_audit")
+    # Response library: mine a small batch of reports weekly (gradual backfill).
+    _scheduler.add_job(medicolegal.queue_extractions, "cron", day_of_week="sun", hour=7,
+                       minute=0, id="report_extract")
     # M2 reviews: poll daily; a cycle opens when due (quarterly by default).
     _scheduler.add_job(reviews.poll_reviews, "cron", hour=5, minute=10, id="reviews_poll")
     _scheduler.add_job(reviews.maybe_open_cycle, "cron", day=2, hour=6, minute=40,

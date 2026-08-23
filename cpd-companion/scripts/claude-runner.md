@@ -25,6 +25,15 @@ Drain the pending claude jobs:
      per the job's `prompt`, using only the supplied metrics — never invent
      report contents or parties, and note missing data instead of estimating.
      Result key: `audit_md`.
+   - `report_extract`: payload contains the (partially pre-redacted) text of
+     one of the doctor's own finished medicolegal reports. De-identify
+     absolutely (no names, DOBs, addresses, employers, insurers, claim numbers,
+     specific dates) and distil the Q&A/opinion sections into generic template
+     responses per condition/topic, keeping the doctor's own wording and
+     replacing case specifics with placeholders like `[duration]`, `[side]`.
+     Extract only reasoning actually in the report; skip boilerplate; empty
+     array is a valid result. Result key: `snippets` (array of
+     `{condition, topic, question, answer}`).
    - `review_themes`: payload contains one review cycle's accumulated Google
      reviews. Draft praise/complaint themes grounded strictly in the review
      texts and 0-6 concrete practice-improvement actions; never invent

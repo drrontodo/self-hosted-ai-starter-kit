@@ -150,34 +150,41 @@ def compute_metrics(text: str, checklist: list[dict]) -> dict:
 
 
 def scan_inbox() -> list[int]:
-    """Detect new report files by content hash; extract + measure locally."""
+    """Detect new report files by content hash; extract + measure locally.
+
+    Old reports dropped into the `backfill/` subfolder are marked so they feed
+    the response library but stay out of the monthly audits (which measure the
+    month's actual output)."""
     config.ensure_dirs()
     checklist = get_checklist()
     new_ids: list[int] = []
-    for path in sorted(config.MEDICOLEGAL_INBOX.iterdir()):
-        if not path.is_file() or path.suffix.lower() not in REPORT_EXTENSIONS:
-            continue
-        sha = hashlib.sha256(path.read_bytes()).hexdigest()
-        with db.tx() as conn:
-            if conn.execute("SELECT 1 FROM reports WHERE sha256 = ?", (sha,)).fetchone():
+    folders = ((config.MEDICOLEGAL_INBOX, 0), (config.MEDICOLEGAL_BACKFILL, 1))
+    for folder, backfill in folders:
+        for path in sorted(folder.iterdir()):
+            if not path.is_file() or path.suffix.lower() not in REPORT_EXTENSIONS:
                 continue
-            parse_error = ""
-            metrics = {"word_count": 0, "sections": {}, "report_date": None,
-                       "instruction_date": None, "turnaround_days": None}
-            try:
-                metrics = compute_metrics(extract_text(path), checklist)
-            except Exception as exc:  # noqa: BLE001 - record and keep scanning
-                parse_error = str(exc)[:500]
-                log.warning("failed to parse %s: %s", path.name, exc)
-            cur = conn.execute(
-                "INSERT INTO reports (filename, sha256, detected_at, report_date,"
-                " instruction_date, turnaround_days, word_count, sections, parse_error)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (path.name, sha, db.now_iso(), metrics["report_date"],
-                 metrics["instruction_date"], metrics["turnaround_days"],
-                 metrics["word_count"], json.dumps(metrics["sections"]), parse_error),
-            )
-            new_ids.append(cur.lastrowid)
+            sha = hashlib.sha256(path.read_bytes()).hexdigest()
+            with db.tx() as conn:
+                if conn.execute("SELECT 1 FROM reports WHERE sha256 = ?", (sha,)).fetchone():
+                    continue
+                parse_error = ""
+                metrics = {"word_count": 0, "sections": {}, "report_date": None,
+                           "instruction_date": None, "turnaround_days": None}
+                try:
+                    metrics = compute_metrics(extract_text(path), checklist)
+                except Exception as exc:  # noqa: BLE001 - record and keep scanning
+                    parse_error = str(exc)[:500]
+                    log.warning("failed to parse %s: %s", path.name, exc)
+                cur = conn.execute(
+                    "INSERT INTO reports (filename, sha256, detected_at, report_date,"
+                    " instruction_date, turnaround_days, word_count, sections,"
+                    " parse_error, backfill) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (path.name, sha, db.now_iso(), metrics["report_date"],
+                     metrics["instruction_date"], metrics["turnaround_days"],
+                     metrics["word_count"], json.dumps(metrics["sections"]),
+                     parse_error, backfill),
+                )
+                new_ids.append(cur.lastrowid)
     return new_ids
 
 
@@ -242,7 +249,8 @@ def ensure_monthly_audit(period: str | None = None) -> dict:
         if audit is not None and audit["status"] == "signed_off":
             return {"period": period, "status": "signed_off", "audit_id": audit["id"]}
         unattached = conn.execute(
-            "SELECT * FROM reports WHERE audit_id IS NULL AND detected_at LIKE ?",
+            "SELECT * FROM reports WHERE audit_id IS NULL AND backfill = 0"
+            " AND detected_at LIKE ?",
             (f"{period}%",),
         ).fetchall()
         if audit is None:
@@ -371,6 +379,241 @@ def sign_off(audit_id: int, final_text: str, minutes: int) -> int | None:
             (final_text[:60000], activity_id, now, audit_id),
         )
     return activity_id
+
+
+# --- response library (Q&A extraction) -----------------------------------------
+#
+# Beyond auditing, each report's question-and-answer sections and opinion
+# passages are worth mining: a `report_extract` claude job de-identifies the
+# report and distils the doctor's own answers into generic, reusable template
+# responses per condition/topic. Drafts are curated (approve / edit / reject)
+# on the Library page, searched when writing the next report, and exported to
+# the practice's medicolegal app. Old reports go through the same pipeline
+# gradually via the backfill folder + weekly batches.
+
+EXTRACT_TEXT_LIMIT = 60000
+DEFAULT_EXTRACT_BATCH = 5
+
+
+def _prescrub(text: str) -> str:
+    """Best-effort code-level redaction before report text enters the job
+    queue; the extraction prompt does the real de-identification and the
+    curation step is the human check."""
+    text = re.sub(r"(?im)^\s*(re|regarding)\s*:.*$", "RE: [redacted]", text)
+    text = re.sub(r"(?i)date of birth\s*[:\-]?\s*\S[^\n]*", "Date of birth: [redacted]", text)
+    text = re.sub(r"(?i)\bd\.?o\.?b\.?\s*[:\-]?\s*[\d/.\-]+", "DOB: [redacted]", text)
+    text = re.sub(r"(?i)\b(claim|matter|file|reference)\s*(no\.?|number)\s*[:\-]?\s*\S+",
+                  r"\1 number: [redacted]", text)
+    return text
+
+
+def _extract_prompt() -> str:
+    return (
+        "You are mining one of the doctor's own finished medicolegal reports for"
+        " their RESPONSE LIBRARY: reusable, generic answers to the questions"
+        " solicitors ask, so future reports can reuse the doctor's established"
+        " wording.\n"
+        "The payload contains the report text (partially pre-redacted).\n"
+        "Return a JSON result with key:\n"
+        "  snippets: array (0-10) of {condition, topic, question, answer} where\n"
+        "    condition: the clinical condition the answer concerns (e.g. 'mild"
+        " traumatic brain injury', 'cervical radiculopathy', 'functional neurological"
+        " disorder')\n"
+        "    topic: the question theme — e.g. causation, diagnosis, prognosis,"
+        " treatment capacity, work capacity, permanent impairment, credibility of"
+        " symptoms, need for further investigations\n"
+        "    question: the generic form of the question asked\n"
+        "    answer: the doctor's answer rewritten as a GENERIC template — keep the"
+        " doctor's own reasoning, structure and turns of phrase (that is the value),"
+        " but replace every case-specific detail with placeholders like [duration],"
+        " [side], [occupation], [mechanism].\n"
+        "STRICT RULES: de-identify absolutely — no names, initials, dates of birth,"
+        " addresses, employers, insurers, claim numbers, specific dates, or any"
+        " detail that could identify the examinee or parties; extract only"
+        " reasoning that is actually in the report — never add medical content the"
+        " doctor did not write; skip boilerplate (qualifications, declarations,"
+        " code-of-conduct text); return an empty array if the report has no"
+        " reusable Q&A material."
+    )
+
+
+def _find_report_file(filename: str):
+    for folder in (config.MEDICOLEGAL_INBOX, config.MEDICOLEGAL_BACKFILL):
+        candidate = folder / filename
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def queue_extractions(limit: int | None = None) -> dict:
+    """Queue the next batch of un-mined reports (weekly; gradual by design)."""
+    if limit is None:
+        try:
+            limit = max(1, int(db.get_setting("report_extract_batch",
+                                              str(DEFAULT_EXTRACT_BATCH))))
+        except ValueError:
+            limit = DEFAULT_EXTRACT_BATCH
+    queued: list[int] = []
+    skipped: list[int] = []
+    with db.tx() as conn:
+        rows = conn.execute(
+            "SELECT * FROM reports WHERE extract_status = 'pending'"
+            " AND parse_error = '' ORDER BY id LIMIT ?",
+            (limit,),
+        ).fetchall()
+        for r in rows:
+            path = _find_report_file(r["filename"])
+            if path is None:
+                conn.execute("UPDATE reports SET extract_status = 'skipped' WHERE id = ?",
+                             (r["id"],))
+                skipped.append(r["id"])
+                continue
+            try:
+                text = _prescrub(extract_text(path))[:EXTRACT_TEXT_LIMIT]
+            except Exception as exc:  # noqa: BLE001 - mark and continue
+                log.warning("re-extraction failed for %s: %s", r["filename"], exc)
+                conn.execute("UPDATE reports SET extract_status = 'skipped' WHERE id = ?",
+                             (r["id"],))
+                skipped.append(r["id"])
+                continue
+            conn.execute(
+                "INSERT INTO jobs (kind, engine, payload, prompt, created_at)"
+                " VALUES ('report_extract', 'claude', ?, ?, ?)",
+                (json.dumps({"report_id": r["id"], "text": text}), _extract_prompt(),
+                 db.now_iso()),
+            )
+            conn.execute("UPDATE reports SET extract_status = 'queued' WHERE id = ?",
+                         (r["id"],))
+            queued.append(r["id"])
+        remaining = conn.execute(
+            "SELECT COUNT(*) AS n FROM reports WHERE extract_status = 'pending'"
+            " AND parse_error = ''").fetchone()["n"]
+    return {"queued": queued, "skipped": skipped, "remaining": remaining}
+
+
+def apply_extract_result(conn, job, result: dict) -> dict:
+    snippets = result.get("snippets")
+    if not isinstance(snippets, list):
+        return {"error": "result must include a 'snippets' array"}
+    payload = json.loads(job["payload"] or "{}")
+    report_id = payload.get("report_id")
+    now = db.now_iso()
+    created = 0
+    for s in snippets[:10]:
+        if not isinstance(s, dict):
+            continue
+        question = str(s.get("question", "")).strip()
+        answer = str(s.get("answer", "")).strip()
+        if not question or not answer:
+            continue
+        conn.execute(
+            "INSERT INTO response_snippets (condition, topic, question, answer,"
+            " source_report_id, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            (str(s.get("condition", "")).strip()[:200],
+             str(s.get("topic", "")).strip()[:200],
+             question[:2000], answer[:10000], report_id, now),
+        )
+        created += 1
+    conn.execute("UPDATE reports SET extract_status = 'done' WHERE id = ?", (report_id,))
+    conn.execute(
+        "UPDATE jobs SET status = 'done', result = ?, completed_at = ? WHERE id = ?",
+        (json.dumps({"report_id": report_id, "snippets": created}), now, job["id"]),
+    )
+    return {"job": job["id"], "status": "done", "snippets_created": created}
+
+
+def review_snippet(snippet_id: int, action: str, fields: dict | None = None) -> bool:
+    if action not in ("approved", "rejected"):
+        return False
+    sets = {}
+    if fields:
+        for key in ("condition", "topic", "question", "answer"):
+            if key in fields and str(fields[key]).strip():
+                sets[key] = str(fields[key]).strip()[:10000]
+    with db.tx() as conn:
+        row = conn.execute("SELECT id FROM response_snippets WHERE id = ? AND"
+                           " status = 'draft'", (snippet_id,)).fetchone()
+        if row is None:
+            return False
+        assignments = ", ".join([f"{k} = ?" for k in sets] + ["status = ?", "reviewed_at = ?"])
+        conn.execute(
+            f"UPDATE response_snippets SET {assignments} WHERE id = ?",
+            (*sets.values(), action, db.now_iso(), snippet_id),
+        )
+    return True
+
+
+def log_curation_session(minutes: int) -> int | None:
+    """Confirmed Cat 2 activity for the curation work done since the last log.
+
+    Reviewing one's own report answers and distilling them into standardised
+    responses is review of own work product (Cat 2); minutes come from the
+    page timer, and the evidence document lists the (generic, de-identified)
+    snippets reviewed."""
+    since = db.get_setting("library_last_logged_at", "")
+    with db.tx() as conn:
+        reviewed = conn.execute(
+            "SELECT * FROM response_snippets WHERE reviewed_at IS NOT NULL"
+            " AND reviewed_at > ? ORDER BY reviewed_at", (since,),
+        ).fetchall()
+        if not reviewed:
+            return None
+        approved = [s for s in reviewed if s["status"] == "approved"]
+        now = db.now_iso()
+        cur = conn.execute(
+            "INSERT INTO activities (date, category, activity_type, title, description,"
+            " minutes, source_module, status, created_at, confirmed_at)"
+            " VALUES (?, 2, 'self_review', ?, ?, ?, 'library', 'confirmed', ?, ?)",
+            (db.today_iso(),
+             "Medicolegal response review — standardising report answers",
+             f"Reviewed {len(reviewed)} extracted Q&A responses from own medicolegal"
+             f" reports ({len(approved)} standardised into the response library)."
+             " De-identified summary attached as evidence.",
+             minutes, now, now),
+        )
+        activity_id = cur.lastrowid
+        doc = config.EVIDENCE_DIR / f"response-library-session-{now[:10]}-a{activity_id}.md"
+        lines = [f"# Medicolegal response library — curation session {now[:10]}", "",
+                 f"Snippets reviewed: {len(reviewed)} (approved: {len(approved)},"
+                 f" rejected: {len(reviewed) - len(approved)})", ""]
+        for s in approved:
+            lines += [f"## {s['condition'] or 'General'} — {s['topic'] or 'untopiced'}",
+                      "", f"**Q:** {s['question']}", "", f"**A:** {s['answer']}", ""]
+        doc.write_text("\n".join(lines), encoding="utf-8")
+        conn.execute(
+            "INSERT INTO evidence (activity_id, kind, path_or_url, created_at)"
+            " VALUES (?, 'generated_doc', ?, ?)",
+            (activity_id, str(doc), now),
+        )
+    db.set_setting("library_last_logged_at", db.now_iso())
+    return activity_id
+
+
+def search_snippets(query: str = "", status: str = "approved") -> list:
+    sql = "SELECT * FROM response_snippets WHERE status = ?"
+    params: list = [status]
+    if query.strip():
+        like = f"%{query.strip()}%"
+        sql += (" AND (condition LIKE ? OR topic LIKE ? OR question LIKE ?"
+                " OR answer LIKE ?)")
+        params += [like, like, like, like]
+    sql += " ORDER BY condition, topic, id"
+    with db.tx() as conn:
+        return conn.execute(sql, params).fetchall()
+
+
+def library_export_md() -> str:
+    rows = search_snippets()
+    lines = ["# Medicolegal response library", ""]
+    current = None
+    for s in rows:
+        condition = s["condition"] or "General"
+        if condition != current:
+            lines += [f"## {condition}", ""]
+            current = condition
+        lines += [f"### {s['topic'] or 'General'} — {s['question']}", "",
+                  s["answer"], ""]
+    return "\n".join(lines)
 
 
 def trend_rows() -> list[dict]:

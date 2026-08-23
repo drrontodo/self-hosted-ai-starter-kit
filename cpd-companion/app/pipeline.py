@@ -143,6 +143,9 @@ def handle_job_result(job_id: int, result: dict) -> dict:
         if job["kind"] == "medicolegal_audit":
             return medicolegal.apply_audit_result(conn, job, result)
 
+        if job["kind"] == "report_extract":
+            return medicolegal.apply_extract_result(conn, job, result)
+
         if job["kind"] == "review_themes":
             return reviews.apply_themes_result(conn, job, result)
 

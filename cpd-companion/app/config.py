@@ -38,6 +38,7 @@ ACTIVITY_TYPES = [
     "teaching",
     "incident_review",
     "pdp",
+    "self_review",
     "other",
 ]
 
@@ -57,6 +58,7 @@ AUDIO_DIR = DATA_DIR / "audio"
 TRANSCRIPT_DIR = DATA_DIR / "transcripts"
 INBOX_DIR = DATA_DIR / "inbox"
 MEDICOLEGAL_INBOX = INBOX_DIR / "medicolegal"
+MEDICOLEGAL_BACKFILL = MEDICOLEGAL_INBOX / "backfill"
 REVIEWS_INBOX = INBOX_DIR / "reviews"
 OUTPUTS_DIR = DATA_DIR / "outputs"
 
@@ -72,5 +74,5 @@ PRACTICE_SITES = [
 
 def ensure_dirs() -> None:
     for d in (DATA_DIR, EVIDENCE_DIR, BACKUP_DIR, AUDIO_DIR, TRANSCRIPT_DIR,
-              MEDICOLEGAL_INBOX, REVIEWS_INBOX, OUTPUTS_DIR):
+              MEDICOLEGAL_INBOX, MEDICOLEGAL_BACKFILL, REVIEWS_INBOX, OUTPUTS_DIR):
         d.mkdir(parents=True, exist_ok=True)

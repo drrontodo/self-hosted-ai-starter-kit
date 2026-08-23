@@ -107,6 +107,21 @@ consumed on inclusion). Published outputs are re-checked weekly against new
 digest items and flagged ⟳ when their topic resurfaces, so the condition
 library stays guideline-current.
 
+### Medicolegal response library (M5b)
+
+The **Library** page mines your own finished reports for reusable answers: a
+weekly `report_extract` claude job (batch size configurable, default 5)
+de-identifies each report and distils its Q&A/opinion sections into generic
+template responses per condition/topic, keeping your own wording with
+placeholders for case specifics. Drafts are curated on the page (edit /
+approve / reject — approving is also the human de-identification check), the
+approved library is full-text searchable, and it exports as markdown/JSON for
+your medicolegal app. Old reports go into
+`data/inbox/medicolegal/backfill` — they are mined like new ones but stay out
+of the monthly audits. Curation time is timer-tracked and loggable as a
+confirmed Cat 2 activity (review of your own work product) with a
+de-identified session summary as evidence.
+
 ## Logging research/development time from Claude Code
 
 Add this to the `CLAUDE.md` of each medical dev project (or your global `~/.claude/CLAUDE.md`). The snippet is bash-style; Claude Code sessions on Windows should translate to their shell (in PowerShell use `$env:CPD_API_KEY` and `curl.exe`, not the `curl` alias):

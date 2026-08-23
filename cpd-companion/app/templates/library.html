@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Library — CPD Companion{% endblock %}
+{% block content %}
+<h1>Medicolegal response library</h1>
+
+<p class="muted">Your own answers to solicitors' questions, mined from finished reports,
+de-identified and generalised into reusable templates. Reports in
+<code>data/inbox/medicolegal</code> (and old ones dropped into
+<code>data/inbox/medicolegal/backfill</code> — backfill stays out of the monthly audits)
+are mined in weekly batches; drafts appear below for curation. Curation time is
+claimable as Cat 2 (review of your own work product).</p>
+
+<div class="feed-ops">
+  <form method="post" action="/library/queue" class="run-audit">
+    <input type="number" name="batch" min="0" max="50" placeholder="{{ batch }}"
+           title="batch size (also saved as the weekly batch)">
+    <button type="submit">Mine next batch now</button>
+  </form>
+  <a class="button-link" href="/library/export.md">Export library (.md)</a>
+  <a class="button-link" href="/library/export.json">Export (.json)</a>
+</div>
+<p class="muted small">Reports: {{ counts.get('pending', 0) }} awaiting extraction ·
+{{ counts.get('queued', 0) }} queued for the nightly Claude run ·
+{{ counts.get('done', 0) }} mined · {{ counts.get('skipped', 0) }} skipped ·
+library holds {{ approved_total }} approved responses.</p>
+
+{% if drafts %}
+<h2>Drafts to curate ({{ drafts|length }})</h2>
+<p class="muted small">Edit freely before approving — approved wording is what the
+library keeps. Check the de-identification: nothing case-specific should survive.</p>
+{% for s in drafts %}
+<details class="news-item">
+  <summary>{{ s.condition or 'General' }} — {{ s.topic or 'untopiced' }}:
+    {{ s.question[:120] }}{% if s.question|length > 120 %}…{% endif %}
+    <span class="meta">from {{ s.source_filename or 'deleted report' }}</span></summary>
+  <form method="post" action="/library/{{ s.id }}/review" class="signoff-form">
+    <div class="grid-form">
+      <label>Condition <input name="condition" value="{{ s.condition }}" maxlength="200"></label>
+      <label>Topic <input name="topic" value="{{ s.topic }}" maxlength="200"></label>
+    </div>
+    <label>Question <textarea name="question" rows="2">{{ s.question }}</textarea></label>
+    <label>Generic answer <textarea name="answer" rows="6">{{ s.answer }}</textarea></label>
+    <div class="news-actions">
+      <button type="submit" name="action" value="approved">Approve into library</button>
+      <button type="submit" name="action" value="rejected" class="secondary">Reject</button>
+    </div>
+  </form>
+</details>
+{% endfor %}
+
+<form method="post" action="/library/log-session" class="signoff-form log-session">
+  <label>Log this curation session as CPD (Cat 2, minutes timer-tracked)
+    <input type="number" name="minutes" id="minutes-input" min="1" max="1440" required value="1">
+    <span class="muted small">auto-counts while this page is visible (<span id="timer">0:00</span>)</span>
+  </label>
+  <button type="submit">Log confirmed Cat 2 entry + evidence</button>
+</form>
+<script>
+(function () {
+  var seconds = 0, edited = false;
+  var input = document.getElementById("minutes-input");
+  input.addEventListener("input", function () { edited = true; });
+  setInterval(function () {
+    if (document.hidden) return;
+    seconds += 1;
+    document.getElementById("timer").textContent =
+      Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+    if (!edited) input.value = Math.max(1, Math.round(seconds / 60));
+  }, 1000);
+})();
+</script>
+{% endif %}
+
+<h2>Search the library</h2>
+<form method="get" action="/library" class="feed-ops">
+  <input type="search" name="q" value="{{ q }}" maxlength="200"
+         placeholder="condition, topic, or any phrase — e.g. causation migraine">
+  <button type="submit" class="secondary">Search</button>
+</form>
+
+{% if approved %}
+{% for s in approved %}
+<details class="news-item">
+  <summary>{{ s.condition or 'General' }} — {{ s.topic or 'General' }}:
+    {{ s.question[:140] }}{% if s.question|length > 140 %}…{% endif %}</summary>
+  <div class="news-body"><div class="desc">{{ s.answer }}</div></div>
+</details>
+{% endfor %}
+{% elif q %}
+<p class="muted">No approved responses match “{{ q }}”.</p>
+{% else %}
+<p class="muted">The library is empty — mine a batch of reports and approve the drafts.</p>
+{% endif %}
+{% endblock %}
