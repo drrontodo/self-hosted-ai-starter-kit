@@ -5,7 +5,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from . import config, db, news, rollup
+from . import config, db, medicolegal, news, rollup
 
 log = logging.getLogger("cpd.scheduler")
 
@@ -83,6 +83,11 @@ def start() -> None:
                        id="pbs_diff")
     _scheduler.add_job(news.stroke_guidelines_diff, "cron", day=1, hour=6, minute=20,
                        id="stroke_diff")
+    # M5 medicolegal: watch the inbox daily; audit the previous month on the 1st.
+    _scheduler.add_job(medicolegal.scan_inbox, "cron", hour=5, minute=0,
+                       id="medicolegal_scan")
+    _scheduler.add_job(medicolegal.ensure_monthly_audit, "cron", day=1, hour=6, minute=30,
+                       id="medicolegal_audit")
     _scheduler.start()
 
 

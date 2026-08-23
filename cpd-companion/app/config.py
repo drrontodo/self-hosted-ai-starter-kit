@@ -49,8 +49,12 @@ MEETING_TYPES = {
 
 AUDIO_DIR = DATA_DIR / "audio"
 TRANSCRIPT_DIR = DATA_DIR / "transcripts"
+INBOX_DIR = DATA_DIR / "inbox"
+MEDICOLEGAL_INBOX = INBOX_DIR / "medicolegal"
+REVIEWS_INBOX = INBOX_DIR / "reviews"
 
 
 def ensure_dirs() -> None:
-    for d in (DATA_DIR, EVIDENCE_DIR, BACKUP_DIR, AUDIO_DIR, TRANSCRIPT_DIR):
+    for d in (DATA_DIR, EVIDENCE_DIR, BACKUP_DIR, AUDIO_DIR, TRANSCRIPT_DIR,
+              MEDICOLEGAL_INBOX, REVIEWS_INBOX):
         d.mkdir(parents=True, exist_ok=True)

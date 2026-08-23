@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Audit {{ audit.period }} — CPD Companion{% endblock %}
+{% block content %}
+<h1>Medicolegal audit — {{ audit.period }}
+  <span class="muted">({{ audit.status.replace('_', ' ') }})</span></h1>
+
+{% set agg = metrics.get('aggregate', {}) %}
+<p>{{ agg.get('report_count') }} reports · median turnaround
+{{ agg.get('median_turnaround_days') if agg.get('median_turnaround_days') is not none else 'unknown' }} days
+(known for {{ agg.get('turnaround_known_for') }}) · mean {{ agg.get('mean_word_count') }} words</p>
+
+<h2>Reports in this audit</h2>
+<div class="scroll-x">
+<table>
+  <tr><th>ID</th><th>File</th><th>Report date</th><th>Turnaround</th><th>Words</th>
+      {% for c in checklist %}<th class="small">{{ c.label }}</th>{% endfor %}</tr>
+  {% for r in reports %}
+  <tr>
+    <td>R{{ loop.index }}</td>
+    <td>{{ r.filename }}{% if r.parse_error %} <span class="error" title="{{ r.parse_error }}">⚠</span>{% endif %}</td>
+    <td>{{ r.report_date or '—' }}</td>
+    <td>{{ r.turnaround_days if r.turnaround_days is not none else '—' }}</td>
+    <td>{{ r.word_count }}</td>
+    {% for c in checklist %}<td>{{ '✓' if report_sections[r.id].get(c.key) else '✗' }}</td>{% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+</div>
+<p class="muted small">Filenames appear only here on the dashboard; the drafting job and the
+evidence document use the anonymised R-numbers.</p>
+
+{% if audit.status == 'drafting' %}
+<p class="notice">The audit draft is queued for the nightly Claude run — check back after
+the queue drains (or run <code>drain_claude.ps1</code> now).</p>
+{% endif %}
+
+{% if audit.status == 'signed_off' %}
+<h2>Signed-off audit</h2>
+<div class="draft-card"><div class="desc">{{ audit.final_text }}</div></div>
+<p class="muted">Signed off {{ audit.signed_off_at[:10] }} —
+<a href="/activity/{{ audit.activity_id }}">view the Cat 3 activity</a>.</p>
+{% else %}
+<h2>Review &amp; sign off</h2>
+<form method="post" action="/audits/{{ audit.id }}/signoff" class="signoff-form">
+  <label>Audit document (edit freely — this becomes the de-identified Cat 3 evidence)
+    <textarea name="final_text" rows="18" required>{{ audit.draft_text }}</textarea>
+  </label>
+  <label>Minutes spent reviewing
+    <input type="number" name="minutes" id="minutes-input" min="1" max="1440" required value="1">
+    <span class="muted small">auto-counts while this page is visible (<span id="timer">0:00</span>) — adjust if needed</span>
+  </label>
+  <button type="submit">Sign off — confirmed Cat 3 activity + evidence</button>
+</form>
+
+<script>
+(function () {
+  var seconds = 0, edited = false;
+  var input = document.getElementById("minutes-input");
+  input.addEventListener("input", function () { edited = true; });
+  setInterval(function () {
+    if (document.hidden) return;
+    seconds += 1;
+    document.getElementById("timer").textContent =
+      Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+    if (!edited) input.value = Math.max(1, Math.round(seconds / 60));
+  }, 1000);
+})();
+</script>
+{% endif %}
+{% endblock %}

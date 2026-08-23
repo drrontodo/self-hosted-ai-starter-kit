@@ -119,6 +119,34 @@ CREATE TABLE IF NOT EXISTS practice_outputs (
     updated_at TEXT
 );
 
+CREATE TABLE IF NOT EXISTS audits (
+    id INTEGER PRIMARY KEY,
+    period TEXT NOT NULL UNIQUE,
+    checklist TEXT NOT NULL DEFAULT '[]',
+    metrics TEXT NOT NULL DEFAULT '{}',
+    draft_text TEXT DEFAULT '',
+    final_text TEXT DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'drafting'
+        CHECK (status IN ('drafting', 'review', 'signed_off')),
+    activity_id INTEGER,
+    created_at TEXT NOT NULL,
+    signed_off_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS reports (
+    id INTEGER PRIMARY KEY,
+    filename TEXT NOT NULL,
+    sha256 TEXT NOT NULL UNIQUE,
+    detected_at TEXT NOT NULL,
+    report_date TEXT,
+    instruction_date TEXT,
+    turnaround_days INTEGER,
+    word_count INTEGER NOT NULL DEFAULT 0,
+    sections TEXT NOT NULL DEFAULT '{}',
+    parse_error TEXT DEFAULT '',
+    audit_id INTEGER REFERENCES audits(id) ON DELETE SET NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_activities_status_date ON activities(status, date);
 CREATE INDEX IF NOT EXISTS idx_sessions_rollup ON sessions_log(rolled_up, cpd_relevant);
 CREATE INDEX IF NOT EXISTS idx_jobs_status_engine ON jobs(status, engine);

@@ -18,6 +18,7 @@ services:
       - ./data/evidence:/data/evidence
       - ./data/audio:/data/audio
       - ./data/transcripts:/data/transcripts
+      - ./data/inbox:/data/inbox
 
 volumes:
   cpd_data:

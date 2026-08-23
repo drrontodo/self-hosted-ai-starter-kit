@@ -2,13 +2,14 @@ import calendar
 import csv
 import datetime as dt
 import io
+import re
 from pathlib import Path
 
 from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import RedirectResponse, Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from .. import auth, config, db, news, pipeline
+from .. import auth, config, db, medicolegal, news, pipeline
 
 router = APIRouter()
 templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent.parent / "templates"))
@@ -453,6 +454,82 @@ def feeds_queue_digest(request: Request):
         return r
     news.queue_digest_job()
     return RedirectResponse("/feeds", status_code=303)
+
+
+@router.get("/audits")
+def audits_page(request: Request):
+    if r := _guard(request):
+        return r
+    import json as json_mod
+
+    with db.tx() as conn:
+        recent_reports = conn.execute(
+            "SELECT * FROM reports ORDER BY id DESC LIMIT 15").fetchall()
+        unassigned = conn.execute(
+            "SELECT COUNT(*) AS n FROM reports WHERE audit_id IS NULL").fetchone()["n"]
+    checklist = medicolegal.get_checklist()
+    return templates.TemplateResponse(request, "audits.html", {
+        "trend": medicolegal.trend_rows(), "checklist": checklist,
+        "recent_reports": recent_reports, "unassigned": unassigned,
+        "prev_period": medicolegal.previous_month(),
+        "report_sections": {r["id"]: json_mod.loads(r["sections"] or "{}")
+                            for r in recent_reports},
+    })
+
+
+@router.post("/audits/scan")
+def audits_scan(request: Request):
+    if r := _guard(request):
+        return r
+    medicolegal.scan_inbox()
+    return RedirectResponse("/audits", status_code=303)
+
+
+@router.post("/audits/run")
+def audits_run(request: Request, period: str = Form("")):
+    if r := _guard(request):
+        return r
+    period = period.strip()
+    if period and not re.fullmatch(r"\d{4}-\d{2}", period):
+        return RedirectResponse("/audits", status_code=303)
+    medicolegal.ensure_monthly_audit(period or None)
+    return RedirectResponse("/audits", status_code=303)
+
+
+@router.get("/audits/{audit_id}")
+def audit_detail(request: Request, audit_id: int):
+    if r := _guard(request):
+        return r
+    import json as json_mod
+
+    with db.tx() as conn:
+        audit = conn.execute("SELECT * FROM audits WHERE id = ?", (audit_id,)).fetchone()
+        if audit is None:
+            return RedirectResponse("/audits", status_code=303)
+        reports = conn.execute(
+            "SELECT * FROM reports WHERE audit_id = ? ORDER BY id", (audit_id,)).fetchall()
+    checklist = json_mod.loads(audit["checklist"] or "[]") or medicolegal.get_checklist()
+    return templates.TemplateResponse(request, "audit_detail.html", {
+        "audit": audit, "reports": reports, "checklist": checklist,
+        "metrics": json_mod.loads(audit["metrics"] or "{}"),
+        "report_sections": {r["id"]: json_mod.loads(r["sections"] or "{}")
+                            for r in reports},
+    })
+
+
+@router.post("/audits/{audit_id}/signoff")
+def audit_signoff(
+    request: Request,
+    audit_id: int,
+    final_text: str = Form(..., max_length=60000),
+    minutes: int = Form(..., ge=1, le=1440),
+):
+    if r := _guard(request):
+        return r
+    if not final_text.strip():
+        return RedirectResponse(f"/audits/{audit_id}", status_code=303)
+    medicolegal.sign_off(audit_id, final_text, minutes)
+    return RedirectResponse("/audits", status_code=303)
 
 
 @router.get("/export/mycpd.csv")

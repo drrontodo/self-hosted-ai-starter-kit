@@ -93,6 +93,16 @@ button.flag-on { background: var(--ok); }
 .row-actions form { display: inline; margin: 0 0.15rem 0 0; }
 .row-actions button { padding: 0.15rem 0.5rem; font-size: 0.78rem; }
 
+.scroll-x { overflow-x: auto; }
+.run-audit { display: flex; gap: 0.4rem; align-items: center; }
+.run-audit input { width: 7.5rem; }
+.signoff-form { display: grid; gap: 0.8rem; background: var(--card);
+  border: 1px solid var(--line); border-radius: 8px; padding: 1rem; }
+.signoff-form label { display: flex; flex-direction: column; gap: 0.3rem;
+  font-size: 0.9rem; color: var(--muted); }
+.signoff-form textarea { font: 0.9rem/1.45 ui-monospace, monospace; }
+.signoff-form input[type="number"] { width: 8rem; }
+
 .login-body { display: grid; place-items: center; min-height: 100vh; background: var(--bg); }
 .login-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
   padding: 2rem; width: min(320px, 90vw); display: grid; gap: 0.8rem; }

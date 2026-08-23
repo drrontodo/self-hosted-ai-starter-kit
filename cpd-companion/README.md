@@ -2,7 +2,7 @@
 
 Self-hosted tracker for RACP MyCPD requirements. See [../docs/cme-tracker/SPEC.md](../docs/cme-tracker/SPEC.md) for the full specification and the research reports behind it.
 
-**Built so far (Phases 1–2 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), MyCPD CSV export, and nightly backups.
+**Built so far (Phases 1–3 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), MyCPD CSV export, and nightly backups.
 
 ## Run it (Windows server, Docker Desktop)
 
@@ -52,6 +52,20 @@ roll up into a **draft** Cat 1 reading activity with a generated reading-log
 markdown document attached as evidence (diary-style logs are RACP-acceptable
 evidence for reading). Each item also carries practice-growth buttons (*Draft
 patient info sheet*, *Flag as opportunity*, *Add to referrer newsletter*).
+
+### Medicolegal report audit (M5)
+
+Drop finished reports (docx / pdf / txt) into `data/inbox/medicolegal`. A daily
+scan detects new files by content hash and computes objective metrics locally —
+word count, report/instruction dates, turnaround, and section presence against
+the expert-report checklist (default: NSW UCPR Schedule 7 elements; override
+via the `medicolegal_checklist` setting). On the 1st of each month a
+`medicolegal_audit` claude job drafts the audit narrative **from the metrics
+only** (anonymised R-numbers — no filenames or report text ever enter the job
+queue). Review and sign off on the **Audits** page: the sign-off creates a
+confirmed Cat 3 activity (minutes timer-tracked while the review page is open)
+with the de-identified audit document as evidence, and the month-on-month
+table gives the measure → reflect → re-measure cycle Cat 3 requires.
 
 ## Logging research/development time from Claude Code
 

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Audits — CPD Companion{% endblock %}
+{% block content %}
+<h1>Medicolegal report audits</h1>
+
+<p class="muted">Drop finished reports (docx / pdf / txt) into
+<code>data/inbox/medicolegal</code>. They are detected daily by content hash and
+measured locally — reports never leave the server. On the 1st of each month the
+previous month's reports are audited against the expert-report checklist.</p>
+
+<div class="feed-ops">
+  <form method="post" action="/audits/scan"><button type="submit">Scan inbox now</button></form>
+  <form method="post" action="/audits/run" class="run-audit">
+    <input type="text" name="period" placeholder="{{ prev_period }}" pattern="\d{4}-\d{2}" size="8">
+    <button type="submit" class="secondary">Run monthly audit</button>
+  </form>
+</div>
+{% if unassigned %}
+<p class="notice">{{ unassigned }} report{{ 's' if unassigned != 1 }} not yet in any audit.</p>
+{% endif %}
+
+<h2>Month-on-month</h2>
+{% if trend %}
+<div class="scroll-x">
+<table>
+  <tr><th>Period</th><th>Status</th><th>Reports</th><th>Median turnaround (days)</th>
+      <th>Mean words</th>
+      {% for c in checklist %}<th class="small">{{ c.label }}</th>{% endfor %}</tr>
+  {% for t in trend %}
+  <tr>
+    <td><a href="/audits/{{ t.id }}">{{ t.period }}</a></td>
+    <td>{{ t.status.replace('_', ' ') }}</td>
+    <td>{{ t.report_count }}</td>
+    <td>{{ t.median_turnaround_days if t.median_turnaround_days is not none else '—' }}</td>
+    <td>{{ t.mean_word_count }}</td>
+    {% for c in checklist %}<td>{{ t.sections_pct.get(c.key, '—') }}%</td>{% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% else %}
+<p class="muted">No audits yet — they appear after the first monthly run with reports in the inbox.</p>
+{% endif %}
+
+<h2>Recently detected reports</h2>
+{% if recent_reports %}
+<table>
+  <tr><th>File</th><th>Detected</th><th>Report date</th><th>Turnaround</th><th>Words</th><th>Sections present</th></tr>
+  {% for r in recent_reports %}
+  <tr>
+    <td>{{ r.filename }}{% if r.parse_error %} <span class="error" title="{{ r.parse_error }}">⚠ parse error</span>{% endif %}</td>
+    <td>{{ r.detected_at[:10] }}</td>
+    <td>{{ r.report_date or '—' }}</td>
+    <td>{{ r.turnaround_days if r.turnaround_days is not none else '—' }}</td>
+    <td>{{ r.word_count }}</td>
+    <td>{{ report_sections[r.id].values()|select|list|length }}/{{ checklist|length }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p class="muted">No reports detected yet.</p>
+{% endif %}
+{% endblock %}

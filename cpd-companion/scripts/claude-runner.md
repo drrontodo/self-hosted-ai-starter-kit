@@ -19,6 +19,12 @@ Drain the pending claude jobs:
      findings or numbers), and flag items plausibly relevant to the RACP
      cultural-safety or ethics mandatory counters. Result keys: `overview_md`,
      `items` (array of `{id, digest, section, flags}` — keep every provided id).
+   - `medicolegal_audit`: payload contains objective metrics for one month of
+     medicolegal reports (anonymised ids R1, R2, … — no filenames, no report
+     text) plus previous months' aggregates. Draft the monthly audit narrative
+     per the job's `prompt`, using only the supplied metrics — never invent
+     report contents or parties, and note missing data instead of estimating.
+     Result key: `audit_md`.
 3. `POST /api/jobs/{id}/result` with the JSON result.
 4. If a job cannot be completed, `POST /api/jobs/{id}/fail` with `{"error": "<why>"}`.
 5. Finish with a one-line summary of how many jobs you completed.
