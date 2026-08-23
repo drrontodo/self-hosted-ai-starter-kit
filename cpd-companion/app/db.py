@@ -63,9 +63,68 @@ CREATE TABLE IF NOT EXISTS settings (
     value TEXT
 );
 
+CREATE TABLE IF NOT EXISTS feeds (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    kind TEXT NOT NULL DEFAULT 'rss' CHECK (kind IN ('rss', 'pubmed')),
+    url TEXT NOT NULL UNIQUE,
+    section TEXT DEFAULT '',
+    enabled INTEGER NOT NULL DEFAULT 1,
+    last_polled_at TEXT,
+    last_status TEXT DEFAULT '',
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS news_items (
+    id INTEGER PRIMARY KEY,
+    feed_id INTEGER REFERENCES feeds(id) ON DELETE SET NULL,
+    source TEXT NOT NULL,
+    guid TEXT NOT NULL UNIQUE,
+    link TEXT DEFAULT '',
+    title TEXT NOT NULL,
+    summary TEXT DEFAULT '',
+    published_at TEXT,
+    fetched_at TEXT NOT NULL,
+    section TEXT DEFAULT '',
+    llm_digest TEXT,
+    digest_flags TEXT DEFAULT '',
+    read_at TEXT,
+    read_seconds INTEGER NOT NULL DEFAULT 0,
+    rolled_up INTEGER NOT NULL DEFAULT 0,
+    flagged_opportunity INTEGER NOT NULL DEFAULT 0,
+    flagged_newsletter INTEGER NOT NULL DEFAULT 0,
+    starred INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS source_snapshots (
+    id INTEGER PRIMARY KEY,
+    source TEXT NOT NULL,
+    taken_at TEXT NOT NULL,
+    content TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS practice_outputs (
+    id INTEGER PRIMARY KEY,
+    kind TEXT NOT NULL,
+    title TEXT NOT NULL,
+    source_kind TEXT DEFAULT '',
+    source_id INTEGER,
+    target_site TEXT DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'idea'
+        CHECK (status IN ('idea', 'draft', 'published', 'done', 'dismissed')),
+    path TEXT DEFAULT '',
+    notes TEXT DEFAULT '',
+    needs_refresh INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_activities_status_date ON activities(status, date);
 CREATE INDEX IF NOT EXISTS idx_sessions_rollup ON sessions_log(rolled_up, cpd_relevant);
 CREATE INDEX IF NOT EXISTS idx_jobs_status_engine ON jobs(status, engine);
+CREATE INDEX IF NOT EXISTS idx_news_unread ON news_items(read_at, rolled_up);
+CREATE INDEX IF NOT EXISTS idx_news_undigested ON news_items(llm_digest) WHERE llm_digest IS NULL;
+CREATE INDEX IF NOT EXISTS idx_snapshots_source ON source_snapshots(source, id);
 """
 
 

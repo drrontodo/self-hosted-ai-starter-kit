@@ -8,6 +8,9 @@ EVIDENCE_DIR = DATA_DIR / "evidence"
 BACKUP_DIR = DATA_DIR / "backups"
 
 API_KEY = os.environ.get("CPD_API_KEY", "")
+NCBI_API_KEY = os.environ.get("CPD_NCBI_API_KEY", "")
+PBS_API_BASE = os.environ.get("CPD_PBS_API_BASE", "https://data-api.health.gov.au/pbs/api/v3")
+PBS_SUBSCRIPTION_KEY = os.environ.get("CPD_PBS_SUBSCRIPTION_KEY", "")
 DASHBOARD_PASSWORD = os.environ.get("CPD_DASHBOARD_PASSWORD", "")
 DASHBOARD_PASSWORD_HASH = os.environ.get("CPD_DASHBOARD_PASSWORD_HASH", "")
 SECRET_KEY = os.environ.get("CPD_SECRET_KEY", "")

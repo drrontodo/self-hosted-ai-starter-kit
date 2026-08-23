@@ -8,7 +8,7 @@ from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import RedirectResponse, Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from .. import auth, config, db, pipeline
+from .. import auth, config, db, news, pipeline
 
 router = APIRouter()
 templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent.parent / "templates"))
@@ -322,6 +322,137 @@ async def meetings_upload(
             notes=notes,
         )
     return RedirectResponse("/meetings", status_code=303)
+
+
+@router.get("/digest")
+def digest_page(request: Request):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        unread = conn.execute(
+            "SELECT * FROM news_items WHERE read_at IS NULL"
+            " ORDER BY COALESCE(published_at, fetched_at) DESC, id DESC LIMIT 200"
+        ).fetchall()
+        recent_read = conn.execute(
+            "SELECT * FROM news_items WHERE read_at IS NOT NULL"
+            " ORDER BY read_at DESC LIMIT 20"
+        ).fetchall()
+    sections: dict[str, list] = {}
+    for item in unread:
+        key = item["section"] if item["section"] in news.SECTIONS else "General"
+        sections.setdefault(key, []).append(item)
+    ordered = [(s, sections[s]) for s in news.SECTIONS if s in sections]
+    return templates.TemplateResponse(request, "digest.html", {
+        "sections": ordered, "unread_count": len(unread), "recent_read": recent_read,
+        "overview_md": db.get_setting("digest_overview_md"),
+        "overview_date": db.get_setting("digest_overview_date"),
+    })
+
+
+@router.post("/digest/{item_id}/read")
+def digest_mark_read(request: Request, item_id: int, seconds: int = Form(0, ge=0)):
+    if r := _guard(request):
+        return r
+    news.mark_read(item_id, seconds)
+    return RedirectResponse("/digest", status_code=303)
+
+
+@router.post("/digest/{item_id}/action/{action}")
+def digest_item_action(request: Request, item_id: int, action: str):
+    if r := _guard(request):
+        return r
+    if action in ("info_sheet", "opportunity", "newsletter"):
+        news.item_action(item_id, action)
+    return RedirectResponse("/digest", status_code=303)
+
+
+@router.get("/feeds")
+def feeds_page(request: Request):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        feeds = conn.execute("SELECT * FROM feeds ORDER BY kind, id").fetchall()
+        undigested = conn.execute(
+            "SELECT COUNT(*) AS n FROM news_items WHERE llm_digest IS NULL"
+        ).fetchone()["n"]
+    return templates.TemplateResponse(request, "feeds.html", {
+        "feeds": feeds, "undigested": undigested,
+        "pbs_status": db.get_setting("pbs_last_status", "never run"),
+        "pbs_run": db.get_setting("pbs_last_run"),
+        "stroke_status": db.get_setting("stroke_last_status", "never run"),
+        "stroke_run": db.get_setting("stroke_last_run"),
+    })
+
+
+@router.post("/feeds/add")
+def feeds_add(
+    request: Request,
+    name: str = Form(..., max_length=120),
+    kind: str = Form(...),
+    url: str = Form(..., max_length=1000),
+    section: str = Form("", max_length=60),
+):
+    if r := _guard(request):
+        return r
+    if kind in ("rss", "pubmed") and name.strip() and url.strip():
+        with db.tx() as conn:
+            conn.execute(
+                "INSERT OR IGNORE INTO feeds (name, kind, url, section, created_at)"
+                " VALUES (?, ?, ?, ?, ?)",
+                (name.strip(), kind, url.strip(),
+                 section if section in news.SECTIONS else "", db.now_iso()),
+            )
+    return RedirectResponse("/feeds", status_code=303)
+
+
+@router.post("/feeds/{feed_id}/toggle")
+def feeds_toggle(request: Request, feed_id: int):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        conn.execute("UPDATE feeds SET enabled = 1 - enabled WHERE id = ?", (feed_id,))
+    return RedirectResponse("/feeds", status_code=303)
+
+
+@router.post("/feeds/{feed_id}/delete")
+def feeds_delete(request: Request, feed_id: int):
+    if r := _guard(request):
+        return r
+    with db.tx() as conn:
+        conn.execute("DELETE FROM feeds WHERE id = ?", (feed_id,))
+    return RedirectResponse("/feeds", status_code=303)
+
+
+@router.post("/feeds/poll")
+def feeds_poll(request: Request):
+    if r := _guard(request):
+        return r
+    news.poll_all_feeds()
+    return RedirectResponse("/feeds", status_code=303)
+
+
+@router.post("/feeds/pbs")
+def feeds_pbs(request: Request):
+    if r := _guard(request):
+        return r
+    news.pbs_monthly_diff()
+    return RedirectResponse("/feeds", status_code=303)
+
+
+@router.post("/feeds/stroke")
+def feeds_stroke(request: Request):
+    if r := _guard(request):
+        return r
+    news.stroke_guidelines_diff()
+    return RedirectResponse("/feeds", status_code=303)
+
+
+@router.post("/feeds/digest")
+def feeds_queue_digest(request: Request):
+    if r := _guard(request):
+        return r
+    news.queue_digest_job()
+    return RedirectResponse("/feeds", status_code=303)
 
 
 @router.get("/export/mycpd.csv")

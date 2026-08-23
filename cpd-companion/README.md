@@ -2,7 +2,7 @@
 
 Self-hosted tracker for RACP MyCPD requirements. See [../docs/cme-tracker/SPEC.md](../docs/cme-tracker/SPEC.md) for the full specification and the research reports behind it.
 
-**Built so far (Phases 1 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), MyCPD CSV export, and nightly backups.
+**Built so far (Phases 1–2 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), MyCPD CSV export, and nightly backups.
 
 ## Run it (Windows server, Docker Desktop)
 
@@ -30,6 +30,28 @@ python scripts\drain_whisper.py --base-url http://localhost:8340 --data-dir .\da
 ```
 
 Schedule both in Task Scheduler (whisper first) for hands-off processing. The result lands in the Inbox as a draft with the minutes document and transcript attached as evidence.
+
+### News digest & reading log (M3)
+
+The **Feeds** page manages the polled sources (seeded from the research
+shortlist: TGA alerts/news, six PubMed subspecialty queries via E-utilities,
+journal eTOCs, NeurologyLive, The Medical Republic). Feeds are polled daily at
+05:30; a `digest` claude job is queued at 05:50 and drained by the same nightly
+`drain_claude.ps1` run as the meeting jobs. Two monthly API jobs — the PBS
+schedule diff (new/changed neurology listings) and the Stroke Foundation
+living-guidelines page diff — run on the 1st, with "run now" buttons on the
+Feeds page. Journal feed URLs flagged *unverified* in
+[the research doc](../docs/cme-tracker/research/news-sources.md) are seeded
+with a status note — run `python scripts/probe_sources.py` from the deployment
+network and fix any that fail.
+
+The **Digest** page shows unread items grouped by section. Reading time is
+measured by a visibility-aware timer (only while an item is open and the tab
+visible) and banked when you press *Mark read*; every Monday the read items
+roll up into a **draft** Cat 1 reading activity with a generated reading-log
+markdown document attached as evidence (diary-style logs are RACP-acceptable
+evidence for reading). Each item also carries practice-growth buttons (*Draft
+patient info sheet*, *Flag as opportunity*, *Add to referrer newsletter*).
 
 ## Logging research/development time from Claude Code
 

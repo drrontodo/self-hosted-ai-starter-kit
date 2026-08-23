@@ -71,6 +71,28 @@ button.secondary { background: var(--muted); }
 .mandatory form { margin: 0; display: inline; }
 .mandatory button { padding: 0.15rem 0.6rem; font-size: 0.8rem; }
 
+.small { font-size: 0.85rem; }
+.overview { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 0.8rem 1rem; margin-bottom: 1rem; }
+.overview .desc { white-space: pre-wrap; margin-top: 0.4rem; }
+.news-item { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 0.55rem 0.9rem; margin-bottom: 0.55rem; }
+.news-item summary { cursor: pointer; font-weight: 600; }
+.news-item summary .meta { display: block; font-weight: 400; color: var(--muted);
+  font-size: 0.82rem; }
+.news-item .flags { color: var(--warn); font-weight: 600; margin-left: 0.4rem; }
+.news-body { margin-top: 0.6rem; }
+.news-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.news-actions form { margin: 0; }
+.news-actions button { padding: 0.35rem 0.7rem; font-size: 0.82rem; }
+button.flag-on { background: var(--ok); }
+.feed-ops { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.feed-ops form { margin: 0; }
+.disabled-row td { color: var(--muted); }
+.row-actions { white-space: nowrap; }
+.row-actions form { display: inline; margin: 0 0.15rem 0 0; }
+.row-actions button { padding: 0.15rem 0.5rem; font-size: 0.78rem; }
+
 .login-body { display: grid; place-items: center; min-height: 100vh; background: var(--bg); }
 .login-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
   padding: 2rem; width: min(320px, 90vw); display: grid; gap: 0.8rem; }

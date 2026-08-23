@@ -36,6 +36,19 @@ APIS = [
         "?db=pubmed&term=epilepsy+AND+randomized+controlled+trial%5Bpt%5D"
         "&reldate=7&datetype=edat&retmode=json&retmax=3",
     ),
+    (
+        "PBS Schedule Data API (app expects JSON with a 'data' array;"
+        " if this fails, set CPD_PBS_API_BASE/CPD_PBS_SUBSCRIPTION_KEY in .env)",
+        "https://data-api.health.gov.au/pbs/api/v3/items"
+        "?get_latest_schedule_only=true&limit=2",
+    ),
+]
+
+PAGES = [
+    (
+        "Stroke Foundation living guidelines updates page (monthly scrape-and-diff)",
+        "https://informme.org.au/guidelines/living-guidelines-updates",
+    ),
 ]
 
 UA = {"User-Agent": "Mozilla/5.0 (CPD-Companion probe)"}
@@ -66,9 +79,23 @@ def main() -> None:
         try:
             status, body = fetch(url)
             data = json.loads(body)
-            count = data.get("esearchresult", {}).get("count", "?")
-            print(f"  OK    {name}: HTTP {status}, {count} results in window")
+            if "esearchresult" in data:
+                detail = f"{data['esearchresult'].get('count', '?')} results in window"
+            elif isinstance(data, dict) and "data" in data:
+                keys = sorted(data["data"][0]) if data["data"] else []
+                detail = f"'data' array present; first-row keys: {keys[:8]}"
+            else:
+                detail = f"unexpected JSON shape: {str(body[:120])!r}"
+            print(f"  OK    {name}: HTTP {status}, {detail}")
         except Exception as e:  # noqa: BLE001 - probe script, report anything
+            print(f"  FAIL  {name}: {e}")
+
+    print("\n== Scraped pages ==")
+    for name, url in PAGES:
+        try:
+            status, body = fetch(url)
+            print(f"  OK    {name}: HTTP {status}, {len(body)} bytes")
+        except Exception as e:  # noqa: BLE001
             print(f"  FAIL  {name}: {e}")
 
     key = os.environ.get("GOOGLE_PLACES_API_KEY")

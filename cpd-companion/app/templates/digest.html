@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Digest — CPD Companion{% endblock %}
+{% block content %}
+<h1>News digest <span class="muted">({{ unread_count }} unread)</span></h1>
+
+{% if overview_md %}
+<div class="overview">
+  <strong>Overview{% if overview_date %} — {{ overview_date }}{% endif %}</strong>
+  <div class="desc">{{ overview_md }}</div>
+</div>
+{% endif %}
+
+<p class="muted">Reading time is measured while an item is open and this tab is visible;
+“Mark read” banks it. Read items roll up every Monday into a draft Cat 1 reading
+activity with a generated reading log attached as evidence.</p>
+
+{% for section, items in sections %}
+<h2>{{ section }}</h2>
+{% for i in items %}
+<details class="news-item" data-item="{{ i.id }}">
+  <summary>{{ i.title }}
+    <span class="meta">{{ i.source }} · {{ i.published_at or i.fetched_at[:10] }}
+      {% if i.digest_flags %}<span class="flags">{{ i.digest_flags.replace('_', ' ').replace(',', ', ') }}</span>{% endif %}
+    </span>
+  </summary>
+  <div class="news-body">
+    {% if i.llm_digest %}<p>{{ i.llm_digest }}</p>{% endif %}
+    {% if i.summary %}<p class="muted small">{{ i.summary[:1200] }}{% if i.summary|length > 1200 %}…{% endif %}</p>{% endif %}
+    {% if i.link %}<p><a href="{{ i.link }}" target="_blank" rel="noopener">Open source ↗</a></p>{% endif %}
+    <div class="news-actions">
+      <form method="post" action="/digest/{{ i.id }}/read">
+        <input type="hidden" name="seconds" value="0" class="seconds-input">
+        <button type="submit">Mark read · <span class="timer">0:00</span></button>
+      </form>
+      <form method="post" action="/digest/{{ i.id }}/action/info_sheet">
+        <button type="submit" class="secondary">Draft patient info sheet</button>
+      </form>
+      <form method="post" action="/digest/{{ i.id }}/action/opportunity">
+        <button type="submit" class="secondary {{ 'flag-on' if i.flagged_opportunity }}">
+          {{ 'Opportunity ✓' if i.flagged_opportunity else 'Flag as opportunity' }}</button>
+      </form>
+      <form method="post" action="/digest/{{ i.id }}/action/newsletter">
+        <button type="submit" class="secondary {{ 'flag-on' if i.flagged_newsletter }}">
+          {{ 'Newsletter ✓' if i.flagged_newsletter else 'Add to referrer newsletter' }}</button>
+      </form>
+    </div>
+  </div>
+</details>
+{% endfor %}
+{% endfor %}
+
+{% if not sections %}
+<p class="muted">Nothing unread. Feeds are polled daily at 05:30 — or
+  <a href="/feeds">manage &amp; poll them now</a>.</p>
+{% endif %}
+
+{% if recent_read %}
+<h2>Recently read</h2>
+<table>
+  <tr><th>Read</th><th>Source</th><th>Item</th><th>Minutes</th></tr>
+  {% for i in recent_read %}
+  <tr>
+    <td>{{ i.read_at[:10] }}</td>
+    <td>{{ i.source }}</td>
+    <td>{% if i.link %}<a href="{{ i.link }}" target="_blank" rel="noopener">{{ i.title }}</a>{% else %}{{ i.title }}{% endif %}</td>
+    <td>{{ (i.read_seconds / 60)|round(1) }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<script>
+(function () {
+  var counters = {};
+  setInterval(function () {
+    if (document.hidden) return;
+    document.querySelectorAll("details.news-item[open]").forEach(function (d) {
+      var id = d.dataset.item;
+      counters[id] = (counters[id] || 0) + 1;
+      var t = d.querySelector(".timer");
+      if (t) t.textContent = Math.floor(counters[id] / 60) + ":" +
+        String(counters[id] % 60).padStart(2, "0");
+      var input = d.querySelector(".seconds-input");
+      if (input) input.value = counters[id];
+    });
+  }, 1000);
+})();
+</script>
+{% endblock %}

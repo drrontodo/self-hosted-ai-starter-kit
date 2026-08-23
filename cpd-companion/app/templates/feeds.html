@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Feeds — CPD Companion{% endblock %}
+{% block content %}
+<h1>News sources</h1>
+
+<div class="feed-ops">
+  <form method="post" action="/feeds/poll"><button type="submit">Poll all feeds now</button></form>
+  <form method="post" action="/feeds/digest">
+    <button type="submit" class="secondary">Queue digest job ({{ undigested }} undigested)</button>
+  </form>
+</div>
+
+<table>
+  <tr><th>Feed</th><th>Kind</th><th>Section</th><th>Last poll</th><th>Status</th><th></th></tr>
+  {% for f in feeds %}
+  <tr class="{{ 'disabled-row' if not f.enabled }}">
+    <td title="{{ f.url }}">{{ f.name }}</td>
+    <td>{{ f.kind }}</td>
+    <td>{{ f.section }}</td>
+    <td>{{ f.last_polled_at[:16] if f.last_polled_at else '—' }}</td>
+    <td class="small">{{ f.last_status or '—' }}</td>
+    <td class="row-actions">
+      <form method="post" action="/feeds/{{ f.id }}/toggle">
+        <button type="submit" class="secondary">{{ 'disable' if f.enabled else 'enable' }}</button>
+      </form>
+      <form method="post" action="/feeds/{{ f.id }}/delete"
+            onsubmit="return confirm('Delete this feed?');">
+        <button type="submit" class="secondary">delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<details class="add-form">
+  <summary>Add a feed</summary>
+  <form method="post" action="/feeds/add" class="grid-form">
+    <label>Name <input name="name" required maxlength="120"></label>
+    <label>Kind
+      <select name="kind">
+        <option value="rss">RSS/Atom URL</option>
+        <option value="pubmed">PubMed query (E-utilities)</option>
+      </select>
+    </label>
+    <label class="wide">URL or PubMed query <input name="url" required maxlength="1000"
+      placeholder="https://…/feed.xml — or e.g. (epilepsy) AND (randomized controlled trial[pt])"></label>
+    <label>Default section
+      <select name="section">
+        <option value="">(let the digest decide)</option>
+        {% for s in ["Drugs & regulatory AU", "Guidelines", "Stroke", "Epilepsy", "MS",
+                     "Movement disorders", "Headache", "Neuropathy", "General"] %}
+        <option value="{{ s }}">{{ s }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button type="submit">Add feed</button>
+  </form>
+</details>
+
+<h2>API jobs</h2>
+<table>
+  <tr>
+    <td>PBS schedule monthly diff</td>
+    <td>{{ pbs_run[:16] if pbs_run else 'never run' }}</td>
+    <td class="small">{{ pbs_status }}</td>
+    <td><form method="post" action="/feeds/pbs"><button type="submit" class="secondary">run now</button></form></td>
+  </tr>
+  <tr>
+    <td>Stroke Foundation living guidelines diff</td>
+    <td>{{ stroke_run[:16] if stroke_run else 'never run' }}</td>
+    <td class="small">{{ stroke_status }}</td>
+    <td><form method="post" action="/feeds/stroke"><button type="submit" class="secondary">run now</button></form></td>
+  </tr>
+</table>
+<p class="muted small">The first PBS/Stroke run only records a baseline; diffs appear from
+the second run. Feeds marked “unverified URL” come from the research shortlist — confirm
+the exact URL with <code>scripts/probe_sources.py</code> from the deployment network and
+edit here (delete + re-add) if needed.</p>
+{% endblock %}

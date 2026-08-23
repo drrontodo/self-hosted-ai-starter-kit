@@ -5,7 +5,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from . import config, db, rollup
+from . import config, db, news, rollup
 
 log = logging.getLogger("cpd.scheduler")
 
@@ -73,6 +73,16 @@ def start() -> None:
     _scheduler.add_job(rollup.rollup_sessions, "cron", day_of_week="mon", hour=6, minute=0,
                        id="weekly_rollup")
     _scheduler.add_job(backup, "cron", hour=2, minute=30, id="nightly_backup")
+    # M3 news digest: poll feeds daily, then queue the claude digest job so the
+    # nightly drain has fresh items; reading rolls up weekly alongside sessions.
+    _scheduler.add_job(news.poll_all_feeds, "cron", hour=5, minute=30, id="news_poll")
+    _scheduler.add_job(news.queue_digest_job, "cron", hour=5, minute=50, id="news_digest")
+    _scheduler.add_job(news.rollup_reading, "cron", day_of_week="mon", hour=6, minute=5,
+                       id="reading_rollup")
+    _scheduler.add_job(news.pbs_monthly_diff, "cron", day=1, hour=6, minute=10,
+                       id="pbs_diff")
+    _scheduler.add_job(news.stroke_guidelines_diff, "cron", day=1, hour=6, minute=20,
+                       id="stroke_diff")
     _scheduler.start()
 
 

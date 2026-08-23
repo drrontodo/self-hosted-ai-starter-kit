@@ -8,7 +8,7 @@ by the nightly Claude Code run) -> draft activity + evidence, awaiting sign-off.
 import json
 import re
 
-from . import config, db
+from . import config, db, news
 
 
 def create_meeting(
@@ -136,6 +136,9 @@ def handle_job_result(job_id: int, result: dict) -> dict:
                 (json.dumps({"activity_id": activity_id}), now, job_id),
             )
             return {"job": job_id, "status": "done", "draft_activity_id": activity_id}
+
+        if job["kind"] == "digest":
+            return news.apply_digest_result(conn, job, result)
 
         # Unknown kinds: store the result verbatim so future modules can define their own.
         conn.execute(
