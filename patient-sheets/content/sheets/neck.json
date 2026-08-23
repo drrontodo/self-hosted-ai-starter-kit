@@ -7,9 +7,9 @@
     "shortTitle": "Neck pain & ergonomics",
     "eyebrow": "Patient Information",
     "summary": "How to set up your desk, phone, car and pillow — and a short daily programme of gentle neck and shoulder-blade exercises that has good evidence behind it.",
-    "reviewed": "August 2026"
+    "reviewed": "August 2026",
+    "artifactTitle": "Neck Pain and Ergonomics"
   },
-
   "blocks": [
     {
       "type": "intro",
@@ -23,21 +23,46 @@
         "text": "You have probably been told that bad posture causes neck pain. The evidence for that is weaker than the confidence with which it is asserted: studies find only a modest and inconsistent relationship between how people hold their heads and whether their necks hurt. What matters more is **how long you stay in one position** and how much muscular endurance you have. So the advice here is not 'sit up straight' — it is 'move often, and build endurance'."
       }
     },
-
     "@fragment:how-to-use",
-
     {
       "type": "science",
       "title": "Why necks ache",
       "lede": "Four contributors, in roughly the order they matter.",
       "cards": [
-        { "icon": "⏳", "title": "Duration, not position", "type": "primary", "body": ["Any position becomes uncomfortable if you hold it for three hours. Static muscle work restricts its own blood supply, and the ache that follows is the result. Breaking the time up matters more than perfecting the position."] },
-        { "icon": "🪫", "title": "Poor endurance in the deep muscles", "type": "accent", "body": ["Small deep muscles at the front of the neck are meant to hold the head steady all day. When they fatigue, the big surface muscles take over — and they are sprinters, not marathon runners. They tire, tighten and ache."] },
-        { "icon": "👀", "title": "Your eyes drag your head forwards", "type": "purple", "body": ["Screens that are too low, too far away, or too small pull the head forwards without you noticing. A great deal of 'neck strain' is really a vision problem — including out-of-date glasses and the reading segment of multifocals."] },
-        { "icon": "😬", "title": "Stress and jaw clenching", "type": "blue", "body": ["Neck and jaw muscles are among the first to tighten under stress, and clenching at night is very common. If your neck pain tracks your stress levels, treat the stress as part of the neck treatment — my [stress management page]({{links.stress}}) covers the techniques."] }
+        {
+          "icon": "⏳",
+          "title": "Duration, not position",
+          "type": "primary",
+          "body": [
+            "Any position becomes uncomfortable if you hold it for three hours. Static muscle work restricts its own blood supply, and the ache that follows is the result. Breaking the time up matters more than perfecting the position."
+          ]
+        },
+        {
+          "icon": "🪫",
+          "title": "Poor endurance in the deep muscles",
+          "type": "accent",
+          "body": [
+            "Small deep muscles at the front of the neck are meant to hold the head steady all day. When they fatigue, the big surface muscles take over — and they are sprinters, not marathon runners. They tire, tighten and ache."
+          ]
+        },
+        {
+          "icon": "👀",
+          "title": "Your eyes drag your head forwards",
+          "type": "purple",
+          "body": [
+            "Screens that are too low, too far away, or too small pull the head forwards without you noticing. A great deal of 'neck strain' is really a vision problem — including out-of-date glasses and the reading segment of multifocals."
+          ]
+        },
+        {
+          "icon": "😬",
+          "title": "Stress and jaw clenching",
+          "type": "blue",
+          "body": [
+            "Neck and jaw muscles are among the first to tighten under stress, and clenching at night is very common. If your neck pain tracks your stress levels, treat the stress as part of the neck treatment — my [stress management page]({{links.stress}}) covers the techniques."
+          ]
+        }
       ]
     },
-
     {
       "type": "section",
       "title": "Setting up the workstation",
@@ -45,18 +70,62 @@
       "blocks": [
         {
           "type": "table",
-          "head": ["What", "Where it should be", "Why"],
+          "head": [
+            "What",
+            "Where it should be",
+            "Why"
+          ],
           "rows": [
-            ["Screen height", "Top of the screen at or a little below eye level", "So you look slightly down with your eyes, not with your neck"],
-            ["Screen distance", "About an arm's length away — further for a big screen", "Too close makes you crane; too far makes you lean in"],
-            ["Text size", "Big enough to read without leaning forward", "The cheapest ergonomic fix there is"],
-            ["Chair height", "Feet flat on the floor, knees roughly level with hips", "A footrest if your feet dangle"],
-            ["Back support", "Bottom right back in the chair, low back supported", "A rolled towel works as well as a lumbar cushion"],
-            ["Elbows", "Close to your sides, bent about 90°, forearms level", "Reaching forward for the keyboard loads the neck and shoulders"],
-            ["Keyboard and mouse", "Directly in front, on the same level, mouse close in", "A mouse out to the side is a common cause of one-sided neck ache"],
-            ["Laptops", "On a riser or a stack of books, with a separate keyboard and mouse", "A laptop cannot have both the screen and the keyboard in the right place at once"],
-            ["Documents", "On a stand beside the screen, at the same height", "Reading from the desk means hours of looking down"],
-            ["Phone", "Headset or speaker if you are on it a lot", "Cradling a handset on your shoulder is the single worst neck position"]
+            [
+              "Screen height",
+              "Top of the screen at or a little below eye level",
+              "So you look slightly down with your eyes, not with your neck"
+            ],
+            [
+              "Screen distance",
+              "About an arm's length away — further for a big screen",
+              "Too close makes you crane; too far makes you lean in"
+            ],
+            [
+              "Text size",
+              "Big enough to read without leaning forward",
+              "The cheapest ergonomic fix there is"
+            ],
+            [
+              "Chair height",
+              "Feet flat on the floor, knees roughly level with hips",
+              "A footrest if your feet dangle"
+            ],
+            [
+              "Back support",
+              "Bottom right back in the chair, low back supported",
+              "A rolled towel works as well as a lumbar cushion"
+            ],
+            [
+              "Elbows",
+              "Close to your sides, bent about 90°, forearms level",
+              "Reaching forward for the keyboard loads the neck and shoulders"
+            ],
+            [
+              "Keyboard and mouse",
+              "Directly in front, on the same level, mouse close in",
+              "A mouse out to the side is a common cause of one-sided neck ache"
+            ],
+            [
+              "Laptops",
+              "On a riser or a stack of books, with a separate keyboard and mouse",
+              "A laptop cannot have both the screen and the keyboard in the right place at once"
+            ],
+            [
+              "Documents",
+              "On a stand beside the screen, at the same height",
+              "Reading from the desk means hours of looking down"
+            ],
+            [
+              "Phone",
+              "Headset or speaker if you are on it a lot",
+              "Cradling a handset on your shoulder is the single worst neck position"
+            ]
           ],
           "caption": "Sit-stand desks are useful mainly because they make you change position — the benefit comes from the changing, not from the standing. If you have one, alternate every 30 to 60 minutes rather than standing all day."
         },
@@ -68,27 +137,60 @@
         }
       ]
     },
-
-    { "type": "phaseBanner", "variant": "a", "title": "The daily programme", "subtitle": "About ten minutes. Expect the first improvement at four to six weeks, and the real gains by three months." },
-    { "type": "exercises", "items": ["@exercise:neck-rom", "@exercise:chin-nod", "@exercise:neck-isometrics", "@exercise:scapular-squeeze", "@exercise:wall-angels", "@exercise:upper-trap-stretch", "@exercise:desk-microbreak"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "a",
+      "title": "The daily programme",
+      "subtitle": "About ten minutes. Expect the first improvement at four to six weeks, and the real gains by three months."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:neck-rom",
+        "@exercise:chin-nod",
+        "@exercise:neck-isometrics",
+        "@exercise:scapular-squeeze",
+        "@exercise:wall-angels",
+        "@exercise:upper-trap-stretch",
+        "@exercise:desk-microbreak"
+      ]
+    },
     {
       "type": "section",
       "title": "A week of it",
       "blocks": [
         {
           "type": "table",
-          "head": ["When", "What", "Time"],
+          "head": [
+            "When",
+            "What",
+            "Time"
+          ],
           "rows": [
-            ["Morning", "Range of movement loosener · shoulder blade squeezes", "3 min"],
-            ["Mid-morning and mid-afternoon", "Two-minute desk reset · upper trapezius stretch if tight", "2 min each"],
-            ["Evening", "Chin nods 10 × 10 seconds · neck isometrics · wall angels", "8 min"],
-            ["Every 30–45 minutes, all day", "Stand up, look into the distance for 20 seconds", "seconds"]
+            [
+              "Morning",
+              "Range of movement loosener · shoulder blade squeezes",
+              "3 min"
+            ],
+            [
+              "Mid-morning and mid-afternoon",
+              "Two-minute desk reset · upper trapezius stretch if tight",
+              "2 min each"
+            ],
+            [
+              "Evening",
+              "Chin nods 10 × 10 seconds · neck isometrics · wall angels",
+              "8 min"
+            ],
+            [
+              "Every 30–45 minutes, all day",
+              "Stand up, look into the distance for 20 seconds",
+              "seconds"
+            ]
           ]
         }
       ]
     },
-
     {
       "type": "section",
       "title": "The rest of the day",
@@ -98,29 +200,43 @@
           "items": [
             {
               "title": "Your phone",
-              "paras": ["Bring the phone up towards your face rather than dropping your head towards the phone. Rest your elbows on a table, a cushion or your other hand, so your arms are not holding the weight.", "Be sceptical of the 'text neck' headlines: looking down does increase the load on the neck, but the claim that phones are causing an epidemic of neck damage runs well ahead of the evidence. Duration is again the real issue — a long session in any position is the problem, not the position itself."]
+              "paras": [
+                "Bring the phone up towards your face rather than dropping your head towards the phone. Rest your elbows on a table, a cushion or your other hand, so your arms are not holding the weight.",
+                "Be sceptical of the 'text neck' headlines: looking down does increase the load on the neck, but the claim that phones are causing an epidemic of neck damage runs well ahead of the evidence. Duration is again the real issue — a long session in any position is the problem, not the position itself."
+              ]
             },
             {
               "title": "Your pillow",
-              "paras": ["There is no single best pillow, and expensive ones have not been shown to outperform cheap ones. What matters is that your head is supported in line with your body: on your side, the pillow must fill the gap between your ear and the mattress; on your back, it should support the hollow of your neck without pushing your head forwards.", "Do not sleep on your front. It requires you to turn your head to one end of its range for hours at a time, and it is the commonest cause of waking with a locked, painful neck.", "A rolled towel inside the pillowcase, positioned under the neck, is a cheap and often very effective experiment before you buy anything."]
+              "paras": [
+                "There is no single best pillow, and expensive ones have not been shown to outperform cheap ones. What matters is that your head is supported in line with your body: on your side, the pillow must fill the gap between your ear and the mattress; on your back, it should support the hollow of your neck without pushing your head forwards.",
+                "Do not sleep on your front. It requires you to turn your head to one end of its range for hours at a time, and it is the commonest cause of waking with a locked, painful neck.",
+                "A rolled towel inside the pillowcase, positioned under the neck, is a cheap and often very effective experiment before you buy anything."
+              ]
             },
             {
               "title": "Driving",
-              "paras": ["Sit tall with the seat upright enough that your shoulders touch the backrest. Set the head restraint so its middle is level with the top of your ears and as close to the back of your head as is comfortable — this is a genuine protection against whiplash in a rear-end collision, not a headrest for comfort.", "On long drives, stop every couple of hours and do the two-minute desk reset."]
+              "paras": [
+                "Sit tall with the seat upright enough that your shoulders touch the backrest. Set the head restraint so its middle is level with the top of your ears and as close to the back of your head as is comfortable — this is a genuine protection against whiplash in a rear-end collision, not a headrest for comfort.",
+                "On long drives, stop every couple of hours and do the two-minute desk reset."
+              ]
             },
             {
               "title": "Carrying things",
-              "paras": ["A heavy bag on one shoulder for years is a real and reversible cause of one-sided neck ache. Use a backpack with both straps, or swap sides deliberately and often, or use a wheeled case."]
+              "paras": [
+                "A heavy bag on one shoulder for years is a real and reversible cause of one-sided neck ache. Use a backpack with both straps, or swap sides deliberately and often, or use a wheeled case."
+              ]
             },
             {
               "title": "Heat, and what to do in a flare",
-              "paras": ["Heat for 15 to 20 minutes helps most people with muscular neck pain, and is worth doing before the exercises rather than instead of them. Ice suits some people better after an acute strain — use whichever works for you.", "Keep moving the neck gently through a flare. Rest and collars prolong recovery; that has been shown repeatedly, including after whiplash injuries."]
+              "paras": [
+                "Heat for 15 to 20 minutes helps most people with muscular neck pain, and is worth doing before the exercises rather than instead of them. Ice suits some people better after an acute strain — use whichever works for you.",
+                "Keep moving the neck gently through a flare. Rest and collars prolong recovery; that has been shown repeatedly, including after whiplash injuries."
+              ]
             }
           ]
         }
       ]
     },
-
     {
       "type": "section",
       "title": "Questions people ask me",
@@ -128,21 +244,49 @@
         {
           "type": "faq",
           "items": [
-            { "q": "\"Should I wear a soft collar?\"", "a": ["Almost never. Collars weaken the muscles you need and slow recovery, including after whiplash, where early gentle movement produces better outcomes than immobilisation. There are specific exceptions after fractures or surgery, which will be explained to you at the time."] },
-            { "q": "\"Is it safe to crack my own neck?\"", "a": ["The habit of forcefully twisting your own neck to make it click is worth breaking: it gives brief relief through joint receptors, does nothing lasting, and tends to become compulsive. I would also avoid vigorous high-velocity manipulation of the neck by others — the risk of arterial injury is very small but it is not zero, and gentler treatments work about as well."] },
-            { "q": "\"My scan shows degenerative changes and disc bulges.\"", "a": ["So does almost everyone's after middle age, including people with no pain whatsoever. These findings correlate poorly with symptoms. They matter when they line up with a specific pattern of arm pain, weakness or numbness — which is precisely what your examination is for."] },
-            { "q": "\"The pain goes down my arm with pins and needles.\"", "a": ["That suggests irritation of a nerve root, which behaves differently from muscular neck pain. Most cases improve over weeks to a few months. Tell me about it — particularly if there is weakness, if the arm pain is worse than the neck pain, or if it is not settling — and be cautious with end-range neck movements in the meantime."] },
-            { "q": "\"How hard should I push these exercises?\"", "a": ["Gently. The chin nod is nearly invisible from the outside, and the isometrics use a third of your strength. Neck exercises that hurt more afterwards were done too hard. Progress by adding time and repetitions before adding effort."] },
-            { "q": "\"How long until this helps?\"", "a": ["Four to six weeks for the first clear change, and around three months for the substantial gains — that is the timeframe in the trials of neck strengthening, some of which followed people for a year with benefits sustained. The exercises need to become a permanent, small part of your week rather than a course you finish."] }
+            {
+              "q": "\"Should I wear a soft collar?\"",
+              "a": [
+                "Almost never. Collars weaken the muscles you need and slow recovery, including after whiplash, where early gentle movement produces better outcomes than immobilisation. There are specific exceptions after fractures or surgery, which will be explained to you at the time."
+              ]
+            },
+            {
+              "q": "\"Is it safe to crack my own neck?\"",
+              "a": [
+                "The habit of forcefully twisting your own neck to make it click is worth breaking: it gives brief relief through joint receptors, does nothing lasting, and tends to become compulsive. I would also avoid vigorous high-velocity manipulation of the neck by others — the risk of arterial injury is very small but it is not zero, and gentler treatments work about as well."
+              ]
+            },
+            {
+              "q": "\"My scan shows degenerative changes and disc bulges.\"",
+              "a": [
+                "So does almost everyone's after middle age, including people with no pain whatsoever. These findings correlate poorly with symptoms. They matter when they line up with a specific pattern of arm pain, weakness or numbness — which is precisely what your examination is for."
+              ]
+            },
+            {
+              "q": "\"The pain goes down my arm with pins and needles.\"",
+              "a": [
+                "That suggests irritation of a nerve root, which behaves differently from muscular neck pain. Most cases improve over weeks to a few months. Tell me about it — particularly if there is weakness, if the arm pain is worse than the neck pain, or if it is not settling — and be cautious with end-range neck movements in the meantime."
+              ]
+            },
+            {
+              "q": "\"How hard should I push these exercises?\"",
+              "a": [
+                "Gently. The chin nod is nearly invisible from the outside, and the isometrics use a third of your strength. Neck exercises that hurt more afterwards were done too hard. Progress by adding time and repetitions before adding effort."
+              ]
+            },
+            {
+              "q": "\"How long until this helps?\"",
+              "a": [
+                "Four to six weeks for the first clear change, and around three months for the substantial gains — that is the timeframe in the trials of neck strengthening, some of which followed people for a year with benefits sustained. The exercises need to become a permanent, small part of your week rather than a course you finish."
+              ]
+            }
           ]
         }
       ]
     },
-
     "@fragment:hurt-vs-harm",
     "@fragment:adherence",
     "@fragment:australian-pathway",
-
     {
       "type": "box",
       "kind": "warning",

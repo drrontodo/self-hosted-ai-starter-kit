@@ -1,0 +1,855 @@
+<title>Balance and Strength at Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5f7a;
+  --primary-light: #2a7a9e;
+  --accent: #e67e22;
+  --accent-light: #f39c12;
+  --accent2: #8e44ad;
+  --text-dark: #2c3e50;
+  --text-medium: #546e7a;
+  --text-light: #78909c;
+  --bg-cream: #fdfbf7;
+  --bg-light: #f8f6f2;
+  --border: #e0ddd6;
+  --success: #27ae60;
+  --phase-b: #2980b9;
+  --phase-c: #8e44ad;
+  --danger: #c0392b;
+  --gradient-primary: linear-gradient(135deg, #1a5f7a 0%, #2a7a9e 100%);
+  --gradient-warm: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+  --font-heading: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--text-dark);
+  background: var(--bg-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 700; line-height: 1.2; }
+
+a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(26,95,122,.3); transition: all .2s ease; }
+a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ---------- Skip link (accessibility) ---------- */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; background: #fff; color: var(--primary);
+  padding: .75rem 1.25rem; z-index: 100; border-radius: 0 0 8px 0; font-weight: 600;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- Header ---------- */
+.hero {
+  background: var(--gradient-primary);
+  color: #fff;
+  padding: 5rem 1.5rem 6rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.10) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(230,126,34,.18) 0%, transparent 45%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; max-width: 820px; margin: 0 auto; }
+.hero .eyebrow {
+  display: inline-block; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 600; opacity: .9; margin-bottom: 1rem;
+  border: 1px solid rgba(255,255,255,.35); border-radius: 50px; padding: .4rem 1rem;
+  animation: fadeInUp .8s ease both;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1.25rem;
+  animation: fadeInUp .8s ease both;
+}
+.hero p {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  opacity: .95; max-width: 640px; margin: 0 auto;
+  animation: fadeInUp .8s ease .2s both;
+}
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Intro card ---------- */
+.intro {
+  background: #fff;
+  max-width: 820px;
+  margin: -3rem auto 3rem;
+  padding: 2.5rem 2.5rem 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(26,95,122,.08);
+  position: relative;
+  overflow: hidden;
+}
+.intro::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--gradient-warm);
+}
+.intro p { font-size: 1.125rem; line-height: 1.8; color: var(--text-medium); }
+.intro p + p { margin-top: 1rem; }
+
+/* ---------- Section shell ---------- */
+section { margin-bottom: 3.5rem; }
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  color: var(--primary);
+  margin-bottom: .75rem;
+}
+.section-lede { color: var(--text-medium); margin-bottom: 2rem; font-size: 1.05rem; }
+
+/* ---------- Phase banner ---------- */
+.phase-banner {
+  border-radius: 16px; padding: 2rem 1.5rem; text-align: center; margin-bottom: 2.25rem;
+  border: 2px solid; background: var(--bg-light);
+}
+.phase-banner h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .5rem; }
+.phase-banner p { color: var(--text-medium); max-width: 620px; margin: 0 auto; }
+.phase-a { border-color: rgba(26,95,122,.25); background: linear-gradient(135deg, #f2f8fa 0%, #e8f1f5 100%); }
+.phase-a h2 { color: var(--primary); }
+.phase-b { border-color: rgba(41,128,185,.25); background: linear-gradient(135deg, #f1f7fc 0%, #e4eff9 100%); }
+.phase-b h2 { color: var(--phase-b); }
+.phase-c { border-color: rgba(142,68,173,.22); background: linear-gradient(135deg, #f8f3fb 0%, #f0e6f7 100%); }
+.phase-c h2 { color: var(--phase-c); }
+.phase-warm { border-color: rgba(230,126,34,.25); background: linear-gradient(135deg, #fff6ec 0%, #ffeeda 100%); }
+.phase-warm h2 { color: var(--accent); }
+
+/* ---------- Pathway / numbered step cards ---------- */
+.pathway { position: relative; padding-left: .5rem; }
+.pathway::before {
+  content: ''; position: absolute; left: 22px; top: 12px; bottom: 12px; width: 3px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+  opacity: .3; border-radius: 3px;
+}
+.step-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.75rem 1.75rem 1.75rem 5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
+  border-top: 3px solid var(--primary);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,95,122,.12); }
+.step-card.type-accent { border-top-color: var(--accent); }
+.step-card.type-success { border-top-color: var(--success); }
+.step-card.type-purple { border-top-color: var(--phase-c); }
+.step-card.type-blue { border-top-color: var(--phase-b); }
+.step-number {
+  position: absolute; left: 1rem; top: 1.6rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gradient-primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem;
+}
+.step-card.type-accent .step-number { background: var(--gradient-warm); }
+.step-card.type-success .step-number { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
+.step-card.type-purple .step-number { background: linear-gradient(135deg, #8e44ad 0%, #a569bd 100%); }
+.step-card.type-blue .step-number { background: linear-gradient(135deg, #2980b9 0%, #5dade2 100%); }
+.step-card h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: .6rem; }
+.step-card p { color: var(--text-medium); }
+.step-card p + p { margin-top: .75rem; }
+.evidence-badge {
+  display: inline-block; background: var(--gradient-warm); color: #fff;
+  font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  padding: .25rem .7rem; border-radius: 50px; margin-bottom: .6rem;
+}
+
+/* ---------- Card grids ---------- */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.75rem; }
+.info-card {
+  background: #fff; border-radius: 12px; padding: 1.5rem;
+  border-top: 4px solid var(--primary);
+  box-shadow: 0 4px 16px rgba(0,0,0,.05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.info-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(26,95,122,.12); }
+.info-card h4 { color: var(--primary); font-size: 1.1rem; margin-bottom: .5rem; }
+.info-card p { color: var(--text-medium); font-size: .97rem; }
+.info-card.type-accent { border-top-color: var(--accent); }
+.info-card.type-accent h4 { color: var(--accent); }
+.info-card.type-success { border-top-color: var(--success); }
+.info-card.type-success h4 { color: var(--success); }
+.info-card.type-purple { border-top-color: var(--phase-c); }
+.info-card.type-purple h4 { color: var(--phase-c); }
+.info-card.type-blue { border-top-color: var(--phase-b); }
+.info-card.type-blue h4 { color: var(--phase-b); }
+.info-card.type-danger { border-top-color: var(--danger); }
+.info-card.type-danger h4 { color: var(--danger); }
+
+/* Side-bordered variant (used for tests / options lists) */
+.side-grid .info-card { border-top: none; border-left: 4px solid var(--primary); }
+.side-grid .info-card.type-accent { border-left-color: var(--accent); }
+.side-grid .info-card.type-success { border-left-color: var(--success); }
+.side-grid .info-card.type-purple { border-left-color: var(--phase-c); }
+.side-grid .info-card.type-blue { border-left-color: var(--phase-b); }
+.side-grid .info-card.type-danger { border-left-color: var(--danger); }
+
+/* ---------- Exercise cards ---------- */
+.exercise-card {
+  background: #fff; border-radius: 16px; padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
+  border-top: 3px solid var(--accent);
+  margin-bottom: 1.5rem;
+}
+.exercise-head { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; margin-bottom: .35rem; }
+.exercise-card h3 { color: var(--primary); font-size: 1.25rem; }
+.exercise-card .purpose { color: var(--text-medium); font-style: italic; margin-bottom: 1rem; }
+.exercise-card ol { margin: 0 0 1rem 1.2rem; color: var(--text-medium); }
+.exercise-card ol li { margin-bottom: .45rem; padding-left: .2rem; }
+.exercise-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: .75rem; margin-top: 1rem; }
+.meta-item {
+  background: var(--bg-light); border-radius: 10px; padding: .8rem 1rem;
+  font-size: .92rem; color: var(--text-medium);
+}
+.meta-item strong { display: block; color: var(--primary); font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; margin-bottom: .25rem; }
+.meta-item.safety { background: #fdf3ef; }
+.meta-item.safety strong { color: var(--accent); }
+.dose-pill {
+  display: inline-block; background: rgba(26,95,122,.09); color: var(--primary);
+  border-radius: 50px; padding: .25rem .8rem; font-size: .82rem; font-weight: 600;
+}
+
+/* ---------- Boxes ---------- */
+.highlight-box {
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  font-style: italic; color: var(--text-dark);
+}
+.reassurance-box {
+  background: linear-gradient(135deg, #e8f8f0 0%, #d5f5e3 100%);
+  border-left: 4px solid var(--success);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  color: var(--text-dark);
+}
+.warning-box {
+  background: linear-gradient(135deg, #fdecea 0%, #fadbd8 100%);
+  border-left: 4px solid var(--danger);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  color: var(--text-dark);
+}
+.box-title { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; margin-bottom: .4rem; font-style: normal; }
+.highlight-box .box-title { color: var(--accent); }
+.reassurance-box .box-title { color: var(--success); }
+.warning-box .box-title { color: var(--danger); }
+.research-note {
+  background: var(--bg-light); border-radius: 10px; padding: 1rem 1.25rem;
+  font-size: .9rem; color: var(--text-light); font-style: italic; margin: 1.25rem 0;
+}
+.content-card {
+  background: #fff; border-radius: 16px; padding: 1.75rem 1.75rem 1.75rem 2.25rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06); position: relative; overflow: hidden; margin-bottom: 1.5rem;
+}
+.content-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gradient-warm); }
+.content-card h3 { color: var(--primary); margin-bottom: .6rem; }
+.content-card p { color: var(--text-medium); }
+.content-card p + p { margin-top: .75rem; }
+
+/* ---------- Science / info section ---------- */
+.science-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px; padding: 3rem 2rem;
+}
+.science-section > h2 { text-align: center; color: var(--primary); font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .6rem; }
+.science-section > .section-lede { text-align: center; max-width: 640px; margin: 0 auto 2rem; }
+.science-section .info-card { box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+
+/* ---------- Lists ---------- */
+.check-list { list-style: none; }
+.check-list li { position: relative; padding: .7rem 0 .7rem 2rem; border-bottom: 1px solid var(--border); color: var(--text-medium); }
+.check-list li:last-child { border-bottom: none; }
+.check-list li::before { content: '✓'; position: absolute; left: 0; top: .7rem; color: var(--success); font-weight: 700; }
+.check-list.cross li::before { content: '✕'; color: var(--danger); }
+.check-list.arrow li::before { content: '→'; color: var(--accent); }
+.check-list li strong { color: var(--text-dark); }
+
+/* ---------- Weekly plan table ---------- */
+.table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.06); background: #fff; }
+table.plan { width: 100%; border-collapse: collapse; min-width: 520px; }
+table.plan th, table.plan td { padding: .9rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: .95rem; }
+table.plan thead th { background: var(--gradient-primary); color: #fff; font-family: var(--font-heading); font-size: .95rem; letter-spacing: .02em; }
+table.plan tbody tr:nth-child(even) { background: var(--bg-light); }
+table.plan tbody tr:last-child td { border-bottom: none; }
+table.plan td { color: var(--text-medium); }
+table.plan td:first-child { color: var(--text-dark); font-weight: 600; }
+
+/* ---------- FAQ ---------- */
+.faq details {
+  background: #fff; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: .9rem;
+  box-shadow: 0 3px 14px rgba(0,0,0,.05); border-left: 4px solid var(--primary-light);
+}
+.faq summary { cursor: pointer; font-family: var(--font-heading); font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; float: right; color: var(--accent); font-size: 1.3rem; line-height: 1; }
+.faq details[open] summary::after { content: '–'; }
+.faq details p { color: var(--text-medium); margin-top: .8rem; }
+.faq details p + p { margin-top: .6rem; }
+
+/* ---------- CTA ---------- */
+.cta {
+  background: var(--gradient-primary); color: #fff; border-radius: 16px;
+  padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 75% 25%, rgba(230,126,34,.22) 0%, transparent 50%);
+}
+.cta > * { position: relative; }
+.cta h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .75rem; }
+.cta p { opacity: .95; max-width: 560px; margin: 0 auto 1.75rem; }
+.btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; background: #fff; color: var(--primary);
+  padding: .85rem 1.9rem; border-radius: 50px; font-weight: 600; border: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.2); color: var(--primary); border: none; }
+.btn.ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.7); }
+.btn.ghost:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+/* ---------- Related sheets ---------- */
+.related { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+.related a {
+  display: block; background: #fff; border-radius: 12px; padding: 1.25rem 1.4rem;
+  border: 1px solid var(--border); border-left: 4px solid var(--accent);
+  box-shadow: 0 3px 14px rgba(0,0,0,.05); transition: transform .2s ease, box-shadow .2s ease;
+}
+.related a:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(26,95,122,.12); }
+.related a strong { display: block; font-family: var(--font-heading); color: var(--primary); font-size: 1.05rem; margin-bottom: .25rem; }
+.related a span { color: var(--text-medium); font-size: .92rem; }
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center; color: var(--text-light); font-size: .92rem;
+  padding: 3rem 1.5rem 4rem; border-top: 1px solid var(--border); margin-top: 3rem;
+}
+footer p + p { margin-top: .5rem; }
+footer .practice { font-family: var(--font-heading); color: var(--primary); font-size: 1.05rem; }
+footer .fineprint { font-size: .82rem; max-width: 620px; margin: 1rem auto 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .hero { padding: 3.5rem 1.25rem 4.5rem; }
+  .intro { margin: -2.5rem 1rem 2.5rem; padding: 1.75rem 1.5rem 1.75rem 2rem; }
+  .step-card { padding: 1.5rem 1.25rem 1.5rem 4.5rem; }
+  .step-number { width: 36px; height: 36px; font-size: 1.05rem; left: .8rem; top: 1.4rem; }
+  .pathway::before { left: 17px; }
+  .science-section { padding: 2rem 1.25rem; }
+  .cta { padding: 2.25rem 1.25rem; }
+  .exercise-card { padding: 1.4rem; }
+}
+
+/* ---------- Print (these sheets get handed out on paper) ---------- */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .hero { padding: 1.5rem 0; background: none; color: var(--primary); }
+  .hero::before, .cta::before, .intro::before { display: none; }
+  .hero .eyebrow { border-color: var(--border); color: var(--text-medium); }
+  .hero p { color: var(--text-medium); }
+  .intro, .step-card, .info-card, .exercise-card, .content-card, .faq details { box-shadow: none; border: 1px solid var(--border); }
+  .cta { background: none; color: var(--text-dark); border: 1px solid var(--border); }
+  .cta h2 { color: var(--primary); }
+  .btn { border: 1px solid var(--border); color: var(--primary); }
+  .step-card, .exercise-card, .info-card, .highlight-box, .reassurance-box, .warning-box { break-inside: avoid; }
+  .faq details { break-inside: avoid; }
+  .faq details summary::after { display: none; }
+  section { margin-bottom: 1.5rem; }
+  a { border-bottom: none; }
+}
+</style>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Patient Information</span>
+    <h1>Balance and Strength at Home</h1>
+    <p>A home programme to steady your balance and reduce your risk of falling — no equipment, no gym, ten to twenty minutes a day.</p>
+  </div>
+</header>
+<main id="main" class="container">
+
+<div class="intro">
+  <p>Feeling less steady than you used to is one of the most common reasons people are sent to see me, and one of the most treatable. Balance is not a fixed quality you are born with and gradually lose. It is a skill, built from leg strength, the sensation in your feet, your inner ear, your vision and your reaction speed — and like any skill, it improves with the right practice.</p>
+<p>The programme below is the one I give my own patients. It uses nothing but a kitchen bench, a firm chair and a corridor. What matters is not which exercises you choose but two things the research is unusually clear about: <strong>the balance work has to feel slightly wobbly</strong>, and <strong>you have to do enough of it</strong>.</p>
+  <div class="highlight-box"><span class="box-title">The single most important sentence on this page</span><p>Exercise that never makes you feel slightly unsteady does not reduce falls. That is why every exercise here comes with a way to make it harder — and a bench to hold on to while you do.</p></div>
+</div>
+<div class="reassurance-box"><span class="box-title">How to use this sheet</span><ul class="check-list"><li>Read it once through, then start with the first two or three exercises only.</li><li>Add an exercise every week or two rather than starting everything at once.</li><li>Print it, tick off the days, and bring it back to your appointment.</li><li>This sheet is general information for my patients. If you have been given different, specific advice about your own condition, that advice comes first.</li></ul></div>
+<div class="warning-box"><span class="box-title">Before you start — making this safe to do alone</span><ul class="check-list"><li><strong>Always have something solid to grab.</strong> A kitchen bench, a heavy table, a wall on each side, or the back of a chair wedged against a wall. Not a wheeled chair, not a towel rail.</li><li><strong>Choose the right floor.</strong> Bare, level, non-slip. Move rugs and cords out of the way. Do not do balance work on a rug edge or a wet bathroom floor.</li><li><strong>Wear shoes or bare feet, not socks.</strong> Well-fitting shoes with a firm heel counter and a thin sole let you feel the floor.</li><li><strong>If you have fallen in the last six months, or you feel unsafe standing still with your feet together, do not start alone.</strong> Do these first with a family member present, or ask me to arrange a physiotherapist.</li><li><strong>Carry your phone, or wear a personal alarm,</strong> if you live alone.</li><li><strong>Stop and contact your doctor</strong> if an exercise causes chest pain, sudden severe dizziness, a new weakness, or a fall.</li></ul></div>
+
+<section class="science-section">
+  <h2>What actually makes balance training work</h2>
+  <p class="section-lede">Three ingredients separate the programmes that reduced falls in trials from the ones that did nothing at all.</p>
+  
+<div class="card-grid">
+
+  <div class="info-card type-primary">
+    <h4>👣 Narrow your base</h4>
+    <p>Feet apart is easy. Feet together is harder. One foot in front of the other is harder again. One leg is hardest. Every session should spend time at the edge of what you can hold.</p>
+    
+  </div>
+  <div class="info-card type-accent">
+    <h4>🤸 Move your weight around</h4>
+    <p>Standing still is only half of balance. Reaching, leaning, turning and stepping — moving your centre of gravity and bringing it back under control — is the other half, and it is what real life demands.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>✋ Let go of your hands</h4>
+    <p>Two hands gripping the bench does very little for your balance. The training happens as you progress to one hand, then a fingertip, then a hand hovering ready to catch you.</p>
+    
+  </div>
+</div>
+</section>
+<div class="reassurance-box"><span class="box-title">The arithmetic that decides whether this works</span><p>Across the trials, the programmes that halved falls delivered around <strong>three hours a week</strong> and about <strong>fifty hours in total</strong> — that is roughly four to six months of consistent practice. Three short sessions a week comes to about ninety minutes: good, but below the threshold. The way to close that gap is not another formal session you will not do. It is to scatter balance into the day: stand on one leg while the kettle boils, do five sit-to-stands in every ad break, walk sideways along the bench between the fridge and the sink, and stand in tandem while you clean your teeth. That approach was tested on its own and reduced falls by about a third, with better adherence than a structured programme.</p></div>
+
+<div class="phase-banner phase-a">
+  <h2>Part 1 — Strength</h2>
+  <p>Three days a week, on non-consecutive days. Strength is what gives you something to balance with.</p>
+</div>
+
+<div class="exercise-card" id="ex-chair-squats-sit-to-stand">
+  <div class="exercise-head">
+    <h3>Chair squats (sit-to-stand)</h3>
+    <span class="dose-pill">10 repetitions × 2–3 sets, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Highest-value exercise</span>
+  <p class="purpose">The single most useful strengthening exercise for an older adult: it is how you get off the toilet, out of the car, and up off the floor after a fall.</p>
+  <ol><li>Use a firm dining chair with its back against a wall. Not an armchair, not a chair on castors.</li><li>Sit forward on the seat with your feet flat, hip-width apart, drawn back slightly so your heels sit under your knees.</li><li>Lean your chest forwards over your knees (nose over toes) — this, not leg strength, is what most people are missing.</li><li>Push down through your heels and stand up all the way, squeezing your buttocks at the top.</li><li>Lower yourself back down slowly — take 3 seconds — and touch the seat lightly rather than dropping onto it.</li><li>That is one repetition. Do 10, rest a minute, and repeat.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Arms folded across the chest instead of pushing off your knees. Then a slower, 4-second lowering. Then a lower seat (a firm cushion removed, or a lower chair). Then stand from the chair and hold a half-squat for 3 seconds before sitting.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Push off your thighs or the chair arms with your hands, and use a higher seat with a cushion on it. Even five repetitions counts.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Chair against a wall, every time. If your knees are painful, reduce the depth rather than abandoning the exercise.</div>
+    <div class="meta-item"><strong>Why it works</strong>Sit-to-stand is a named component of the Otago programme — which reduced falls by about a third in trials of frail older people with an average age of 81 — and functional balance training of this kind carries a strong recommendation in the 2022 World Guidelines for Falls Prevention.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-standing-leg-raises-front-side-and-back">
+  <div class="exercise-head">
+    <h3>Standing leg raises — front, side and back</h3>
+    <span class="dose-pill">10 raises in each of the 3 directions, each leg, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Strength + balance in one</span>
+  <p class="purpose">Strengthens the hip muscles (particularly the side-hip muscles that stop your pelvis dropping) while forcing you to balance on the other leg. Two exercises for the price of one.</p>
+  <ol><li>Stand tall behind a firm chair or at the bench, hands resting on it.</li><li><strong>Front:</strong> keeping the knee straight and the body upright, lift one leg forward about 20–30 cm. Lower slowly under control. Repeat 10 times.</li><li><strong>Side:</strong> lift the same leg directly out to the side, toes pointing forwards (not turned out), 20–30 cm. Do not lean away — the trick is to keep your trunk vertical. Lower slowly. Repeat 10 times.</li><li><strong>Back:</strong> lift the leg straight behind you, squeezing the buttock, without arching your low back or leaning forwards. Repeat 10 times.</li><li>Swap legs and repeat all three directions.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Reduce hand support to fingertips. Then add a 2-second hold at the top of each raise. Then add a light ankle weight (start at 0.5–1 kg) for the side and back raises.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do them seated for the front raises, and do side and back raises with both hands firmly on the bench and a smaller range.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Slow and controlled beats high. A 20 cm raise done with a still trunk builds far more than a 50 cm raise done by swinging and leaning.</div>
+    <div class="meta-item"><strong>Why it works</strong>Ankle-weighted hip and knee exercises are the strength backbone of the Otago programme, which cut falls by roughly a third (rate ratio 0.68) across seven trials, and which also reduced falls in people referred to a falls clinic after an injury.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-heel-raises-calf-strength">
+  <div class="exercise-head">
+    <h3>Heel raises (calf strength)</h3>
+    <span class="dose-pill">10–15 repetitions × 2 sets, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Otago exercise</span>
+  <p class="purpose">The calf is the engine of push-off in walking and the first muscle that catches you when you sway forwards.</p>
+  <ol><li>Stand at the bench, feet hip-width apart, hands resting on it for balance only.</li><li>Rise up onto the balls of both feet as high as you can.</li><li>Pause for a second at the top — most people cheat this part.</li><li>Lower slowly, taking about 3 seconds, until your heels touch the floor.</li><li>Repeat 10 to 15 times.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Fingertip support only. Then single-leg heel raises (holding the bench), building to 10 each side. Then do them with the balls of your feet on the edge of a step so the heel drops below the step — only with a solid rail.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Smaller range, both hands on the bench, and do them seated first if standing is unsteady.</div>
+    <div class="meta-item safety"><strong>Safety</strong>If you get calf cramps, reduce the number and stretch afterwards. Stop if you get sudden calf pain and swelling — that needs assessment.</div>
+    <div class="meta-item"><strong>Why it works</strong>Calf strength and ankle power decline steeply with age and correlate closely with walking speed, which itself predicts falls, hospitalisation and independence.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-toe-raises-shin-strength">
+  <div class="exercise-head">
+    <h3>Toe raises (shin strength)</h3>
+    <span class="dose-pill">10–15 repetitions × 2 sets, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Otago exercise</span>
+  <p class="purpose">The muscles on the front of the shin lift your toes clear of the carpet. When they are weak, you trip.</p>
+  <ol><li>Stand at the bench with your feet hip-width apart.</li><li>Keeping your heels planted, lift the fronts of both feet up as far as you can.</li><li>Hold for a second, then lower slowly.</li><li>Repeat 10 to 15 times.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Do them one foot at a time, or while standing on one leg with support.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do them sitting in a chair with your heels on the floor.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Do not lean back on the bench to make it easier — keep your weight over your feet.</div>
+    <div class="meta-item"><strong>Why it works</strong>Weak ankle dorsiflexors are strongly associated with trips, which are the most common single mechanism of falls in people who are still walking independently.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-step-ups-on-the-bottom-stair">
+  <div class="exercise-head">
+    <h3>Step-ups on the bottom stair</h3>
+    <span class="dose-pill">10 step-ups each leg, 2 sets, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Power + confidence</span>
+  <p class="purpose">Rebuilds the leg power you need for stairs, kerbs and buses, and rehearses the exact task people become frightened of.</p>
+  <ol><li>Use the bottom step of a staircase with a solid handrail, or a sturdy step block.</li><li>Hold the rail. Place one whole foot on the step.</li><li>Push down through that heel to lift yourself up — try to let the leg on the step do the work rather than pushing off the floor with the back foot.</li><li>Step back down slowly, leading with the same leg, and touch down quietly.</li><li>Do 10 with that leg, then swap.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Light fingertip contact on the rail; then a slower 3-second lowering; then a higher step (only with a rail).</div>
+    <div class="meta-item"><strong>Make it easier</strong>A single low step or a thick book taped down; or start by simply stepping up and down onto a doorway threshold.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Handrail in hand for every repetition until you are certain. Shoes on.</div>
+    <div class="meta-item"><strong>Why it works</strong>Stair negotiation demands more strength than walking and is where a lot of serious falls occur, so it is worth training deliberately rather than avoiding.</div>
+  </div>
+</div>
+
+<div class="phase-banner phase-b">
+  <h2>Part 2 — Balance</h2>
+  <p>Most days. This is the part that reduces falls, and the part people skip.</p>
+</div>
+
+<div class="exercise-card" id="ex-weight-shifts-and-reaching">
+  <div class="exercise-head">
+    <h3>Weight shifts and reaching</h3>
+    <span class="dose-pill">10 shifts in each direction, daily</span>
+  </div>
+  <span class="evidence-badge">Starting point</span>
+  <p class="purpose">Teaches you where your limits of balance actually are, and how to move to the edge of them and come back without panicking.</p>
+  <ol><li>Stand at the bench, feet hip-width apart, hands lightly resting on it.</li><li>Keeping your body straight like a tall mast, sway slowly forwards over your toes, then back over your heels. Go only as far as you can come back from.</li><li>Do ten of those, then sway slowly side to side, taking your weight over one foot then the other, ten times.</li><li>Then reach one hand slowly out to the side and across your body, following your hand with your eyes, and return.</li><li>Finish by reaching down towards a spot on the floor beside your foot and back up.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Reduce hand support; increase how far you reach; reach to place and pick up an object on a low stool.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do it seated on a firm chair first, or with both hands on the bench and very small movements.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Small ranges first. The point is control, not distance.</div>
+    <div class="meta-item"><strong>Why it works</strong>Reaching while standing is one of the functional balance tasks named in the 2022 World Falls Guidelines, and it directly rehearses the movements that cause household falls.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-tandem-and-semi-tandem-standing">
+  <div class="exercise-head">
+    <h3>Tandem and semi-tandem standing</h3>
+    <span class="dose-pill">3 × 30 seconds each foot in front, daily</span>
+  </div>
+  <span class="evidence-badge">Foundation</span>
+  <p class="purpose">The static version of tandem walking — the safest way to start if walking heel-to-toe is still too much.</p>
+  <ol><li>Stand beside a kitchen bench with one hand resting on it.</li><li>Put one foot half a step in front of the other, heel beside the opposite big toe (semi-tandem).</li><li>Hold for 30 seconds, breathing normally, eyes ahead.</li><li>Swap which foot is in front and repeat.</li><li>When 30 seconds is comfortable, move the front foot fully in front (true tandem) so heel touches toe.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>One fingertip on the bench, then no hands, then eyes closed with a hand hovering over the bench — eyes closed doubles the difficulty and is where the real gains are.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Feet together, both hands on the bench, 30 seconds.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Stand facing into the corner of a bench, not out into the room, so there is something to catch on either side.</div>
+    <div class="meta-item"><strong>Why it works</strong>Feet-together, semi-tandem and tandem stance are the standard progression used in the Otago programme and in nearly every trial that reduced falls.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-single-leg-standing">
+  <div class="exercise-head">
+    <h3>Single-leg standing</h3>
+    <span class="dose-pill">Build to 30 seconds each leg, 2 rounds, daily</span>
+  </div>
+  <span class="evidence-badge">Otago exercise</span>
+  <p class="purpose">Almost every step you take is a moment of standing on one leg. This trains the hip and ankle muscles that stop you toppling sideways.</p>
+  <ol><li>Stand at the bench with both hands on it.</li><li>Shift your weight fully onto one leg and lift the other foot a few centimetres off the floor — just enough to clear it.</li><li>Keep the standing knee soft, hips level, and look at a fixed point ahead.</li><li>Hold as long as you can steadily, up to 30 seconds, then swap.</li><li>Do two rounds on each leg.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Two fingers on the bench → one finger → hands hovering just above it. Then add slow head turns, or stand on a firm cushion.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Keep the toes of the lifted foot resting lightly on the floor (a &#39;kickstand&#39;), taking almost no weight.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Always within arm&#39;s reach of support. Do not test yourself in the middle of the room to &#39;see how long you can last&#39;.</div>
+    <div class="meta-item"><strong>Why it works</strong>Single-leg stance time is one of the balance tests used to decide who needs a falls intervention. Being unable to hold it for 10 seconds is a marker worth telling me about — it has been linked to higher mortality and to injurious falls, though it is a warning light rather than a target in itself.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-tandem-walking-heel-to-toe-corridor-only">
+  <div class="exercise-head">
+    <h3>Tandem walking (heel-to-toe), corridor only</h3>
+    <span class="dose-pill">10 steps × 3, once a day</span>
+  </div>
+  <span class="evidence-badge">Core balance drill</span>
+  <p class="purpose">Trains the side-to-side balance control that keeps you upright when you turn, step around something, or are jostled.</p>
+  <ol><li>Do this in a corridor narrow enough that you can touch both walls with your elbows out, or beside a kitchen bench. Never in the middle of a room.</li><li>Stand at one end with your fingertips lightly brushing one wall.</li><li>Place one foot directly in front of the other so the heel of the front foot touches the toes of the back foot, as if walking a tightrope.</li><li>Take ten slow heel-to-toe steps, looking ahead at a point on the wall rather than at your feet.</li><li>Turn around carefully — wide, slow steps, not a quick pivot — and walk back.</li><li>Rest, then repeat twice more.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Fingertips off the wall (but still within reach). Then hands folded across your chest. Then walk backwards heel-to-toe. Only when all of that is easy, try it with your head turning slowly side to side.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Walk with one whole hand on the wall, and use a semi-tandem step (front heel beside the back toes, not in front of them) until that feels steady.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Never in an open room, never on a rug, never in socks. If you find yourself repeatedly grabbing the wall, the drill is too hard — go back a stage.</div>
+    <div class="meta-item"><strong>Why it works</strong>Narrowing your base of support is the most efficient way to challenge balance, and challenging balance is what makes falls prevention work. In the Cochrane review of 108 trials, exercise reduced the rate of falls by 23% overall — but programmes that genuinely challenged balance <em>and</em> totalled three or more hours a week reduced falls by around 40%. Comfortable, seated, low-dose programmes did not.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-sideways-and-backward-walking">
+  <div class="exercise-head">
+    <h3>Sideways and backward walking</h3>
+    <span class="dose-pill">10 steps each way × 2, most days</span>
+  </div>
+  <span class="evidence-badge">Direction training</span>
+  <p class="purpose">Most falls happen when you step sideways or backwards — reaching into a cupboard, stepping back from an open door, being nudged. Practise the directions you actually fall in.</p>
+  <ol><li>Stand side-on to the kitchen bench with one hand on it.</li><li>Step sideways along the bench: step out with the leading foot, then bring the trailing foot to meet it. Ten steps.</li><li>Come back the other way, so both directions are trained.</li><li>Then, facing the bench with both hands on it, take ten slow steps backwards and ten forwards along its length.</li><li>Keep your steps deliberate and your body upright.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Cross-over stepping (grapevine) sideways; fingertip support only; then a slightly quicker tempo.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Two hands on the bench and half-sized steps.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Look behind you before backward stepping, and keep the path completely clear. Never reverse into an open room.</div>
+    <div class="meta-item"><strong>Why it works</strong>Stepping and walking in different directions and at different speeds is specifically recommended in the 2022 World Falls Guidelines, because balance training is task-specific: practising forwards walking does not protect you sideways.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-walking-with-head-turns">
+  <div class="exercise-head">
+    <h3>Walking with head turns</h3>
+    <span class="dose-pill">3 lengths of the corridor, most days</span>
+  </div>
+  <span class="evidence-badge">Real-world balance</span>
+  <p class="purpose">Balance fails when you have to look away from where you are going — checking traffic, reading a shelf, being spoken to. This trains that exact situation safely.</p>
+  <ol><li>Walk down a clear corridor at your normal pace, within reach of a wall.</li><li>As you walk, turn your head slowly to the left, count two steps, then slowly to the right, count two steps. Keep walking in a straight line.</li><li>Do one length with side-to-side head turns, then one length nodding up and down.</li><li>If you feel dizzy or you veer, stop, steady yourself, and make the head movements slower and smaller.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Faster head turns, then adding a task — naming animals, counting backwards from 100 by threes — while you walk.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do the head turns standing still with a hand on the bench before combining them with walking.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Corridor only. If head turning provokes true spinning vertigo rather than mild unsteadiness, stop and tell me — that is a different problem.</div>
+    <div class="meta-item"><strong>Why it works</strong>Head movement removes visual stabilisation and forces the inner ear and body-position senses to do the work. Dual-task walking training is specifically recommended in the 2022 World Falls Guidelines.</div>
+  </div>
+</div>
+
+<div class="phase-banner phase-c">
+  <h2>Part 3 — The background</h2>
+  <p>Walking will not prevent falls on its own — but everything else works better on top of it.</p>
+</div>
+
+<div class="exercise-card" id="ex-walking-the-background-to-everything-else">
+  <div class="exercise-head">
+    <h3>Walking — the background to everything else</h3>
+    <span class="dose-pill">Build towards 30 minutes on most days</span>
+  </div>
+  <span class="evidence-badge">Aerobic base</span>
+  <p class="purpose">Walking will not by itself fix your balance, but it maintains leg strength, bone, mood, sleep and blood pressure control, and it is the platform the rest of the programme sits on.</p>
+  <ol><li>Start from where you actually are. If that is five minutes to the letterbox and back, start there.</li><li>Add roughly 10% per week — an extra two or three minutes.</li><li>Walk at a pace where you could talk but not sing.</li><li>Take a route you can shorten easily if you tire: laps of a level block beat a one-way walk you have to complete.</li><li>If you are unsteady, walk with someone, or use walking poles or your stick — using an aid is not a failure, it is what allows you to do more.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Add a hill, add pace intervals (two minutes brisk, two minutes easy), or add uneven ground such as a grassy park — but only once your balance work is solid.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Split it into three 10-minute walks. Indoor shopping-centre laps are a legitimate winter option.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Do not do your balance-challenging exercises outdoors on uneven ground unsupervised.</div>
+    <div class="meta-item"><strong>Why it works</strong>Be clear about this: walking alone has <strong>not</strong> been shown to prevent falls, and across 88 trials the programmes that included walking training had <em>smaller</em> effects on falls than those that did not. Walking is essential for fitness, mood, bone and nerve health. It is not a substitute for the balance work above.</div>
+  </div>
+</div>
+<section id="putting-it-together-a-week-that-works">
+<h2 class="section-title">Putting it together — a week that works</h2>
+<p class="section-lede">Adapt the days to suit yourself. Keep the structure: strength three times, balance most days, walking on the days between.</p>
+
+<div class="table-wrap">
+  <table class="plan">
+    <thead><tr><th>Day</th><th>Main session (20–30 min)</th><th>Scattered through the day</th></tr></thead>
+    <tbody>
+      <tr><td>Monday</td><td>Strength: chair squats, leg raises, heel and toe raises, step-ups</td><td>Tandem stance at the sink · one-leg stand at the kettle</td></tr>
+      <tr><td>Tuesday</td><td>Walk 20–30 minutes</td><td>5 sit-to-stands each ad break</td></tr>
+      <tr><td>Wednesday</td><td>Balance: weight shifts, tandem stance, single-leg, corridor tandem walking</td><td>Sideways walking along the bench</td></tr>
+      <tr><td>Thursday</td><td>Walk 20–30 minutes</td><td>Tandem stance while cleaning your teeth</td></tr>
+      <tr><td>Friday</td><td>Strength (as Monday)</td><td>One-leg stand at the kettle</td></tr>
+      <tr><td>Saturday</td><td>Balance (as Wednesday) + walking with head turns</td><td>Take the stairs one extra time</td></tr>
+      <tr><td>Sunday</td><td>Rest, or an easy walk</td><td>Whatever you can manage</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="section-lede" style="margin-top:.75rem;font-size:.92rem">Roughly 2½ hours of structured work, plus the scattered minutes that lift it over the three-hour mark where the benefit is greatest.</p>
+</section>
+<section id="the-other-half-of-falls-prevention">
+<h2 class="section-title">The other half of falls prevention</h2>
+<p class="section-lede">Exercise is the strongest single measure, but it is not the only one — and some popular measures are weaker than people assume.</p>
+
+<div class="card-grid side-grid">
+
+  <div class="info-card type-success">
+    <h4>🌿 Consider Tai Chi as well</h4>
+    <p>Tai Chi reduces falls — by around 19% across the trials, with weaker evidence than the balance programmes above. But one well-run trial of a Tai Chi programme designed specifically for people at high risk of falling outperformed a conventional multimodal exercise class. It is worth adding, particularly if a weekly class is something you would actually attend; it is not a replacement for the strength and balance work.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>🏠 Fix the house — properly</h4>
+    <p>Removing hazards reduces falls by around a quarter overall, and by nearly 40% in people already at high risk. What works is an actual assessment and actual changes: rails by the toilet and shower, non-slip mats, better lighting, removing loose rugs and clutter, and a clear night route. A leaflet does not work. If you have fallen, ask about an occupational therapist home visit.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>👓 Check your glasses, not just your eyes</h4>
+    <p>Multifocal and bifocal lenses blur the ground just where you need to see it, and impair depth perception at kerbs and stairs. If you are active, a separate pair of single-vision distance glasses for walking outdoors is worth discussing with your optometrist. Have cataracts treated — first-eye surgery reduces falls.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>💊 Review the medicines</h4>
+    <p>Sedatives, sleeping tablets, antidepressants, antipsychotics, opioids, some bladder medications, and anything that lowers blood pressure all raise falls risk. So does the combination of several of them. This is worth a formal review with your GP or pharmacist — bring every packet, including the ones you buy yourself.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>🩸 Check your blood pressure standing up</h4>
+    <p>A drop in blood pressure on standing is common, treatable, and often missed because it is only found if someone measures lying and then standing. If you feel light-headed, grey out, or feel worse after meals or in the morning, tell me.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>👟 Wear proper shoes indoors</h4>
+    <p>Well-fitting shoes with a firm heel counter, a low broad heel and a thin, non-slip sole. Not slippers without backs, not loose scuffs, and not socks on floorboards. Bare feet are fine and better than socks.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>🦴 Protect the bone as well as preventing the fall</h4>
+    <p>If you have osteoporosis, or have broken a bone after a minor fall, then treating the bone matters as much as the balance work — a fall you cannot prevent should not cost you a hip. Ask about a bone density scan and about treatment.</p>
+    
+  </div>
+</div>
+</section>
+<section id="things-people-believe-that-are-not-true">
+<h2 class="section-title">Things people believe that are not true</h2>
+
+
+<div class="faq">
+
+  <details>
+    <summary>&quot;Vitamin D will stop me falling.&quot;</summary>
+    <p>It will not, unless you are actually deficient. In community-dwelling older adults, vitamin D supplements have not been shown to prevent falls or fractures, and large intermittent doses have <em>increased</em> falls in two trials. If you are deficient, house-bound, or have osteoporosis, replacement is still worthwhile — but it is not a falls treatment, and more is not better.</p>
+  </details>
+  <details>
+    <summary>&quot;I walk every day, so my balance is fine.&quot;</summary>
+    <p>Walking is excellent for your heart, your mood, your bones and your nerves. But across 88 trials, programmes built around walking had <em>smaller</em> effects on falls than programmes built around balance. Walking trains walking. Balance has to be trained on its own.</p>
+  </details>
+  <details>
+    <summary>&quot;If I use a stick, I&#39;ll become dependent on it.&quot;</summary>
+    <p>A walking aid used properly lets you do more, not less — and more activity is what protects you. Two walking poles are often better than one stick because they give information on both sides. What matters is that the aid is the right height and that someone has shown you how to use it.</p>
+  </details>
+  <details>
+    <summary>&quot;I&#39;d better sit down more so I don&#39;t fall.&quot;</summary>
+    <p>This is the most dangerous idea on the page. Reducing activity to avoid falling weakens exactly the muscles that prevent falls, and fear of falling is itself an independent risk factor for falling. The answer to unsteadiness is training it in a safe place, not avoiding it.</p>
+  </details>
+  <details>
+    <summary>&quot;Wobble boards and balance cushions are the proper way to train.&quot;</summary>
+    <p>They are clinic tools used with someone standing beside you. At home, alone, the useful equivalents are a folded towel or a firm sofa cushion, used with both hands on the bench — and only once the flat-floor work is easy.</p>
+  </details>
+  <details>
+    <summary>&quot;I&#39;ve only had one fall — it was just a trip.&quot;</summary>
+    <p>Almost every fall is &#39;just a trip&#39;. A single fall is the strongest predictor of the next one, and it is the point at which the causes are most treatable. Tell me about it.</p>
+  </details>
+  <details>
+    <summary>&quot;A big multi-part falls programme from the hospital would sort this out.&quot;</summary>
+    <p>Perhaps less than you would expect. Large multifactorial programmes — assessment of everything, referrals in all directions — have produced disappointing or borderline results in trials, including a very large American study that failed to reduce serious fall injuries. Podiatry packages have likewise come out neutral.</p>
+<p>This is not an argument against treating what is treatable. It is an argument for putting your effort where the effect actually is: challenging balance exercise, at enough of a dose, done indefinitely.</p>
+  </details>
+</div>
+</section>
+<section id="if-you-do-fall-the-plan-you-make-in-advance">
+<h2 class="section-title">If you do fall: the plan you make in advance</h2>
+<p class="section-lede">Long lies on the floor cause far more harm than the fall itself. Rehearse this before you need it.</p>
+
+<div class="pathway">
+
+  <div class="step-card type-accent">
+    <div class="step-number">1</div>
+    
+    <h3>Do not rush to get up</h3>
+    <p>Lie still for a moment. Check whether anything hurts badly, and whether you can move both arms and both legs. If you suspect a broken bone, or you hit your head, or you are on blood thinners, call for help and stay where you are.</p>
+    
+    
+  </div>
+  <div class="step-card type-accent">
+    <div class="step-number">2</div>
+    
+    <h3>Roll, crawl, kneel, rise</h3>
+    <p>Roll onto your side, then onto your hands and knees. Crawl to a solid chair or a bed. Put both hands on the seat, bring your strongest leg up so that foot is flat on the floor, then push up through that leg and both arms and turn to sit.</p>
+    
+    
+  </div>
+  <div class="step-card type-accent">
+    <div class="step-number">3</div>
+    
+    <h3>If you cannot get up</h3>
+    <p>Get to a warm place if you can — drag a blanket or cushion down. Keep moving your arms and legs to protect your skin and circulation. Bang on a wall or floor. This is exactly what a personal alarm pendant is for, and why it must be worn rather than left on the bedside table.</p>
+    
+    
+  </div>
+  <div class="step-card type-success">
+    <div class="step-number">4</div>
+    
+    <h3>Tell me about it</h3>
+    <p>Every fall is worth reporting, even one you were not hurt by. A fall is the single strongest predictor of the next fall, and most causes are treatable — blood pressure medication, vision, inner ear, sensation in the feet, or simple loss of leg strength.</p>
+    
+    
+  </div>
+</div>
+<div class="research-note">Being honest about the evidence: teaching people to get up off the floor is widely recommended on the strength of the harm caused by long lies — about half of uninjured people who fall cannot get up unaided, and pressure injury, dehydration, muscle breakdown, hypothermia and pneumonia all follow from lying there. The trials that have tested floor-rise training are small and have not shown a clear change in the ability to rise. Rehearse it anyway: the cost is five minutes and the plan itself is worth having.</div>
+</section>
+<div class="highlight-box"><span class="box-title">Hurt is not the same as harm</span><p>Muscles that have worked will ache. As a rule of thumb, discomfort up to about 4 or 5 out of 10 during and after exercise is acceptable, provided it settles back to your normal level within 24 hours and is not getting worse week on week. Sharp, sudden or one-sided pain is a reason to stop.</p></div>
+<section id="making-it-actually-happen">
+<h2 class="section-title">Making it actually happen</h2>
+<p class="section-lede">The best programme is the one you will still be doing in three months. These are the things that reliably make the difference.</p>
+
+<div class="card-grid">
+
+  <div class="info-card type-success">
+    <h4>🔗 Attach it to something you already do</h4>
+    <p>Balance work while the kettle boils. Neck exercises after brushing your teeth. Relaxation practice as you get into bed. A new habit hooked onto an old one survives; a new habit floating free does not.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>📅 Keep a tick sheet</h4>
+    <p>A calendar on the fridge with a tick for each day. Self-monitoring is one of the few adherence strategies with consistent evidence behind it, and it gives us something real to look at in clinic.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>🎯 Set a specific, checkable goal</h4>
+    <p>Not &#39;improve my balance&#39;, but &#39;stand on one leg for 30 seconds each side by the end of March&#39;, or &#39;walk to the shops and back without stopping&#39;. Write it down.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>⏱️ Ten minutes beats an hour you never start</h4>
+    <p>Short daily sessions beat one long weekly effort. The programmes below are designed to be done in ten to twenty minutes, most days, in your own kitchen or hallway.</p>
+    
+  </div>
+</div>
+<div class="research-note">Almost every trial that produced a real result ran for at least eight to twelve weeks. Judge the programme at three months, not at three days.</div>
+</section>
+<section id="getting-extra-help-in-australia">
+<h2 class="section-title">Getting extra help in Australia</h2>
+<p class="section-lede">You do not have to do this alone, and supervised programmes work better than unsupervised ones for people at higher risk.</p>
+
+<div class="card-grid side-grid">
+
+  <div class="info-card type-blue">
+    <h4>🩺 Your GP can subsidise allied health</h4>
+    <p>Since 1 July 2025, GP Management Plans and Team Care Arrangements have been replaced by the <strong>GP Chronic Condition Management Plan</strong>. With one in place, you can access up to <strong>five Medicare-rebated allied health services per calendar year</strong> — shared across all disciplines, so five physiotherapy sessions means none left for anything else (ten services for Aboriginal and Torres Strait Islander patients). Referral is now by an ordinary letter rather than a special form. Ask your GP whether you are eligible.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>🏃 Physiotherapist or exercise physiologist</h4>
+    <p>A physiotherapist is the right choice for a specific problem — a painful neck, an unsteady gait, vestibular rehabilitation. An accredited exercise physiologist is the right choice for building and supervising a long-term conditioning programme. Both can be seen privately without a referral.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>👥 Community falls programmes</h4>
+    <p>NSW Health and many local councils run group strength-and-balance programmes such as Stepping On. Group programmes add the two things a home sheet cannot: supervision and company. Ask your GP or your local council, or search Active and Healthy NSW.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>🏠 My Aged Care and NDIS</h4>
+    <p>If you are over 65 and finding daily tasks harder, a My Aged Care assessment can fund home exercise support, home modifications such as rails, and an occupational therapy home-safety visit. Under 65 with a permanent disability, the same supports may be available through the NDIS.</p>
+    
+  </div>
+</div>
+</section>
+<div class="warning-box"><span class="box-title">Contact me, or your GP, if</span><ul class="check-list"><li>You have had a fall — any fall, even one where you were not hurt.</li><li>You are having black-outs, faints, or falls with no warning at all.</li><li>You feel light-headed on standing, particularly in the morning or after meals.</li><li>The unsteadiness has come on quickly, over days to weeks, rather than gradually.</li><li>You have new numbness, weakness, double vision, slurred speech, or spinning vertigo.</li><li>You are becoming frightened to leave the house because of your balance.</li></ul></div>
+
+<section>
+  <h2 class="section-title">Other information sheets</h2>
+  <p class="section-lede">These programmes overlap deliberately. If more than one applies to you, do not do them all — tell me, and we will build one combined programme.</p>
+  <div class="related">
+    <a href="https://claude.ai/code/artifact/c3e5c564-b953-4be6-8a35-e72c498228ac"><strong>Neuropathy &amp; myopathy balance</strong><span>A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.</span></a>
+    <a href="https://claude.ai/code/artifact/b0aa96fd-6026-4a8d-a5f4-ea73c2e89dba"><strong>Dizziness &amp; vestibular exercises</strong><span>Exercises that retrain the balance organ of the inner ear — for dizziness, unsteadiness and the sense that the world moves when you do.</span></a>
+    <a href="https://claude.ai/code/artifact/b2caf1b1-6d16-4c54-88e5-2df3e656b598"><strong>Parkinson&#39;s exercise programme</strong><span>A comprehensive home programme — big movements, fast movements, hard aerobic work and balance training — built on the principles behind PD Warrior and LSVT BIG.</span></a>
+    <a href="https://claude.ai/code/artifact/77e9929e-e5bf-435e-9916-eda4d0523c7d"><strong>Insomnia</strong><span>What actually works for persistent insomnia — the behavioural treatment that outperforms sleeping tablets, relaxation techniques, sleep hygiene, daytime activity and pain control.</span></a>
+    <a href="https://claude.ai/code/artifact/68d34222-0ee1-4e95-8373-4e073ee5cbd1"><strong>Back pain &amp; core</strong><span>A static, spine-sparing core programme built on holds rather than sit-ups — plus the daily habits that decide whether back pain keeps coming back.</span></a>
+    <a href="https://claude.ai/code/artifact/76917baa-3b54-4b64-a0e5-2c067a469c81"><strong>Neck pain &amp; ergonomics</strong><span>How to set up your desk, phone, car and pillow — and a short daily programme of gentle neck and shoulder-blade exercises that has good evidence behind it.</span></a>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Questions about your own programme?</h2>
+  <p>Bring this sheet to your next appointment and we will adapt it to you — your diagnosis, your other conditions, and what you are actually willing to do.</p>
+  <div class="btn-row"><a class="btn" href="https://www.eastneurology.com.au">East Neurology</a><a class="btn ghost" href="https://eastneuro.info/stress">Stress &amp; relaxation guide</a></div>
+</section>
+</main>
+<footer>
+  <p class="practice">East Neurology</p>
+  <p>301/251 Oxford St, Bondi Junction, Sydney</p>
+  <p><a href="https://www.eastneurology.com.au">eastneurology.com.au</a></p>
+  <p class="fineprint">Written by Dr Ron Granot. Last reviewed August 2026.</p>
+  <p class="fineprint">This information is for educational purposes and does not replace individual medical advice. Content © Dr Ron Granot &amp; East Neurology.</p>
+</footer>

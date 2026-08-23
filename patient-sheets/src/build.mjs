@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { buildCss } from './css.mjs';
 import { makeResolver } from './resolve.mjs';
 import { renderBlocks } from './render.mjs';
-import { esc } from './inline.mjs';
+import { esc, escText } from './inline.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = p => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
@@ -64,7 +64,7 @@ function page({ sheet, body, css }) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${esc(m.title)} | ${esc(theme.practice.name)}</title>
+<title>${escText(m.title)} | ${escText(theme.practice.name)}</title>
 <meta name="description" content="${esc(m.summary)}">
 <meta name="author" content="${esc(theme.practice.clinician)}, ${esc(theme.practice.name)}">
 <meta property="og:title" content="${esc(m.title)}">
@@ -94,7 +94,7 @@ ${body.main}
 </html>`;
 }
 
-function buildSheet(sheet, css) {
+function buildSheet(sheet, css, asArtifact = false) {
   const { resolve, usage } = makeResolver({
     library,
     globals: { ...theme, sheet: sheet.meta },
@@ -125,7 +125,7 @@ function buildSheet(sheet, css) {
   if (sheet.meta.autoRelated !== false) tail.push(resolve('@fragment:related-sheets', { sheet: sheet.meta }));
   if (sheet.meta.autoCta !== false) tail.push(resolve('@fragment:cta-standard', { sheet: sheet.meta }));
 
-  const html = page({
+  const html = (asArtifact ? artifactPage : page)({
     sheet,
     css,
     body: {
@@ -137,7 +137,7 @@ function buildSheet(sheet, css) {
   return { html, usage: usage() };
 }
 
-function buildIndex(css) {
+function buildIndex(css, asArtifact = false) {
   const groups = [...new Set(index.map(i => i.group))];
   const blocks = [
     {
@@ -155,6 +155,7 @@ function buildIndex(css) {
     meta: {
       id: 'index',
       title: 'Patient Information Sheets',
+      artifactTitle: 'East Neurology Patient Sheets',
       summary: `Evidence-based home programmes and self-management guides from ${theme.practice.clinician} at ${theme.practice.name}.`,
       eyebrow: theme.practice.name,
       autoCta: false,
@@ -164,30 +165,77 @@ function buildIndex(css) {
   };
   const ctx = { sheetId: 'index', renderAll: bs => renderBlocks(bs, ctx), relatedFor: () => [] };
   const heroBlock = { type: 'hero', eyebrow: sheet.meta.eyebrow, title: sheet.meta.title, subtitle: sheet.meta.summary };
-  return page({
+  return (asArtifact ? artifactPage : page)({
     sheet,
     css,
     body: { hero: renderBlocks([heroBlock], ctx), main: renderBlocks(blocks, ctx) },
   });
 }
 
+/**
+ * Artifact mode (`--artifacts`) emits the same pages as body-only fragments for
+ * publishing as Claude Artifacts: no <html>/<head>/<body> wrapper, a clean title,
+ * and cross-links rewritten to published URLs from content/artifact-urls.json
+ * (falling back to the local filenames when a URL is not yet known).
+ */
+function artifactPage({ sheet, body, css }) {
+  const m = sheet.meta;
+  return `<title>${escText(m.artifactTitle ?? m.title)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="${esc(theme.fonts.googleHref)}" rel="stylesheet">
+<style>
+${css}
+</style>
+<a class="skip-link" href="#main">Skip to content</a>
+${body.hero}
+<main id="main" class="container">
+${body.main}
+</main>
+<footer>
+  <p class="practice">${esc(theme.practice.name)}</p>
+  <p>${esc(theme.practice.address)}</p>
+  <p><a href="${esc(theme.practice.siteUrl)}">${esc(theme.practice.site)}</a></p>
+  ${m.reviewed ? `<p class="fineprint">Written by ${esc(theme.practice.clinician)}. Last reviewed ${esc(m.reviewed)}.</p>` : ''}
+  <p class="fineprint">${esc(theme.practice.copyright)}</p>
+</footer>`;
+}
+
+const artifactUrls = (() => {
+  try { return readJson('content/artifact-urls.json'); } catch { return {}; }
+})();
+
+function rewriteLinks(html) {
+  return html.replace(/href="([a-z0-9-]+)\.html"/g, (whole, id) =>
+    artifactUrls[id] ? `href="${artifactUrls[id]}"` : whole);
+}
+
 const only = process.argv[2];
 const css = buildCss(theme);
 fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
 
+const artifactMode = process.argv.includes('--artifacts');
+if (artifactMode) fs.mkdirSync(path.join(ROOT, 'dist/artifacts'), { recursive: true });
+
 let count = 0;
 const allUsage = new Map();
 for (const sheet of sheets) {
-  if (only && sheet.meta.id !== only) continue;
-  const { html, usage } = buildSheet(sheet, css);
-  const out = path.join(ROOT, 'dist', `${sheet.meta.id}.html`);
-  fs.writeFileSync(out, html);
+  if (only && only !== '--artifacts' && sheet.meta.id !== only) continue;
+  const { html, usage } = buildSheet(sheet, css, artifactMode);
+  const out = artifactMode
+    ? path.join(ROOT, 'dist/artifacts', `${sheet.meta.id}.html`)
+    : path.join(ROOT, 'dist', `${sheet.meta.id}.html`);
+  fs.writeFileSync(out, artifactMode ? rewriteLinks(html) : html);
   usage.forEach(u => allUsage.set(u, (allUsage.get(u) ?? 0) + 1));
   console.log(`  ✓ ${sheet.meta.id.padEnd(22)} ${(html.length / 1024).toFixed(1)} KB  ${sheet.meta.title}`);
   count++;
 }
-if (!only) {
-  fs.writeFileSync(path.join(ROOT, 'dist', 'index.html'), buildIndex(css));
+if (!only || artifactMode) {
+  const idx = buildIndex(css, artifactMode);
+  fs.writeFileSync(
+    path.join(ROOT, artifactMode ? 'dist/artifacts' : 'dist', 'index.html'),
+    artifactMode ? rewriteLinks(idx) : idx
+  );
   console.log(`  ✓ ${'index'.padEnd(22)} contents page`);
 }
 

@@ -91,6 +91,21 @@ Built 7 sheet(s). 24 content items were reused across sheets:
     exercise:tandem-stance × 4
 ```
 
+## Publishing
+
+```
+node src/build.mjs --artifacts
+```
+
+writes `dist/artifacts/*.html` — the same pages as body-only fragments suitable
+for publishing as Claude Artifacts (no `<html>`/`<head>` wrapper, a clean title
+without the practice suffix). Put the published URLs in
+`content/artifact-urls.json` and rebuild; the cross-links between sheets are
+rewritten to those URLs so the set browses as one site.
+
+For the practice website, use the full pages in `dist/` instead — they are
+self-contained single files with the CSS inlined.
+
 ## Block types
 
 `hero`, `intro`, `section` (nests blocks), `phaseBanner`, `steps`, `cards`,

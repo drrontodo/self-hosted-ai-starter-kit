@@ -1,0 +1,739 @@
+<title>Neck Pain and Ergonomics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5f7a;
+  --primary-light: #2a7a9e;
+  --accent: #e67e22;
+  --accent-light: #f39c12;
+  --accent2: #8e44ad;
+  --text-dark: #2c3e50;
+  --text-medium: #546e7a;
+  --text-light: #78909c;
+  --bg-cream: #fdfbf7;
+  --bg-light: #f8f6f2;
+  --border: #e0ddd6;
+  --success: #27ae60;
+  --phase-b: #2980b9;
+  --phase-c: #8e44ad;
+  --danger: #c0392b;
+  --gradient-primary: linear-gradient(135deg, #1a5f7a 0%, #2a7a9e 100%);
+  --gradient-warm: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+  --font-heading: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--text-dark);
+  background: var(--bg-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 700; line-height: 1.2; }
+
+a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(26,95,122,.3); transition: all .2s ease; }
+a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ---------- Skip link (accessibility) ---------- */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; background: #fff; color: var(--primary);
+  padding: .75rem 1.25rem; z-index: 100; border-radius: 0 0 8px 0; font-weight: 600;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- Header ---------- */
+.hero {
+  background: var(--gradient-primary);
+  color: #fff;
+  padding: 5rem 1.5rem 6rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.10) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(230,126,34,.18) 0%, transparent 45%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; max-width: 820px; margin: 0 auto; }
+.hero .eyebrow {
+  display: inline-block; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 600; opacity: .9; margin-bottom: 1rem;
+  border: 1px solid rgba(255,255,255,.35); border-radius: 50px; padding: .4rem 1rem;
+  animation: fadeInUp .8s ease both;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1.25rem;
+  animation: fadeInUp .8s ease both;
+}
+.hero p {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  opacity: .95; max-width: 640px; margin: 0 auto;
+  animation: fadeInUp .8s ease .2s both;
+}
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Intro card ---------- */
+.intro {
+  background: #fff;
+  max-width: 820px;
+  margin: -3rem auto 3rem;
+  padding: 2.5rem 2.5rem 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(26,95,122,.08);
+  position: relative;
+  overflow: hidden;
+}
+.intro::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--gradient-warm);
+}
+.intro p { font-size: 1.125rem; line-height: 1.8; color: var(--text-medium); }
+.intro p + p { margin-top: 1rem; }
+
+/* ---------- Section shell ---------- */
+section { margin-bottom: 3.5rem; }
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  color: var(--primary);
+  margin-bottom: .75rem;
+}
+.section-lede { color: var(--text-medium); margin-bottom: 2rem; font-size: 1.05rem; }
+
+/* ---------- Phase banner ---------- */
+.phase-banner {
+  border-radius: 16px; padding: 2rem 1.5rem; text-align: center; margin-bottom: 2.25rem;
+  border: 2px solid; background: var(--bg-light);
+}
+.phase-banner h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .5rem; }
+.phase-banner p { color: var(--text-medium); max-width: 620px; margin: 0 auto; }
+.phase-a { border-color: rgba(26,95,122,.25); background: linear-gradient(135deg, #f2f8fa 0%, #e8f1f5 100%); }
+.phase-a h2 { color: var(--primary); }
+.phase-b { border-color: rgba(41,128,185,.25); background: linear-gradient(135deg, #f1f7fc 0%, #e4eff9 100%); }
+.phase-b h2 { color: var(--phase-b); }
+.phase-c { border-color: rgba(142,68,173,.22); background: linear-gradient(135deg, #f8f3fb 0%, #f0e6f7 100%); }
+.phase-c h2 { color: var(--phase-c); }
+.phase-warm { border-color: rgba(230,126,34,.25); background: linear-gradient(135deg, #fff6ec 0%, #ffeeda 100%); }
+.phase-warm h2 { color: var(--accent); }
+
+/* ---------- Pathway / numbered step cards ---------- */
+.pathway { position: relative; padding-left: .5rem; }
+.pathway::before {
+  content: ''; position: absolute; left: 22px; top: 12px; bottom: 12px; width: 3px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+  opacity: .3; border-radius: 3px;
+}
+.step-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.75rem 1.75rem 1.75rem 5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
+  border-top: 3px solid var(--primary);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,95,122,.12); }
+.step-card.type-accent { border-top-color: var(--accent); }
+.step-card.type-success { border-top-color: var(--success); }
+.step-card.type-purple { border-top-color: var(--phase-c); }
+.step-card.type-blue { border-top-color: var(--phase-b); }
+.step-number {
+  position: absolute; left: 1rem; top: 1.6rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gradient-primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem;
+}
+.step-card.type-accent .step-number { background: var(--gradient-warm); }
+.step-card.type-success .step-number { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
+.step-card.type-purple .step-number { background: linear-gradient(135deg, #8e44ad 0%, #a569bd 100%); }
+.step-card.type-blue .step-number { background: linear-gradient(135deg, #2980b9 0%, #5dade2 100%); }
+.step-card h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: .6rem; }
+.step-card p { color: var(--text-medium); }
+.step-card p + p { margin-top: .75rem; }
+.evidence-badge {
+  display: inline-block; background: var(--gradient-warm); color: #fff;
+  font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  padding: .25rem .7rem; border-radius: 50px; margin-bottom: .6rem;
+}
+
+/* ---------- Card grids ---------- */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.75rem; }
+.info-card {
+  background: #fff; border-radius: 12px; padding: 1.5rem;
+  border-top: 4px solid var(--primary);
+  box-shadow: 0 4px 16px rgba(0,0,0,.05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.info-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(26,95,122,.12); }
+.info-card h4 { color: var(--primary); font-size: 1.1rem; margin-bottom: .5rem; }
+.info-card p { color: var(--text-medium); font-size: .97rem; }
+.info-card.type-accent { border-top-color: var(--accent); }
+.info-card.type-accent h4 { color: var(--accent); }
+.info-card.type-success { border-top-color: var(--success); }
+.info-card.type-success h4 { color: var(--success); }
+.info-card.type-purple { border-top-color: var(--phase-c); }
+.info-card.type-purple h4 { color: var(--phase-c); }
+.info-card.type-blue { border-top-color: var(--phase-b); }
+.info-card.type-blue h4 { color: var(--phase-b); }
+.info-card.type-danger { border-top-color: var(--danger); }
+.info-card.type-danger h4 { color: var(--danger); }
+
+/* Side-bordered variant (used for tests / options lists) */
+.side-grid .info-card { border-top: none; border-left: 4px solid var(--primary); }
+.side-grid .info-card.type-accent { border-left-color: var(--accent); }
+.side-grid .info-card.type-success { border-left-color: var(--success); }
+.side-grid .info-card.type-purple { border-left-color: var(--phase-c); }
+.side-grid .info-card.type-blue { border-left-color: var(--phase-b); }
+.side-grid .info-card.type-danger { border-left-color: var(--danger); }
+
+/* ---------- Exercise cards ---------- */
+.exercise-card {
+  background: #fff; border-radius: 16px; padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
+  border-top: 3px solid var(--accent);
+  margin-bottom: 1.5rem;
+}
+.exercise-head { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; margin-bottom: .35rem; }
+.exercise-card h3 { color: var(--primary); font-size: 1.25rem; }
+.exercise-card .purpose { color: var(--text-medium); font-style: italic; margin-bottom: 1rem; }
+.exercise-card ol { margin: 0 0 1rem 1.2rem; color: var(--text-medium); }
+.exercise-card ol li { margin-bottom: .45rem; padding-left: .2rem; }
+.exercise-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: .75rem; margin-top: 1rem; }
+.meta-item {
+  background: var(--bg-light); border-radius: 10px; padding: .8rem 1rem;
+  font-size: .92rem; color: var(--text-medium);
+}
+.meta-item strong { display: block; color: var(--primary); font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; margin-bottom: .25rem; }
+.meta-item.safety { background: #fdf3ef; }
+.meta-item.safety strong { color: var(--accent); }
+.dose-pill {
+  display: inline-block; background: rgba(26,95,122,.09); color: var(--primary);
+  border-radius: 50px; padding: .25rem .8rem; font-size: .82rem; font-weight: 600;
+}
+
+/* ---------- Boxes ---------- */
+.highlight-box {
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  font-style: italic; color: var(--text-dark);
+}
+.reassurance-box {
+  background: linear-gradient(135deg, #e8f8f0 0%, #d5f5e3 100%);
+  border-left: 4px solid var(--success);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  color: var(--text-dark);
+}
+.warning-box {
+  background: linear-gradient(135deg, #fdecea 0%, #fadbd8 100%);
+  border-left: 4px solid var(--danger);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  color: var(--text-dark);
+}
+.box-title { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; margin-bottom: .4rem; font-style: normal; }
+.highlight-box .box-title { color: var(--accent); }
+.reassurance-box .box-title { color: var(--success); }
+.warning-box .box-title { color: var(--danger); }
+.research-note {
+  background: var(--bg-light); border-radius: 10px; padding: 1rem 1.25rem;
+  font-size: .9rem; color: var(--text-light); font-style: italic; margin: 1.25rem 0;
+}
+.content-card {
+  background: #fff; border-radius: 16px; padding: 1.75rem 1.75rem 1.75rem 2.25rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06); position: relative; overflow: hidden; margin-bottom: 1.5rem;
+}
+.content-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gradient-warm); }
+.content-card h3 { color: var(--primary); margin-bottom: .6rem; }
+.content-card p { color: var(--text-medium); }
+.content-card p + p { margin-top: .75rem; }
+
+/* ---------- Science / info section ---------- */
+.science-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px; padding: 3rem 2rem;
+}
+.science-section > h2 { text-align: center; color: var(--primary); font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .6rem; }
+.science-section > .section-lede { text-align: center; max-width: 640px; margin: 0 auto 2rem; }
+.science-section .info-card { box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+
+/* ---------- Lists ---------- */
+.check-list { list-style: none; }
+.check-list li { position: relative; padding: .7rem 0 .7rem 2rem; border-bottom: 1px solid var(--border); color: var(--text-medium); }
+.check-list li:last-child { border-bottom: none; }
+.check-list li::before { content: '✓'; position: absolute; left: 0; top: .7rem; color: var(--success); font-weight: 700; }
+.check-list.cross li::before { content: '✕'; color: var(--danger); }
+.check-list.arrow li::before { content: '→'; color: var(--accent); }
+.check-list li strong { color: var(--text-dark); }
+
+/* ---------- Weekly plan table ---------- */
+.table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.06); background: #fff; }
+table.plan { width: 100%; border-collapse: collapse; min-width: 520px; }
+table.plan th, table.plan td { padding: .9rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: .95rem; }
+table.plan thead th { background: var(--gradient-primary); color: #fff; font-family: var(--font-heading); font-size: .95rem; letter-spacing: .02em; }
+table.plan tbody tr:nth-child(even) { background: var(--bg-light); }
+table.plan tbody tr:last-child td { border-bottom: none; }
+table.plan td { color: var(--text-medium); }
+table.plan td:first-child { color: var(--text-dark); font-weight: 600; }
+
+/* ---------- FAQ ---------- */
+.faq details {
+  background: #fff; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: .9rem;
+  box-shadow: 0 3px 14px rgba(0,0,0,.05); border-left: 4px solid var(--primary-light);
+}
+.faq summary { cursor: pointer; font-family: var(--font-heading); font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; float: right; color: var(--accent); font-size: 1.3rem; line-height: 1; }
+.faq details[open] summary::after { content: '–'; }
+.faq details p { color: var(--text-medium); margin-top: .8rem; }
+.faq details p + p { margin-top: .6rem; }
+
+/* ---------- CTA ---------- */
+.cta {
+  background: var(--gradient-primary); color: #fff; border-radius: 16px;
+  padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 75% 25%, rgba(230,126,34,.22) 0%, transparent 50%);
+}
+.cta > * { position: relative; }
+.cta h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .75rem; }
+.cta p { opacity: .95; max-width: 560px; margin: 0 auto 1.75rem; }
+.btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; background: #fff; color: var(--primary);
+  padding: .85rem 1.9rem; border-radius: 50px; font-weight: 600; border: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.2); color: var(--primary); border: none; }
+.btn.ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.7); }
+.btn.ghost:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+/* ---------- Related sheets ---------- */
+.related { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+.related a {
+  display: block; background: #fff; border-radius: 12px; padding: 1.25rem 1.4rem;
+  border: 1px solid var(--border); border-left: 4px solid var(--accent);
+  box-shadow: 0 3px 14px rgba(0,0,0,.05); transition: transform .2s ease, box-shadow .2s ease;
+}
+.related a:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(26,95,122,.12); }
+.related a strong { display: block; font-family: var(--font-heading); color: var(--primary); font-size: 1.05rem; margin-bottom: .25rem; }
+.related a span { color: var(--text-medium); font-size: .92rem; }
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center; color: var(--text-light); font-size: .92rem;
+  padding: 3rem 1.5rem 4rem; border-top: 1px solid var(--border); margin-top: 3rem;
+}
+footer p + p { margin-top: .5rem; }
+footer .practice { font-family: var(--font-heading); color: var(--primary); font-size: 1.05rem; }
+footer .fineprint { font-size: .82rem; max-width: 620px; margin: 1rem auto 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .hero { padding: 3.5rem 1.25rem 4.5rem; }
+  .intro { margin: -2.5rem 1rem 2.5rem; padding: 1.75rem 1.5rem 1.75rem 2rem; }
+  .step-card { padding: 1.5rem 1.25rem 1.5rem 4.5rem; }
+  .step-number { width: 36px; height: 36px; font-size: 1.05rem; left: .8rem; top: 1.4rem; }
+  .pathway::before { left: 17px; }
+  .science-section { padding: 2rem 1.25rem; }
+  .cta { padding: 2.25rem 1.25rem; }
+  .exercise-card { padding: 1.4rem; }
+}
+
+/* ---------- Print (these sheets get handed out on paper) ---------- */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .hero { padding: 1.5rem 0; background: none; color: var(--primary); }
+  .hero::before, .cta::before, .intro::before { display: none; }
+  .hero .eyebrow { border-color: var(--border); color: var(--text-medium); }
+  .hero p { color: var(--text-medium); }
+  .intro, .step-card, .info-card, .exercise-card, .content-card, .faq details { box-shadow: none; border: 1px solid var(--border); }
+  .cta { background: none; color: var(--text-dark); border: 1px solid var(--border); }
+  .cta h2 { color: var(--primary); }
+  .btn { border: 1px solid var(--border); color: var(--primary); }
+  .step-card, .exercise-card, .info-card, .highlight-box, .reassurance-box, .warning-box { break-inside: avoid; }
+  .faq details { break-inside: avoid; }
+  .faq details summary::after { display: none; }
+  section { margin-bottom: 1.5rem; }
+  a { border-bottom: none; }
+}
+</style>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Patient Information</span>
+    <h1>Neck Pain: Ergonomics and Gentle Strengthening</h1>
+    <p>How to set up your desk, phone, car and pillow — and a short daily programme of gentle neck and shoulder-blade exercises that has good evidence behind it.</p>
+  </div>
+</header>
+<main id="main" class="container">
+
+<div class="intro">
+  <p>Your head weighs about five kilograms and sits on top of a narrow, mobile column of seven small joints, held up by muscles that are working every minute you are awake. Neck pain is common for the same reason shoulder ache is common in someone carrying a bag all day: not because anything is broken, but because a modest load applied for a long time is hard work.</p>
+<p>That is the good news. It means the two levers that matter are <strong>how the load is arranged</strong> — your desk, your phone, your car, your pillow — and <strong>how much endurance the supporting muscles have</strong>. Both are things you can change, and neither requires a gym.</p>
+  <div class="highlight-box"><span class="box-title">An honest word about posture</span><p>You have probably been told that bad posture causes neck pain. The evidence for that is weaker than the confidence with which it is asserted: studies find only a modest and inconsistent relationship between how people hold their heads and whether their necks hurt. What matters more is <strong>how long you stay in one position</strong> and how much muscular endurance you have. So the advice here is not &#39;sit up straight&#39; — it is &#39;move often, and build endurance&#39;.</p></div>
+</div>
+<div class="reassurance-box"><span class="box-title">How to use this sheet</span><ul class="check-list"><li>Read it once through, then start with the first two or three exercises only.</li><li>Add an exercise every week or two rather than starting everything at once.</li><li>Print it, tick off the days, and bring it back to your appointment.</li><li>This sheet is general information for my patients. If you have been given different, specific advice about your own condition, that advice comes first.</li></ul></div>
+
+<section class="science-section">
+  <h2>Why necks ache</h2>
+  <p class="section-lede">Four contributors, in roughly the order they matter.</p>
+  
+<div class="card-grid">
+
+  <div class="info-card type-primary">
+    <h4>⏳ Duration, not position</h4>
+    <p>Any position becomes uncomfortable if you hold it for three hours. Static muscle work restricts its own blood supply, and the ache that follows is the result. Breaking the time up matters more than perfecting the position.</p>
+    
+  </div>
+  <div class="info-card type-accent">
+    <h4>🪫 Poor endurance in the deep muscles</h4>
+    <p>Small deep muscles at the front of the neck are meant to hold the head steady all day. When they fatigue, the big surface muscles take over — and they are sprinters, not marathon runners. They tire, tighten and ache.</p>
+    
+  </div>
+  <div class="info-card type-purple">
+    <h4>👀 Your eyes drag your head forwards</h4>
+    <p>Screens that are too low, too far away, or too small pull the head forwards without you noticing. A great deal of &#39;neck strain&#39; is really a vision problem — including out-of-date glasses and the reading segment of multifocals.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>😬 Stress and jaw clenching</h4>
+    <p>Neck and jaw muscles are among the first to tighten under stress, and clenching at night is very common. If your neck pain tracks your stress levels, treat the stress as part of the neck treatment — my <a href="https://eastneuro.info/stress">stress management page</a> covers the techniques.</p>
+    
+  </div>
+</div>
+</section>
+<section id="setting-up-the-workstation">
+<h2 class="section-title">Setting up the workstation</h2>
+<p class="section-lede">Spend twenty minutes doing this properly once. It outperforms almost anything else on this page.</p>
+
+<div class="table-wrap">
+  <table class="plan">
+    <thead><tr><th>What</th><th>Where it should be</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Screen height</td><td>Top of the screen at or a little below eye level</td><td>So you look slightly down with your eyes, not with your neck</td></tr>
+      <tr><td>Screen distance</td><td>About an arm&#39;s length away — further for a big screen</td><td>Too close makes you crane; too far makes you lean in</td></tr>
+      <tr><td>Text size</td><td>Big enough to read without leaning forward</td><td>The cheapest ergonomic fix there is</td></tr>
+      <tr><td>Chair height</td><td>Feet flat on the floor, knees roughly level with hips</td><td>A footrest if your feet dangle</td></tr>
+      <tr><td>Back support</td><td>Bottom right back in the chair, low back supported</td><td>A rolled towel works as well as a lumbar cushion</td></tr>
+      <tr><td>Elbows</td><td>Close to your sides, bent about 90°, forearms level</td><td>Reaching forward for the keyboard loads the neck and shoulders</td></tr>
+      <tr><td>Keyboard and mouse</td><td>Directly in front, on the same level, mouse close in</td><td>A mouse out to the side is a common cause of one-sided neck ache</td></tr>
+      <tr><td>Laptops</td><td>On a riser or a stack of books, with a separate keyboard and mouse</td><td>A laptop cannot have both the screen and the keyboard in the right place at once</td></tr>
+      <tr><td>Documents</td><td>On a stand beside the screen, at the same height</td><td>Reading from the desk means hours of looking down</td></tr>
+      <tr><td>Phone</td><td>Headset or speaker if you are on it a lot</td><td>Cradling a handset on your shoulder is the single worst neck position</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="section-lede" style="margin-top:.75rem;font-size:.92rem">Sit-stand desks are useful mainly because they make you change position — the benefit comes from the changing, not from the standing. If you have one, alternate every 30 to 60 minutes rather than standing all day.</p>
+<div class="reassurance-box"><span class="box-title">The rule that beats all of the above</span><p><strong>Get up every 30 to 45 minutes.</strong> No workstation setup survives three unbroken hours. Set a timer, or hook it to something natural — the end of each meeting, each phone call, each chapter. And every 20 minutes, look at something at least six metres away for 20 seconds; it rests the eye muscles that are quietly pulling your head forwards.</p></div>
+</section>
+
+<div class="phase-banner phase-a">
+  <h2>The daily programme</h2>
+  <p>About ten minutes. Expect the first improvement at four to six weeks, and the real gains by three months.</p>
+</div>
+
+<div class="exercise-card" id="ex-range-of-movement-the-morning-loosener">
+  <div class="exercise-head">
+    <h3>Range of movement — the morning loosener</h3>
+    <span class="dose-pill">5 slow repetitions each direction, morning and evening</span>
+  </div>
+  <span class="evidence-badge">Gentle mobility</span>
+  <p class="purpose">Neck pain makes people hold still, and holding still makes the neck stiffer and more painful. This breaks the cycle.</p>
+  <ol><li>Sit tall. Move slowly and smoothly, never forcing.</li><li>Turn your head to look over your right shoulder, then your left. Five each way.</li><li>Tilt your right ear towards your right shoulder, then the left. Five each way.</li><li>Nod your chin down towards your chest, then lift it to look slightly up — only slightly. Five each way.</li><li>Finish by rolling your shoulders backwards five times.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Take the movement a little further each week as comfort allows.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do half the range, or do it lying down where the muscles do not have to hold your head up.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Avoid full circles that roll the head right back into extension, and avoid holding an extreme position with the head back and turned. If a movement causes dizziness, visual disturbance, or pins and needles, stop and tell me.</div>
+    <div class="meta-item"><strong>Why it works</strong>Early, gentle movement produces better outcomes than rest and collars after neck injury, including after whiplash.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-chin-nod-deep-neck-flexor-training">
+  <div class="exercise-head">
+    <h3>Chin nod (deep neck flexor training)</h3>
+    <span class="dose-pill">10-second holds × 10, 1–2 times a day</span>
+  </div>
+  <span class="evidence-badge">Best-supported neck exercise</span>
+  <p class="purpose">Wakes up the small, deep muscles at the front of the neck that hold your head up all day. When these fail, the big surface muscles take over, tire, and ache.</p>
+  <ol><li>Lie on your back with your knees bent and your head flat on the bed or floor. Use a folded towel under your head only if lying flat forces your chin up.</li><li>Without lifting your head at all, make a slow, gentle nodding movement — as if saying a small &#39;yes&#39;, or gently lengthening the back of your neck.</li><li>The movement is tiny. Almost nothing should be visible from the outside.</li><li>Feel the front of your throat: the big muscles running down the sides of your neck should stay soft. If they tighten and stand out like cords, you are pushing far too hard.</li><li>Hold the nod for 10 seconds, breathing normally, then fully relax for 10 seconds.</li><li>Repeat 10 times. Stop the set early if you can no longer keep the surface muscles relaxed.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Once you can do 10 × 10 seconds cleanly lying down, hold the nod and lift your head one centimetre off the bed for 5 seconds. Then progress to doing the nod sitting upright against a wall, which is how you will use it in real life. A physiotherapist can grade this more precisely using a pressure cuff, which is worth doing if you are not making progress.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Shorten the hold to 3–5 seconds and do more repetitions. Effort matters less than doing it without the surface muscles.</div>
+    <div class="meta-item safety"><strong>Safety</strong>This should never be forceful and should not hurt. Jamming the chin hard into your chest is the commonest error and will make you sore.</div>
+    <div class="meta-item"><strong>Why it works</strong>This is the home version of the craniocervical flexion training developed by Jull and colleagues in Queensland. In the clinic it is done with a small pressure cuff behind the neck, working through five graded levels with 10-second holds, and it is deliberately low-load: the aim is to recruit the deep muscles <em>without</em> the surface muscles joining in. Training them this way restores the normal pattern of muscle activation and reduces neck pain — something that strength training alone does not achieve.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-gentle-neck-isometrics-four-directions">
+  <div class="exercise-head">
+    <h3>Gentle neck isometrics (four directions)</h3>
+    <span class="dose-pill">5-second holds × 5 in each direction, once daily</span>
+  </div>
+  <span class="evidence-badge">Static strengthening</span>
+  <p class="purpose">Builds neck strength without moving the joints at all — which is why it suits a neck that hurts when it moves.</p>
+  <ol><li>Sit tall in a chair, shoulders relaxed, looking straight ahead.</li><li><strong>Forwards:</strong> place your palm on your forehead. Press your head gently into your hand and your hand back into your head, so nothing moves. Use about a third of your strength. Hold 5 seconds, then relax.</li><li><strong>Backwards:</strong> lace your fingers behind your head and press your head back into your hands, again without moving.</li><li><strong>Sideways:</strong> put your palm against the side of your head above the ear, and press your head into it. Repeat on the other side.</li><li>Do five holds in each direction, resting a few seconds between each.</li><li>Breathe out during each hold — do not hold your breath.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Increase to 10-second holds, then to about half your maximum effort. Add a rotation direction: place your palm on your cheekbone and resist turning.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Use a very light effort — 10% — and 3-second holds. Even that is enough to start.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Never push to your maximum, and never hold your breath. If a direction reproduces arm pain, pins and needles, or dizziness, stop that direction and tell me.</div>
+    <div class="meta-item"><strong>Why it works</strong>In a randomised trial of 180 women with chronic neck pain published in <em>JAMA</em> in 2003, both isometric strength training and endurance training over 12 months reduced pain and disability substantially, while stretching and general aerobic exercise alone were much less effective. Most of the gain came in the first two months, and it continued to build over the year.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-shoulder-blade-squeezes">
+  <div class="exercise-head">
+    <h3>Shoulder blade squeezes</h3>
+    <span class="dose-pill">10 × 5-second holds, 2–3 times a day</span>
+  </div>
+  <span class="evidence-badge">Postural endurance</span>
+  <p class="purpose">The muscles between your shoulder blades hold your upper back upright. When they give up, your head drifts forwards and the neck carries the load.</p>
+  <ol><li>Sit or stand tall, arms hanging by your sides, shoulders down.</li><li>Draw your shoulder blades gently back and down — as if sliding them into your back pockets. Not up towards your ears.</li><li>It is a small movement. Hold for 5 seconds while breathing normally.</li><li>Relax completely, then repeat 10 times.</li><li>Do a set every time you get up from your desk.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Hold for 10 seconds. Then do it with your arms out at shoulder height, or holding a light resistance band and pulling it apart.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do it lying on your back, where gravity helps.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Keep your neck long and your jaw relaxed. If you feel it in your upper trapezius (the ridge between neck and shoulder), you are shrugging.</div>
+    <div class="meta-item"><strong>Why it works</strong>Scapular and shoulder-girdle strengthening is part of most successful neck-pain exercise programmes; treating the neck without the shoulder girdle is treating half the problem.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-wall-angels">
+  <div class="exercise-head">
+    <h3>Wall angels</h3>
+    <span class="dose-pill">10 slow repetitions, 1–2 times a day</span>
+  </div>
+  <span class="evidence-badge">Mobility + posture</span>
+  <p class="purpose">Opens the front of the chest and restores the upper-back extension that a day at a keyboard takes away.</p>
+  <ol><li>Stand with your back against a wall, feet about 20 cm out from it, knees slightly bent.</li><li>Flatten your low back gently towards the wall, and rest the back of your head against it — if your head does not reach, stand with a folded towel behind it rather than forcing it back.</li><li>Put your arms against the wall in a &#39;goalpost&#39; position, elbows bent to 90° at shoulder height, backs of hands touching the wall.</li><li>Slowly slide your arms up the wall as far as you can while keeping hands, elbows and head in contact, then slide back down.</li><li>Move slowly and stop where contact is lost — that point is your current limit, and it will improve.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Slide higher; hold for 3 seconds at the top; do it with your feet closer to the wall.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do it seated in a firm chair, or lying on the floor with the arms sliding on the carpet.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Do not force your head back against the wall or arch your low back to get further.</div>
+    <div class="meta-item"><strong>Why it works</strong>Chest and thoracic mobility work is a standard adjunct in neck programmes; a stiff upper back forces the neck to compensate.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-upper-trapezius-and-levator-stretches">
+  <div class="exercise-head">
+    <h3>Upper trapezius and levator stretches</h3>
+    <span class="dose-pill">30 seconds × 3 each side, as often as helpful</span>
+  </div>
+  <span class="evidence-badge">Symptom relief</span>
+  <p class="purpose">Eases the tight band between neck and shoulder that aches by mid-afternoon. Relief is temporary — this is for comfort, while the strengthening does the lasting work.</p>
+  <ol><li>Sit tall on a chair and hold the seat with your right hand to anchor that shoulder down.</li><li><strong>For the trapezius:</strong> tilt your left ear towards your left shoulder. Rest your left hand lightly over your head to add a little weight — do not pull hard.</li><li>Hold for 30 seconds of comfortable stretch, never pain. Repeat three times, then swap sides.</li><li><strong>For the levator scapulae:</strong> from the same anchored position, turn your nose towards your left armpit and gently lower your chin, so the stretch is felt at the back corner of the neck.</li><li>Hold 30 seconds, three times each side.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>None needed — this is not a strengthening exercise.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Use no hand on the head at all; the weight of your head is enough.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Stretch, not pull. Stop if you get pins and needles down the arm, or dizziness.</div>
+    <div class="meta-item"><strong>Why it works</strong>Stretching gives short-term relief; the durable improvements in chronic neck pain come from the strengthening and endurance work, which is why the stretches sit alongside them rather than replacing them.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-the-two-minute-desk-reset">
+  <div class="exercise-head">
+    <h3>The two-minute desk reset</h3>
+    <span class="dose-pill">Every 30–45 minutes</span>
+  </div>
+  <span class="evidence-badge">Do this hourly</span>
+  <p class="purpose">No posture is a good posture if you hold it for three hours. The dose of a position matters more than the position itself.</p>
+  <ol><li>Stand up. That alone is most of the benefit.</li><li>Do ten shoulder-blade squeezes.</li><li>Do five slow neck turns each way.</li><li>Look at something at least six metres away for twenty seconds — this rests the eye muscles, and eye strain drives head-forward posture.</li><li>Sit back down deliberately, with your bottom right to the back of the chair.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Set a timer, or attach it to a natural trigger such as the end of each meeting or each phone call.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Even standing and taking three breaths is worth doing.</div>
+    <div class="meta-item safety"><strong>Safety</strong>None.</div>
+    <div class="meta-item"><strong>Why it works</strong>Frequent short breaks reduce discomfort in office workers and are one of the few ergonomic measures with reasonably consistent trial support — more consistent than any particular chair or desk.</div>
+  </div>
+</div>
+<section id="a-week-of-it">
+<h2 class="section-title">A week of it</h2>
+
+
+<div class="table-wrap">
+  <table class="plan">
+    <thead><tr><th>When</th><th>What</th><th>Time</th></tr></thead>
+    <tbody>
+      <tr><td>Morning</td><td>Range of movement loosener · shoulder blade squeezes</td><td>3 min</td></tr>
+      <tr><td>Mid-morning and mid-afternoon</td><td>Two-minute desk reset · upper trapezius stretch if tight</td><td>2 min each</td></tr>
+      <tr><td>Evening</td><td>Chin nods 10 × 10 seconds · neck isometrics · wall angels</td><td>8 min</td></tr>
+      <tr><td>Every 30–45 minutes, all day</td><td>Stand up, look into the distance for 20 seconds</td><td>seconds</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</section>
+<section id="the-rest-of-the-day">
+<h2 class="section-title">The rest of the day</h2>
+
+
+<div class="content-card">
+  <h3>Your phone</h3>
+  <p>Bring the phone up towards your face rather than dropping your head towards the phone. Rest your elbows on a table, a cushion or your other hand, so your arms are not holding the weight.</p>
+<p>Be sceptical of the &#39;text neck&#39; headlines: looking down does increase the load on the neck, but the claim that phones are causing an epidemic of neck damage runs well ahead of the evidence. Duration is again the real issue — a long session in any position is the problem, not the position itself.</p>
+  
+</div>
+
+<div class="content-card">
+  <h3>Your pillow</h3>
+  <p>There is no single best pillow, and expensive ones have not been shown to outperform cheap ones. What matters is that your head is supported in line with your body: on your side, the pillow must fill the gap between your ear and the mattress; on your back, it should support the hollow of your neck without pushing your head forwards.</p>
+<p>Do not sleep on your front. It requires you to turn your head to one end of its range for hours at a time, and it is the commonest cause of waking with a locked, painful neck.</p>
+<p>A rolled towel inside the pillowcase, positioned under the neck, is a cheap and often very effective experiment before you buy anything.</p>
+  
+</div>
+
+<div class="content-card">
+  <h3>Driving</h3>
+  <p>Sit tall with the seat upright enough that your shoulders touch the backrest. Set the head restraint so its middle is level with the top of your ears and as close to the back of your head as is comfortable — this is a genuine protection against whiplash in a rear-end collision, not a headrest for comfort.</p>
+<p>On long drives, stop every couple of hours and do the two-minute desk reset.</p>
+  
+</div>
+
+<div class="content-card">
+  <h3>Carrying things</h3>
+  <p>A heavy bag on one shoulder for years is a real and reversible cause of one-sided neck ache. Use a backpack with both straps, or swap sides deliberately and often, or use a wheeled case.</p>
+  
+</div>
+
+<div class="content-card">
+  <h3>Heat, and what to do in a flare</h3>
+  <p>Heat for 15 to 20 minutes helps most people with muscular neck pain, and is worth doing before the exercises rather than instead of them. Ice suits some people better after an acute strain — use whichever works for you.</p>
+<p>Keep moving the neck gently through a flare. Rest and collars prolong recovery; that has been shown repeatedly, including after whiplash injuries.</p>
+  
+</div>
+</section>
+<section id="questions-people-ask-me">
+<h2 class="section-title">Questions people ask me</h2>
+
+
+<div class="faq">
+
+  <details>
+    <summary>&quot;Should I wear a soft collar?&quot;</summary>
+    <p>Almost never. Collars weaken the muscles you need and slow recovery, including after whiplash, where early gentle movement produces better outcomes than immobilisation. There are specific exceptions after fractures or surgery, which will be explained to you at the time.</p>
+  </details>
+  <details>
+    <summary>&quot;Is it safe to crack my own neck?&quot;</summary>
+    <p>The habit of forcefully twisting your own neck to make it click is worth breaking: it gives brief relief through joint receptors, does nothing lasting, and tends to become compulsive. I would also avoid vigorous high-velocity manipulation of the neck by others — the risk of arterial injury is very small but it is not zero, and gentler treatments work about as well.</p>
+  </details>
+  <details>
+    <summary>&quot;My scan shows degenerative changes and disc bulges.&quot;</summary>
+    <p>So does almost everyone&#39;s after middle age, including people with no pain whatsoever. These findings correlate poorly with symptoms. They matter when they line up with a specific pattern of arm pain, weakness or numbness — which is precisely what your examination is for.</p>
+  </details>
+  <details>
+    <summary>&quot;The pain goes down my arm with pins and needles.&quot;</summary>
+    <p>That suggests irritation of a nerve root, which behaves differently from muscular neck pain. Most cases improve over weeks to a few months. Tell me about it — particularly if there is weakness, if the arm pain is worse than the neck pain, or if it is not settling — and be cautious with end-range neck movements in the meantime.</p>
+  </details>
+  <details>
+    <summary>&quot;How hard should I push these exercises?&quot;</summary>
+    <p>Gently. The chin nod is nearly invisible from the outside, and the isometrics use a third of your strength. Neck exercises that hurt more afterwards were done too hard. Progress by adding time and repetitions before adding effort.</p>
+  </details>
+  <details>
+    <summary>&quot;How long until this helps?&quot;</summary>
+    <p>Four to six weeks for the first clear change, and around three months for the substantial gains — that is the timeframe in the trials of neck strengthening, some of which followed people for a year with benefits sustained. The exercises need to become a permanent, small part of your week rather than a course you finish.</p>
+  </details>
+</div>
+</section>
+<div class="highlight-box"><span class="box-title">Hurt is not the same as harm</span><p>Muscles that have worked will ache. As a rule of thumb, discomfort up to about 4 or 5 out of 10 during and after exercise is acceptable, provided it settles back to your normal level within 24 hours and is not getting worse week on week. Sharp, sudden or one-sided pain is a reason to stop.</p></div>
+<section id="making-it-actually-happen">
+<h2 class="section-title">Making it actually happen</h2>
+<p class="section-lede">The best programme is the one you will still be doing in three months. These are the things that reliably make the difference.</p>
+
+<div class="card-grid">
+
+  <div class="info-card type-success">
+    <h4>🔗 Attach it to something you already do</h4>
+    <p>Balance work while the kettle boils. Neck exercises after brushing your teeth. Relaxation practice as you get into bed. A new habit hooked onto an old one survives; a new habit floating free does not.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>📅 Keep a tick sheet</h4>
+    <p>A calendar on the fridge with a tick for each day. Self-monitoring is one of the few adherence strategies with consistent evidence behind it, and it gives us something real to look at in clinic.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>🎯 Set a specific, checkable goal</h4>
+    <p>Not &#39;improve my balance&#39;, but &#39;stand on one leg for 30 seconds each side by the end of March&#39;, or &#39;walk to the shops and back without stopping&#39;. Write it down.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>⏱️ Ten minutes beats an hour you never start</h4>
+    <p>Short daily sessions beat one long weekly effort. The programmes below are designed to be done in ten to twenty minutes, most days, in your own kitchen or hallway.</p>
+    
+  </div>
+</div>
+<div class="research-note">Almost every trial that produced a real result ran for at least eight to twelve weeks. Judge the programme at three months, not at three days.</div>
+</section>
+<section id="getting-extra-help-in-australia">
+<h2 class="section-title">Getting extra help in Australia</h2>
+<p class="section-lede">You do not have to do this alone, and supervised programmes work better than unsupervised ones for people at higher risk.</p>
+
+<div class="card-grid side-grid">
+
+  <div class="info-card type-blue">
+    <h4>🩺 Your GP can subsidise allied health</h4>
+    <p>Since 1 July 2025, GP Management Plans and Team Care Arrangements have been replaced by the <strong>GP Chronic Condition Management Plan</strong>. With one in place, you can access up to <strong>five Medicare-rebated allied health services per calendar year</strong> — shared across all disciplines, so five physiotherapy sessions means none left for anything else (ten services for Aboriginal and Torres Strait Islander patients). Referral is now by an ordinary letter rather than a special form. Ask your GP whether you are eligible.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>🏃 Physiotherapist or exercise physiologist</h4>
+    <p>A physiotherapist is the right choice for a specific problem — a painful neck, an unsteady gait, vestibular rehabilitation. An accredited exercise physiologist is the right choice for building and supervising a long-term conditioning programme. Both can be seen privately without a referral.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>👥 Community falls programmes</h4>
+    <p>NSW Health and many local councils run group strength-and-balance programmes such as Stepping On. Group programmes add the two things a home sheet cannot: supervision and company. Ask your GP or your local council, or search Active and Healthy NSW.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>🏠 My Aged Care and NDIS</h4>
+    <p>If you are over 65 and finding daily tasks harder, a My Aged Care assessment can fund home exercise support, home modifications such as rails, and an occupational therapy home-safety visit. Under 65 with a permanent disability, the same supports may be available through the NDIS.</p>
+    
+  </div>
+</div>
+</section>
+<div class="warning-box"><span class="box-title">Contact me, or seek urgent care, if you have</span><ul class="check-list"><li><strong>Weakness, clumsiness or numbness in the hands</strong>, difficulty with buttons or handwriting, or unsteadiness in walking — these can indicate pressure on the spinal cord and need prompt assessment.</li><li><strong>Any change in bladder or bowel control</strong> alongside neck symptoms — this needs emergency assessment.</li><li>Neck pain after significant trauma or a car accident.</li><li>Neck pain with <strong>fever, unexplained weight loss, or a history of cancer</strong>.</li><li>A sudden, severe, unfamiliar neck pain or headache, particularly with dizziness, double vision, slurred speech or facial numbness — this needs emergency assessment.</li><li>Progressive arm weakness, or arm pain that is worsening rather than settling.</li><li>Neck pain with severe headache and neck stiffness on bending the chin to the chest, with fever or feeling unwell.</li><li>Rheumatoid arthritis or Down syndrome with new neck pain — the upper neck joints require specific care in both.</li></ul></div>
+
+<section>
+  <h2 class="section-title">Other information sheets</h2>
+  <p class="section-lede">These programmes overlap deliberately. If more than one applies to you, do not do them all — tell me, and we will build one combined programme.</p>
+  <div class="related">
+    <a href="https://claude.ai/code/artifact/282d7c97-1814-4d5b-a347-29ed5c8fc264"><strong>Balance &amp; falls prevention</strong><span>A home programme to steady your balance and reduce your risk of falling — no equipment, no gym, ten to twenty minutes a day.</span></a>
+    <a href="https://claude.ai/code/artifact/c3e5c564-b953-4be6-8a35-e72c498228ac"><strong>Neuropathy &amp; myopathy balance</strong><span>A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.</span></a>
+    <a href="https://claude.ai/code/artifact/b0aa96fd-6026-4a8d-a5f4-ea73c2e89dba"><strong>Dizziness &amp; vestibular exercises</strong><span>Exercises that retrain the balance organ of the inner ear — for dizziness, unsteadiness and the sense that the world moves when you do.</span></a>
+    <a href="https://claude.ai/code/artifact/b2caf1b1-6d16-4c54-88e5-2df3e656b598"><strong>Parkinson&#39;s exercise programme</strong><span>A comprehensive home programme — big movements, fast movements, hard aerobic work and balance training — built on the principles behind PD Warrior and LSVT BIG.</span></a>
+    <a href="https://claude.ai/code/artifact/77e9929e-e5bf-435e-9916-eda4d0523c7d"><strong>Insomnia</strong><span>What actually works for persistent insomnia — the behavioural treatment that outperforms sleeping tablets, relaxation techniques, sleep hygiene, daytime activity and pain control.</span></a>
+    <a href="https://claude.ai/code/artifact/68d34222-0ee1-4e95-8373-4e073ee5cbd1"><strong>Back pain &amp; core</strong><span>A static, spine-sparing core programme built on holds rather than sit-ups — plus the daily habits that decide whether back pain keeps coming back.</span></a>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Questions about your own programme?</h2>
+  <p>Bring this sheet to your next appointment and we will adapt it to you — your diagnosis, your other conditions, and what you are actually willing to do.</p>
+  <div class="btn-row"><a class="btn" href="https://www.eastneurology.com.au">East Neurology</a><a class="btn ghost" href="https://eastneuro.info/stress">Stress &amp; relaxation guide</a></div>
+</section>
+</main>
+<footer>
+  <p class="practice">East Neurology</p>
+  <p>301/251 Oxford St, Bondi Junction, Sydney</p>
+  <p><a href="https://www.eastneurology.com.au">eastneurology.com.au</a></p>
+  <p class="fineprint">Written by Dr Ron Granot. Last reviewed August 2026.</p>
+  <p class="fineprint">This information is for educational purposes and does not replace individual medical advice. Content © Dr Ron Granot &amp; East Neurology.</p>
+</footer>

@@ -7,9 +7,9 @@
     "shortTitle": "Insomnia",
     "eyebrow": "Patient Information",
     "summary": "What actually works for persistent insomnia — the behavioural treatment that outperforms sleeping tablets, relaxation techniques, sleep hygiene, daytime activity and pain control.",
-    "reviewed": "August 2026"
+    "reviewed": "August 2026",
+    "artifactTitle": "Treating Insomnia"
   },
-
   "blocks": [
     {
       "type": "intro",
@@ -23,49 +23,116 @@
         "text": "Cognitive behavioural therapy for insomnia — the combination of the sleep window, stimulus control, cognitive work and relaxation set out below — is recommended as the **first-line treatment ahead of medication** by the American Academy of Sleep Medicine and the American College of Physicians. Its effects are comparable to sleeping tablets in the short term and, unlike tablets, they persist after the treatment stops."
       }
     },
-
     "@fragment:how-to-use",
-
     {
       "type": "science",
       "title": "Why it has not settled on its own",
       "lede": "Three things combine to produce chronic insomnia. The first two are history; the third is what we treat.",
       "cards": [
-        { "icon": "🧬", "title": "What you brought to it", "type": "primary", "body": ["Some people are simply built to sleep more lightly — a family tendency, a tendency to worry, an alert nervous system. This is not your fault and it is not something we can change. It is background, not cause."] },
-        { "icon": "⚡", "title": "What set it off", "type": "accent", "body": ["An illness, an operation, pain, grief, menopause, a stressful period, a new baby, night shifts. The trigger is often long gone by the time people seek help — which is exactly why 'the stress has passed, so why am I still not sleeping?' is such a common question."] },
-        { "icon": "🔁", "title": "What keeps it going", "type": "danger", "body": ["Extra time in bed, daytime naps, trying hard to sleep, clock-watching, anxiety about tomorrow, and the bed itself becoming a cue for frustration. **These are the treatable part, and every technique below targets one of them.**"] }
+        {
+          "icon": "🧬",
+          "title": "What you brought to it",
+          "type": "primary",
+          "body": [
+            "Some people are simply built to sleep more lightly — a family tendency, a tendency to worry, an alert nervous system. This is not your fault and it is not something we can change. It is background, not cause."
+          ]
+        },
+        {
+          "icon": "⚡",
+          "title": "What set it off",
+          "type": "accent",
+          "body": [
+            "An illness, an operation, pain, grief, menopause, a stressful period, a new baby, night shifts. The trigger is often long gone by the time people seek help — which is exactly why 'the stress has passed, so why am I still not sleeping?' is such a common question."
+          ]
+        },
+        {
+          "icon": "🔁",
+          "title": "What keeps it going",
+          "type": "danger",
+          "body": [
+            "Extra time in bed, daytime naps, trying hard to sleep, clock-watching, anxiety about tomorrow, and the bed itself becoming a cue for frustration. **These are the treatable part, and every technique below targets one of them.**"
+          ]
+        }
       ]
     },
-
-    { "type": "phaseBanner", "variant": "a", "title": "Step 1 — Measure it", "subtitle": "Two weeks of a simple diary. Everything else is set from these numbers." },
-    { "type": "exercises", "items": ["@exercise:sleep-diary"] },
-
-    { "type": "phaseBanner", "variant": "b", "title": "Step 2 — The two techniques that do most of the work", "subtitle": "These are the hard ones and the effective ones. Expect three to six weeks before the benefit is clear." },
-    { "type": "exercises", "items": ["@exercise:stimulus-control", "@exercise:sleep-window"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "a",
+      "title": "Step 1 — Measure it",
+      "subtitle": "Two weeks of a simple diary. Everything else is set from these numbers."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:sleep-diary"
+      ]
+    },
+    {
+      "type": "phaseBanner",
+      "variant": "b",
+      "title": "Step 2 — The two techniques that do most of the work",
+      "subtitle": "These are the hard ones and the effective ones. Expect three to six weeks before the benefit is clear."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:stimulus-control",
+        "@exercise:sleep-window"
+      ]
+    },
     {
       "type": "box",
       "kind": "reassurance",
       "title": "The first fortnight is the worst of it",
       "text": "Sleep window therapy makes you sleepier before it makes you better — that is the mechanism, not a sign it is failing. Sleep becomes deeper and less broken first, and only then does the amount increase. Start it in a fortnight where you can afford to be tired, do not start it the week before a long drive, and hold your nerve at day four when it feels pointless. Most people who abandon the treatment abandon it in the first ten days."
     },
-
-    { "type": "phaseBanner", "variant": "c", "title": "Step 3 — Turning the arousal down", "subtitle": "Insomnia is a state of being too alert at the wrong time. These are the techniques that address it directly — practise them by day, so they work at night." },
-    { "type": "exercises", "items": ["@exercise:slow-breathing", "@exercise:progressive-muscle-relaxation", "@exercise:body-scan"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "c",
+      "title": "Step 3 — Turning the arousal down",
+      "subtitle": "Insomnia is a state of being too alert at the wrong time. These are the techniques that address it directly — practise them by day, so they work at night."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:slow-breathing",
+        "@exercise:progressive-muscle-relaxation",
+        "@exercise:body-scan"
+      ]
+    },
     {
       "type": "box",
       "kind": "highlight",
       "title": "A fuller guide to these techniques",
       "text": "@text:stress-page"
     },
-
-    { "type": "phaseBanner", "variant": "a", "title": "Step 4 — The mind at 2 am", "subtitle": "For the racing thoughts, the problem-solving, and the arithmetic of how many hours are left." },
-    { "type": "exercises", "items": ["@exercise:constructive-worry", "@exercise:sleep-thoughts"] },
-
-    { "type": "phaseBanner", "variant": "b", "title": "Step 5 — The day, not the night", "subtitle": "Sleep is built during the day. These three are the ones patients most often have back to front." },
-    { "type": "exercises", "items": ["@exercise:daytime-activity", "@exercise:sleep-hygiene", "@exercise:pain-and-sleep"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "a",
+      "title": "Step 4 — The mind at 2 am",
+      "subtitle": "For the racing thoughts, the problem-solving, and the arithmetic of how many hours are left."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:constructive-worry",
+        "@exercise:sleep-thoughts"
+      ]
+    },
+    {
+      "type": "phaseBanner",
+      "variant": "b",
+      "title": "Step 5 — The day, not the night",
+      "subtitle": "Sleep is built during the day. These three are the ones patients most often have back to front."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:daytime-activity",
+        "@exercise:sleep-hygiene",
+        "@exercise:pain-and-sleep"
+      ]
+    },
     {
       "type": "section",
       "title": "Where medication fits",
@@ -75,17 +142,58 @@
           "type": "cards",
           "variant": "side",
           "items": [
-            { "icon": "💊", "title": "Benzodiazepines and 'z-drugs'", "type": "danger", "body": ["Temazepam, zolpidem, zopiclone and their relatives. Effective for a few nights, and reasonable for a short, defined crisis. Beyond a few weeks, tolerance develops, sleep quality deteriorates, and stopping causes rebound insomnia that feels like proof you still need them. In older adults they raise the risk of falls, fractures, confusion and car accidents. **Never stop one abruptly — they must be tapered slowly**, and doing that alongside CBT-I is far more successful than doing it alone."] },
-            { "icon": "🌙", "title": "Melatonin", "type": "primary", "body": ["Weak as a sleeping tablet, useful as a body-clock signal. Prolonged-release melatonin is approved in Australia for people over 55, and immediate-release melatonin at a low dose, taken several hours before bed, is genuinely useful for delayed sleep timing and for jet lag. Do not expect a sedative effect."] },
-            { "icon": "🧪", "title": "The newer orexin blockers", "type": "blue", "body": ["Suvorexant, lemborexant and daridorexant work by blocking the brain's wake-promoting orexin system rather than by sedating you. They appear to cause less tolerance and less rebound than the older drugs, and are a reasonable option where medication is genuinely needed. Availability and cost in Australia vary — worth discussing."] },
-            { "icon": "🌀", "title": "Sedating antidepressants", "type": "purple", "body": ["Low-dose doxepin has good evidence specifically for staying asleep. Amitriptyline and mirtazapine are widely used, help where pain or depression coexist, and carry their own burdens — dry mouth, constipation, weight gain, next-day grogginess. Anticholinergic drugs deserve particular caution in older people."] },
-            { "icon": "⚠️", "title": "Quetiapine and antihistamines", "type": "danger", "body": ["Quetiapine is commonly prescribed for sleep and is **not recommended** for insomnia: the evidence is poor and the metabolic and movement side effects are real. Over-the-counter antihistamine sleep aids (doxylamine, diphenhydramine) cause tolerance within days and next-day impairment, and are poorly suited to older adults."] },
-            { "icon": "🍷", "title": "Alcohol and cannabis", "type": "danger", "body": ["Both are widely used as sleeping aids and both make sleep worse over time. Alcohol fragments the second half of the night and worsens sleep apnoea. Cannabis suppresses dreaming sleep, and stopping after regular use causes several nights of markedly disturbed sleep — which tends to drive people back to it."] }
+            {
+              "icon": "💊",
+              "title": "Benzodiazepines and 'z-drugs'",
+              "type": "danger",
+              "body": [
+                "Temazepam, zolpidem, zopiclone and their relatives. Effective for a few nights, and reasonable for a short, defined crisis. Beyond a few weeks, tolerance develops, sleep quality deteriorates, and stopping causes rebound insomnia that feels like proof you still need them. In older adults they raise the risk of falls, fractures, confusion and car accidents. **Never stop one abruptly — they must be tapered slowly**, and doing that alongside CBT-I is far more successful than doing it alone."
+              ]
+            },
+            {
+              "icon": "🌙",
+              "title": "Melatonin",
+              "type": "primary",
+              "body": [
+                "Weak as a sleeping tablet, useful as a body-clock signal. Prolonged-release melatonin is approved in Australia for people over 55, and immediate-release melatonin at a low dose, taken several hours before bed, is genuinely useful for delayed sleep timing and for jet lag. Do not expect a sedative effect."
+              ]
+            },
+            {
+              "icon": "🧪",
+              "title": "The newer orexin blockers",
+              "type": "blue",
+              "body": [
+                "Suvorexant, lemborexant and daridorexant work by blocking the brain's wake-promoting orexin system rather than by sedating you. They appear to cause less tolerance and less rebound than the older drugs, and are a reasonable option where medication is genuinely needed. Availability and cost in Australia vary — worth discussing."
+              ]
+            },
+            {
+              "icon": "🌀",
+              "title": "Sedating antidepressants",
+              "type": "purple",
+              "body": [
+                "Low-dose doxepin has good evidence specifically for staying asleep. Amitriptyline and mirtazapine are widely used, help where pain or depression coexist, and carry their own burdens — dry mouth, constipation, weight gain, next-day grogginess. Anticholinergic drugs deserve particular caution in older people."
+              ]
+            },
+            {
+              "icon": "⚠️",
+              "title": "Quetiapine and antihistamines",
+              "type": "danger",
+              "body": [
+                "Quetiapine is commonly prescribed for sleep and is **not recommended** for insomnia: the evidence is poor and the metabolic and movement side effects are real. Over-the-counter antihistamine sleep aids (doxylamine, diphenhydramine) cause tolerance within days and next-day impairment, and are poorly suited to older adults."
+              ]
+            },
+            {
+              "icon": "🍷",
+              "title": "Alcohol and cannabis",
+              "type": "danger",
+              "body": [
+                "Both are widely used as sleeping aids and both make sleep worse over time. Alcohol fragments the second half of the night and worsens sleep apnoea. Cannabis suppresses dreaming sleep, and stopping after regular use causes several nights of markedly disturbed sleep — which tends to drive people back to it."
+              ]
+            }
           ]
         }
       ]
     },
-
     {
       "type": "section",
       "title": "Before you accept the label 'insomnia'",
@@ -94,17 +202,58 @@
         {
           "type": "cards",
           "items": [
-            { "icon": "😮‍💨", "title": "Obstructive sleep apnoea", "type": "danger", "body": ["Loud snoring, witnessed pauses, waking unrefreshed, morning headache, dozing off during the day, waking with a start or gasping. It coexists with insomnia far more often than people expect, and treating the insomnia alone will fail."] },
-            { "icon": "🦵", "title": "Restless legs syndrome", "type": "danger", "body": ["An irresistible urge to move the legs, worse in the evening and at rest, relieved by moving. Very treatable — and low iron stores are a common, correctable cause, so ferritin is worth checking."] },
-            { "icon": "🥊", "title": "Acting out dreams", "type": "danger", "body": ["Shouting, punching or kicking during sleep, sometimes injuring a bed partner. This is REM sleep behaviour disorder, and it is important both to treat and to investigate. Tell me if your partner has described this."] },
-            { "icon": "🕐", "title": "A body clock in the wrong place", "type": "purple", "body": ["If you cannot fall asleep before 2 am but sleep perfectly well until 10 am, that is a circadian rhythm problem, not insomnia — and the treatment is timed light and melatonin, not sleeping tablets."] },
-            { "icon": "🌧️", "title": "Depression and anxiety", "type": "purple", "body": ["Early morning waking with low mood, or a mind that will not stop at night. Insomnia and depression each worsen the other, and treating the insomnia in its own right improves the depression as well."] },
-            { "icon": "🚽", "title": "Nocturia and menopause", "type": "purple", "body": ["Being woken repeatedly by the bladder, or by hot flushes, is not insomnia — it is a different problem with different treatments, and both are common causes of what gets labelled as insomnia in mid and later life."] }
+            {
+              "icon": "😮‍💨",
+              "title": "Obstructive sleep apnoea",
+              "type": "danger",
+              "body": [
+                "Loud snoring, witnessed pauses, waking unrefreshed, morning headache, dozing off during the day, waking with a start or gasping. It coexists with insomnia far more often than people expect, and treating the insomnia alone will fail."
+              ]
+            },
+            {
+              "icon": "🦵",
+              "title": "Restless legs syndrome",
+              "type": "danger",
+              "body": [
+                "An irresistible urge to move the legs, worse in the evening and at rest, relieved by moving. Very treatable — and low iron stores are a common, correctable cause, so ferritin is worth checking."
+              ]
+            },
+            {
+              "icon": "🥊",
+              "title": "Acting out dreams",
+              "type": "danger",
+              "body": [
+                "Shouting, punching or kicking during sleep, sometimes injuring a bed partner. This is REM sleep behaviour disorder, and it is important both to treat and to investigate. Tell me if your partner has described this."
+              ]
+            },
+            {
+              "icon": "🕐",
+              "title": "A body clock in the wrong place",
+              "type": "purple",
+              "body": [
+                "If you cannot fall asleep before 2 am but sleep perfectly well until 10 am, that is a circadian rhythm problem, not insomnia — and the treatment is timed light and melatonin, not sleeping tablets."
+              ]
+            },
+            {
+              "icon": "🌧️",
+              "title": "Depression and anxiety",
+              "type": "purple",
+              "body": [
+                "Early morning waking with low mood, or a mind that will not stop at night. Insomnia and depression each worsen the other, and treating the insomnia in its own right improves the depression as well."
+              ]
+            },
+            {
+              "icon": "🚽",
+              "title": "Nocturia and menopause",
+              "type": "purple",
+              "body": [
+                "Being woken repeatedly by the bladder, or by hot flushes, is not insomnia — it is a different problem with different treatments, and both are common causes of what gets labelled as insomnia in mid and later life."
+              ]
+            }
           ]
         }
       ]
     },
-
     {
       "type": "section",
       "title": "Questions people ask me",
@@ -112,20 +261,49 @@
         {
           "type": "faq",
           "items": [
-            { "q": "\"How much sleep do I actually need?\"", "a": ["Less than you have probably been told. Adult sleep need is a range — most people fall between seven and nine hours, some function perfectly on six, and the requirement falls a little with age. The right amount is the amount that leaves you able to function, not a number you have read.", "Chasing 'eight hours' is itself a common perpetuator of insomnia: it produces extra time in bed, which produces broken sleep."] },
-            { "q": "\"My smartwatch says I get almost no deep sleep.\"", "a": ["Consumer sleep trackers estimate sleep stages from movement and heart rate, and they are unreliable at exactly the thing they are being trusted for. Their commonest effect in people with insomnia is to increase anxiety about sleep, which worsens it — there is even a name for it. Use a diary of how you *feel*, and if you want to keep the watch, stop reading the sleep score."] },
-            { "q": "\"Isn't sleep hygiene the treatment?\"", "a": ["No, and this matters. Sleep hygiene advice on its own is a weak treatment for established insomnia — so weak that it is routinely used as the *control* condition in trials of real treatments. Get the basics right, then put your effort into stimulus control and the sleep window, which is where the results come from."] },
-            { "q": "\"What if I just cannot get out of bed at 3 am?\"", "a": ["Then sit up, out of the covers, with a low light on and something undemanding to read. The principle is to break the association between the bed and lying there frustrated — the getting up is the usual way to do it, not the only way. If you are unsteady on your feet, put the light on first."] },
-            { "q": "\"Will one bad night hurt me?\"", "a": ["No. The health headlines about sleep and dementia, heart disease and cancer are mostly about years of short sleep, and they frighten people with insomnia into precisely the anxiety that maintains it. A bad night makes for a below-par day. Your body compensates: sleep after a poor night is deeper and more efficient, which is exactly the mechanism the sleep window uses deliberately."] },
-            { "q": "\"How long until this works?\"", "a": ["Most people see a clear change between weeks three and six, and the benefit continues to build for months afterwards. Judge it at six weeks, not at six days — and expect the improvement to look like *more solid* sleep before it looks like *more* sleep."] }
+            {
+              "q": "\"How much sleep do I actually need?\"",
+              "a": [
+                "Less than you have probably been told. Adult sleep need is a range — most people fall between seven and nine hours, some function perfectly on six, and the requirement falls a little with age. The right amount is the amount that leaves you able to function, not a number you have read.",
+                "Chasing 'eight hours' is itself a common perpetuator of insomnia: it produces extra time in bed, which produces broken sleep."
+              ]
+            },
+            {
+              "q": "\"My smartwatch says I get almost no deep sleep.\"",
+              "a": [
+                "Consumer sleep trackers estimate sleep stages from movement and heart rate, and they are unreliable at exactly the thing they are being trusted for. Their commonest effect in people with insomnia is to increase anxiety about sleep, which worsens it — there is even a name for it. Use a diary of how you *feel*, and if you want to keep the watch, stop reading the sleep score."
+              ]
+            },
+            {
+              "q": "\"Isn't sleep hygiene the treatment?\"",
+              "a": [
+                "No, and this matters. Sleep hygiene advice on its own is a weak treatment for established insomnia — so weak that it is routinely used as the *control* condition in trials of real treatments. Get the basics right, then put your effort into stimulus control and the sleep window, which is where the results come from."
+              ]
+            },
+            {
+              "q": "\"What if I just cannot get out of bed at 3 am?\"",
+              "a": [
+                "Then sit up, out of the covers, with a low light on and something undemanding to read. The principle is to break the association between the bed and lying there frustrated — the getting up is the usual way to do it, not the only way. If you are unsteady on your feet, put the light on first."
+              ]
+            },
+            {
+              "q": "\"Will one bad night hurt me?\"",
+              "a": [
+                "No. The health headlines about sleep and dementia, heart disease and cancer are mostly about years of short sleep, and they frighten people with insomnia into precisely the anxiety that maintains it. A bad night makes for a below-par day. Your body compensates: sleep after a poor night is deeper and more efficient, which is exactly the mechanism the sleep window uses deliberately."
+              ]
+            },
+            {
+              "q": "\"How long until this works?\"",
+              "a": [
+                "Most people see a clear change between weeks three and six, and the benefit continues to build for months afterwards. Judge it at six weeks, not at six days — and expect the improvement to look like *more solid* sleep before it looks like *more* sleep."
+              ]
+            }
           ]
         }
       ]
     },
-
     "@fragment:adherence",
     "@fragment:australian-pathway-sleep",
-
     {
       "type": "box",
       "kind": "warning",

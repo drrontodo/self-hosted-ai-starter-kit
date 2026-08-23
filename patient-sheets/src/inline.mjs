@@ -5,6 +5,11 @@ export function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ESC[c]);
 }
 
+/** Escape only what must be escaped in text content — keeps apostrophes readable in <title>. */
+export function escText(s) {
+  return String(s ?? '').replace(/[&<>]/g, c => ESC[c]);
+}
+
 /**
  * Supported in content strings:
  *   **bold**  *italic*  `code`  [label](https://url)  --  (en dash)
