@@ -54,7 +54,8 @@
   <tr><td>Audit readiness (confirmed entries with evidence attached)</td>
       <td colspan="2">{{ mandatory.evidence_with }}/{{ mandatory.evidence_total }} ({{ mandatory.evidence_pct }}%)</td></tr>
 </table>
-<p class="muted"><a href="/export/mycpd.csv?year={{ year }}">Download the {{ year }} MyCPD CSV</a></p>
+<p class="muted"><a href="/export/mycpd.csv?year={{ year }}">Download the {{ year }} MyCPD CSV</a>
+ · <a href="/export/audit-bundle/{{ year }}">Download the {{ year }} audit bundle (register + evidence zip)</a></p>
 
 <h2>Recent confirmed activities</h2>
 {% if recent %}

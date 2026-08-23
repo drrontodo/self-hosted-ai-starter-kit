@@ -18,6 +18,9 @@ DASHBOARD_PASSWORD_HASH = os.environ.get("CPD_DASHBOARD_PASSWORD_HASH", "")
 SECRET_KEY = os.environ.get("CPD_SECRET_KEY", "")
 TZ = ZoneInfo(os.environ.get("CPD_TZ", "Australia/Sydney"))
 SCHEDULER_ENABLED = os.environ.get("CPD_SCHEDULER", "1") == "1"
+# Set once the dashboard is served over HTTPS (e.g. behind Caddy); Tailscale
+# serve also provides HTTPS. Leave 0 for plain-HTTP LAN/tailnet access.
+COOKIE_SECURE = os.environ.get("CPD_COOKIE_SECURE", "0") == "1"
 
 ANNUAL_TARGET_MIN = 50 * 60
 CAT1_MIN = int(12.5 * 60)

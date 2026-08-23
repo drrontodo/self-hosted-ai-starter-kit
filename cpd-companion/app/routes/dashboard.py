@@ -69,6 +69,7 @@ def login(request: Request, password: str = Form(...)):
     response.set_cookie(
         auth.SESSION_COOKIE, auth.session_token(),
         max_age=auth.SESSION_MAX_AGE, httponly=True, samesite="lax",
+        secure=config.COOKIE_SECURE,
     )
     return response
 
@@ -767,17 +768,16 @@ def evidence_download(request: Request, evidence_id: int):
     return FileResponse(path, filename=path.name)
 
 
-@router.get("/export/mycpd.csv")
-def export_csv(request: Request, year: int | None = None):
-    if r := _guard(request):
-        return r
-    year = year or dt.datetime.now(config.TZ).year
+def _confirmed_activities(year: int) -> list:
     with db.tx() as conn:
-        rows = conn.execute(
+        return conn.execute(
             "SELECT * FROM activities WHERE status = 'confirmed' AND date BETWEEN ? AND ?"
             " ORDER BY date, id",
             (f"{year}-01-01", f"{year}-12-31"),
         ).fetchall()
+
+
+def _mycpd_csv(rows) -> str:
     buf = io.StringIO()
     writer = csv.writer(buf)
     writer.writerow(["Date", "Category", "Activity type", "Title", "Hours", "Description",
@@ -788,8 +788,83 @@ def export_csv(request: Request, year: int | None = None):
             f"{a['minutes'] / 60:.2f}", _csv_cell(a["description"]), _csv_cell(a["reflection"]),
             _csv_cell(a["tags"]),
         ])
-    buf.seek(0)
+    return buf.getvalue()
+
+
+@router.get("/export/mycpd.csv")
+def export_csv(request: Request, year: int | None = None):
+    if r := _guard(request):
+        return r
+    year = year or dt.datetime.now(config.TZ).year
     return StreamingResponse(
-        iter([buf.getvalue()]), media_type="text/csv",
+        iter([_mycpd_csv(_confirmed_activities(year))]), media_type="text/csv",
         headers={"Content-Disposition": f"attachment; filename=mycpd-{year}.csv"},
+    )
+
+
+@router.get("/export/audit-bundle/{year}")
+def export_audit_bundle(request: Request, year: int):
+    """The 30-June audit response, pre-built: one zip with the year's register
+    (CSV + readable markdown) and every evidence artefact for its confirmed
+    entries."""
+    if r := _guard(request):
+        return r
+    import zipfile
+
+    rows = _confirmed_activities(year)
+    with db.tx() as conn:
+        evidence_by_activity: dict[int, list] = {}
+        for e in conn.execute(
+            "SELECT e.* FROM evidence e JOIN activities a ON a.id = e.activity_id"
+            " WHERE a.status = 'confirmed' AND a.date BETWEEN ? AND ? ORDER BY e.id",
+            (f"{year}-01-01", f"{year}-12-31"),
+        ).fetchall():
+            evidence_by_activity.setdefault(e["activity_id"], []).append(e)
+
+    prog = db.progress(year)
+    md = [f"# CPD register — {year}", "",
+          f"Total confirmed: {prog['total_min'] / 60:.1f} h"
+          f" (Cat 1: {prog['cat1_min'] / 60:.1f} h, Cat 2: {prog['cat2_min'] / 60:.1f} h,"
+          f" Cat 3: {prog['cat3_min'] / 60:.1f} h)", "",
+          f"Entries: {len(rows)}. Generated {db.now_iso()}.", ""]
+    missing: list[str] = []
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(f"register-{year}.csv", _mycpd_csv(rows))
+        for a in rows:
+            md += [f"## {a['date']} — {a['title']}", "",
+                   f"Category {a['category']} · {a['activity_type'].replace('_', ' ')}"
+                   f" · {a['minutes'] / 60:.2f} h"
+                   + (f" · tags: {a['tags']}" if a["tags"] else ""), ""]
+            if a["description"]:
+                md += [a["description"], ""]
+            if a["reflection"]:
+                md += [f"*Reflection:* {a['reflection']}", ""]
+            attached = evidence_by_activity.get(a["id"], [])
+            if not attached:
+                md += ["Evidence: none attached", ""]
+                continue
+            md.append("Evidence:")
+            for e in attached:
+                if e["kind"] == "url":
+                    md.append(f"- URL: {e['path_or_url']}")
+                    continue
+                path = Path(e["path_or_url"])
+                arcname = f"evidence/activity-{a['id']}/{path.name}"
+                if path.is_file():
+                    zf.write(path, arcname)
+                    md.append(f"- {arcname}"
+                              + (f" (sha256 {e['sha256'][:16]}…)" if e["sha256"] else ""))
+                else:
+                    missing.append(arcname)
+                    md.append(f"- MISSING FILE: {e['path_or_url']}")
+            md.append("")
+        if missing:
+            md += ["---", "", f"⚠ {len(missing)} evidence file(s) referenced in the"
+                   " register could not be found on disk.", ""]
+        zf.writestr(f"register-{year}.md", "\n".join(md))
+    return Response(
+        content=buf.getvalue(), media_type="application/zip",
+        headers={"Content-Disposition":
+                 f"attachment; filename=cpd-audit-bundle-{year}.zip"},
     )

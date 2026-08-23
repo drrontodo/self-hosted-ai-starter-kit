@@ -2,7 +2,7 @@
 
 Self-hosted tracker for RACP MyCPD requirements. See [../docs/cme-tracker/SPEC.md](../docs/cme-tracker/SPEC.md) for the full specification and the research reports behind it.
 
-**Built so far (Phases 1–5 + M7):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), the patient-feedback loop (daily Google reviews polling + quarterly themed review cycles with a practice-improvement backlog), the PDP builder, per-activity evidence upload, the monthly email-harvest runner prompt, the practice growth loop (digest items → house-style patient info sheets, quarterly service-opportunity briefs and referrer newsletters, published-page refresh flagging), MyCPD CSV export, and nightly backups.
+**Built so far (Phases 1–6 + M7 — feature-complete per the spec):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), the patient-feedback loop (daily Google reviews polling + quarterly themed review cycles with a practice-improvement backlog), the PDP builder, per-activity evidence upload, the monthly email-harvest runner prompt, the practice growth loop (digest items → house-style patient info sheets, quarterly service-opportunity briefs and referrer newsletters, published-page refresh flagging), MyCPD CSV export, the per-year audit bundle (register + all evidence in one zip — the 30 June audit response, pre-built), and nightly backups.
 
 ## Run it (Windows server, Docker Desktop)
 
@@ -141,6 +141,34 @@ All `/api/*` endpoints require the `X-API-Key` header.
 | `GET /api/jobs`, `POST /api/jobs/{id}/result`, `POST /api/jobs/{id}/fail` | The LLM/transcription job queue drained by `drain_whisper.py` and `drain_claude.ps1` |
 | `GET /api/progress?year=2026` | Category totals vs RACP minimums |
 | `GET /health` | Liveness check (no auth) |
+
+## Exports & audits
+
+- **MyCPD CSV** (`/export/mycpd.csv?year=…`): confirmed entries in MyCPD field
+  order for quick transcription (no MyCPD API exists). Cell values are
+  formula-escaped.
+- **Audit bundle** (`/export/audit-bundle/{year}`, linked from Home): one zip
+  per CPD year containing the register as CSV + readable markdown and every
+  evidence artefact, organised per activity — if RACP selects you for audit
+  (5% annually, evidence due 30 June), this is the response. Missing evidence
+  files are flagged inside the bundle rather than silently skipped. The
+  nightly backup zips (`data/backups/`) remain the disaster-recovery copy.
+
+## Phone access (Tailscale)
+
+The recommended path for using the digest/quick-add from a phone without any
+public exposure:
+
+1. Install [Tailscale](https://tailscale.com) on the Windows server and on the
+   phone, signed into the same tailnet (the free plan is fine for this).
+2. From the phone, the dashboard is at `http://<server-tailnet-name>:8340` —
+   the existing login page applies; nothing is exposed to the public internet.
+3. Optional HTTPS: `tailscale serve --bg 8340` gives you
+   `https://<server>.<tailnet>.ts.net` with automatic certificates; then set
+   `CPD_COOKIE_SECURE=1` in `.env` so the session cookie is marked Secure.
+
+A public HTTPS domain (Caddy + DNS) remains possible later; nothing in the
+design precludes it — set `CPD_COOKIE_SECURE=1` there too.
 
 ## Tests
 
