@@ -9,7 +9,6 @@
     "summary": "A home programme to steady your balance and reduce your risk of falling — no equipment, no gym, ten to twenty minutes a day.",
     "reviewed": "August 2026"
   },
-
   "blocks": [
     {
       "type": "intro",
@@ -23,37 +22,90 @@
         "text": "Exercise that never makes you feel slightly unsteady does not reduce falls. That is why every exercise here comes with a way to make it harder — and a bench to hold on to while you do."
       }
     },
-
     "@fragment:how-to-use",
     "@fragment:safety-first",
-
     {
       "type": "science",
       "title": "What actually makes balance training work",
       "lede": "Three ingredients separate the programmes that reduced falls in trials from the ones that did nothing at all.",
       "cards": [
-        { "icon": "👣", "title": "Narrow your base", "type": "primary", "body": ["Feet apart is easy. Feet together is harder. One foot in front of the other is harder again. One leg is hardest. Every session should spend time at the edge of what you can hold."] },
-        { "icon": "🤸", "title": "Move your weight around", "type": "accent", "body": ["Standing still is only half of balance. Reaching, leaning, turning and stepping — moving your centre of gravity and bringing it back under control — is the other half, and it is what real life demands."] },
-        { "icon": "✋", "title": "Let go of your hands", "type": "success", "body": ["Two hands gripping the bench does very little for your balance. The training happens as you progress to one hand, then a fingertip, then a hand hovering ready to catch you."] }
+        {
+          "icon": "👣",
+          "title": "Narrow your base",
+          "type": "primary",
+          "body": [
+            "Feet apart is easy. Feet together is harder. One foot in front of the other is harder again. One leg is hardest. Every session should spend time at the edge of what you can hold."
+          ]
+        },
+        {
+          "icon": "🤸",
+          "title": "Move your weight around",
+          "type": "accent",
+          "body": [
+            "Standing still is only half of balance. Reaching, leaning, turning and stepping — moving your centre of gravity and bringing it back under control — is the other half, and it is what real life demands."
+          ]
+        },
+        {
+          "icon": "✋",
+          "title": "Let go of your hands",
+          "type": "success",
+          "body": [
+            "Two hands gripping the bench does very little for your balance. The training happens as you progress to one hand, then a fingertip, then a hand hovering ready to catch you."
+          ]
+        }
       ]
     },
-
     {
       "type": "box",
       "kind": "reassurance",
       "title": "The arithmetic that decides whether this works",
       "text": "Across the trials, the programmes that halved falls delivered around **three hours a week** and about **fifty hours in total** — that is roughly four to six months of consistent practice. Three short sessions a week comes to about ninety minutes: good, but below the threshold. The way to close that gap is not another formal session you will not do. It is to scatter balance into the day: stand on one leg while the kettle boils, do five sit-to-stands in every ad break, walk sideways along the bench between the fridge and the sink, and stand in tandem while you clean your teeth. That approach was tested on its own and reduced falls by about a third, with better adherence than a structured programme."
     },
-
-    { "type": "phaseBanner", "variant": "a", "title": "Part 1 — Strength", "subtitle": "Three days a week, on non-consecutive days. Strength is what gives you something to balance with." },
-    { "type": "exercises", "items": ["@exercise:chair-squats", "@exercise:standing-leg-raises", "@exercise:heel-raises", "@exercise:toe-raises", "@exercise:step-ups"] },
-
-    { "type": "phaseBanner", "variant": "b", "title": "Part 2 — Balance", "subtitle": "Most days. This is the part that reduces falls, and the part people skip." },
-    { "type": "exercises", "items": ["@exercise:weight-shifts", "@exercise:tandem-stance", "@exercise:single-leg-stance", "@exercise:tandem-gait", "@exercise:sideways-walking", "@exercise:head-turns-walking"] },
-
-    { "type": "phaseBanner", "variant": "c", "title": "Part 3 — The background", "subtitle": "Walking will not prevent falls on its own — but everything else works better on top of it." },
-    { "type": "exercises", "items": ["@exercise:walking-program"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "a",
+      "title": "Part 1 — Strength",
+      "subtitle": "Three days a week, on non-consecutive days. Strength is what gives you something to balance with."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:chair-squats",
+        "@exercise:standing-leg-raises",
+        "@exercise:heel-raises",
+        "@exercise:toe-raises",
+        "@exercise:step-ups"
+      ]
+    },
+    {
+      "type": "phaseBanner",
+      "variant": "b",
+      "title": "Part 2 — Balance",
+      "subtitle": "Most days. This is the part that reduces falls, and the part people skip."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:weight-shifts",
+        "@exercise:tandem-stance",
+        "@exercise:single-leg-stance",
+        "@exercise:tandem-gait",
+        "@exercise:sideways-walking",
+        "@exercise:head-turns-walking"
+      ]
+    },
+    {
+      "type": "phaseBanner",
+      "variant": "c",
+      "title": "Part 3 — The background",
+      "subtitle": "Walking will not prevent falls on its own — but everything else works better on top of it."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:walking-program"
+      ]
+    },
     {
       "type": "section",
       "title": "Putting it together — a week that works",
@@ -61,21 +113,52 @@
       "blocks": [
         {
           "type": "table",
-          "head": ["Day", "Main session (20–30 min)", "Scattered through the day"],
+          "head": [
+            "Day",
+            "Main session (20–30 min)",
+            "Scattered through the day"
+          ],
           "rows": [
-            ["Monday", "Strength: chair squats, leg raises, heel and toe raises, step-ups", "Tandem stance at the sink · one-leg stand at the kettle"],
-            ["Tuesday", "Walk 20–30 minutes", "5 sit-to-stands each ad break"],
-            ["Wednesday", "Balance: weight shifts, tandem stance, single-leg, corridor tandem walking", "Sideways walking along the bench"],
-            ["Thursday", "Walk 20–30 minutes", "Tandem stance while cleaning your teeth"],
-            ["Friday", "Strength (as Monday)", "One-leg stand at the kettle"],
-            ["Saturday", "Balance (as Wednesday) + walking with head turns", "Take the stairs one extra time"],
-            ["Sunday", "Rest, or an easy walk", "Whatever you can manage"]
+            [
+              "Monday",
+              "Strength: chair squats, leg raises, heel and toe raises, step-ups",
+              "Tandem stance at the sink · one-leg stand at the kettle"
+            ],
+            [
+              "Tuesday",
+              "Walk 20–30 minutes",
+              "5 sit-to-stands each ad break"
+            ],
+            [
+              "Wednesday",
+              "Balance: weight shifts, tandem stance, single-leg, corridor tandem walking",
+              "Sideways walking along the bench"
+            ],
+            [
+              "Thursday",
+              "Walk 20–30 minutes",
+              "Tandem stance while cleaning your teeth"
+            ],
+            [
+              "Friday",
+              "Strength (as Monday)",
+              "One-leg stand at the kettle"
+            ],
+            [
+              "Saturday",
+              "Balance (as Wednesday) + walking with head turns",
+              "Take the stairs one extra time"
+            ],
+            [
+              "Sunday",
+              "Rest, or an easy walk",
+              "Whatever you can manage"
+            ]
           ],
           "caption": "Roughly 2½ hours of structured work, plus the scattered minutes that lift it over the three-hour mark where the benefit is greatest."
         }
       ]
     },
-
     {
       "type": "section",
       "title": "The other half of falls prevention",
@@ -85,17 +168,66 @@
           "type": "cards",
           "variant": "side",
           "items": [
-            { "icon": "🏠", "title": "Fix the house — properly", "type": "success", "body": ["Removing hazards reduces falls by around a quarter overall, and by nearly 40% in people already at high risk. What works is an actual assessment and actual changes: rails by the toilet and shower, non-slip mats, better lighting, removing loose rugs and clutter, and a clear night route. A leaflet does not work. If you have fallen, ask about an occupational therapist home visit."] },
-            { "icon": "👓", "title": "Check your glasses, not just your eyes", "type": "success", "body": ["Multifocal and bifocal lenses blur the ground just where you need to see it, and impair depth perception at kerbs and stairs. If you are active, a separate pair of single-vision distance glasses for walking outdoors is worth discussing with your optometrist. Have cataracts treated — first-eye surgery reduces falls."] },
-            { "icon": "💊", "title": "Review the medicines", "type": "success", "body": ["Sedatives, sleeping tablets, antidepressants, antipsychotics, opioids, some bladder medications, and anything that lowers blood pressure all raise falls risk. So does the combination of several of them. This is worth a formal review with your GP or pharmacist — bring every packet, including the ones you buy yourself."] },
-            { "icon": "🩸", "title": "Check your blood pressure standing up", "type": "success", "body": ["A drop in blood pressure on standing is common, treatable, and often missed because it is only found if someone measures lying and then standing. If you feel light-headed, grey out, or feel worse after meals or in the morning, tell me."] },
-            { "icon": "👟", "title": "Wear proper shoes indoors", "type": "success", "body": ["Well-fitting shoes with a firm heel counter, a low broad heel and a thin, non-slip sole. Not slippers without backs, not loose scuffs, and not socks on floorboards. Bare feet are fine and better than socks."] },
-            { "icon": "🦴", "title": "Protect the bone as well as preventing the fall", "type": "success", "body": ["If you have osteoporosis, or have broken a bone after a minor fall, then treating the bone matters as much as the balance work — a fall you cannot prevent should not cost you a hip. Ask about a bone density scan and about treatment."] }
+            {
+              "icon": "🌿",
+              "title": "Consider Tai Chi as well",
+              "type": "success",
+              "body": [
+                "Tai Chi reduces falls — by around 19% across the trials, with weaker evidence than the balance programmes above. But one well-run trial of a Tai Chi programme designed specifically for people at high risk of falling outperformed a conventional multimodal exercise class. It is worth adding, particularly if a weekly class is something you would actually attend; it is not a replacement for the strength and balance work."
+              ]
+            },
+            {
+              "icon": "🏠",
+              "title": "Fix the house — properly",
+              "type": "success",
+              "body": [
+                "Removing hazards reduces falls by around a quarter overall, and by nearly 40% in people already at high risk. What works is an actual assessment and actual changes: rails by the toilet and shower, non-slip mats, better lighting, removing loose rugs and clutter, and a clear night route. A leaflet does not work. If you have fallen, ask about an occupational therapist home visit."
+              ]
+            },
+            {
+              "icon": "👓",
+              "title": "Check your glasses, not just your eyes",
+              "type": "success",
+              "body": [
+                "Multifocal and bifocal lenses blur the ground just where you need to see it, and impair depth perception at kerbs and stairs. If you are active, a separate pair of single-vision distance glasses for walking outdoors is worth discussing with your optometrist. Have cataracts treated — first-eye surgery reduces falls."
+              ]
+            },
+            {
+              "icon": "💊",
+              "title": "Review the medicines",
+              "type": "success",
+              "body": [
+                "Sedatives, sleeping tablets, antidepressants, antipsychotics, opioids, some bladder medications, and anything that lowers blood pressure all raise falls risk. So does the combination of several of them. This is worth a formal review with your GP or pharmacist — bring every packet, including the ones you buy yourself."
+              ]
+            },
+            {
+              "icon": "🩸",
+              "title": "Check your blood pressure standing up",
+              "type": "success",
+              "body": [
+                "A drop in blood pressure on standing is common, treatable, and often missed because it is only found if someone measures lying and then standing. If you feel light-headed, grey out, or feel worse after meals or in the morning, tell me."
+              ]
+            },
+            {
+              "icon": "👟",
+              "title": "Wear proper shoes indoors",
+              "type": "success",
+              "body": [
+                "Well-fitting shoes with a firm heel counter, a low broad heel and a thin, non-slip sole. Not slippers without backs, not loose scuffs, and not socks on floorboards. Bare feet are fine and better than socks."
+              ]
+            },
+            {
+              "icon": "🦴",
+              "title": "Protect the bone as well as preventing the fall",
+              "type": "success",
+              "body": [
+                "If you have osteoporosis, or have broken a bone after a minor fall, then treating the bone matters as much as the balance work — a fall you cannot prevent should not cost you a hip. Ask about a bone density scan and about treatment."
+              ]
+            }
           ]
         }
       ]
     },
-
     {
       "type": "section",
       "title": "Things people believe that are not true",
@@ -103,22 +235,57 @@
         {
           "type": "faq",
           "items": [
-            { "q": "\"Vitamin D will stop me falling.\"", "a": ["It will not, unless you are actually deficient. In community-dwelling older adults, vitamin D supplements have not been shown to prevent falls or fractures, and large intermittent doses have *increased* falls in two trials. If you are deficient, house-bound, or have osteoporosis, replacement is still worthwhile — but it is not a falls treatment, and more is not better."] },
-            { "q": "\"I walk every day, so my balance is fine.\"", "a": ["Walking is excellent for your heart, your mood, your bones and your nerves. But across 88 trials, programmes built around walking had *smaller* effects on falls than programmes built around balance. Walking trains walking. Balance has to be trained on its own."] },
-            { "q": "\"If I use a stick, I'll become dependent on it.\"", "a": ["A walking aid used properly lets you do more, not less — and more activity is what protects you. Two walking poles are often better than one stick because they give information on both sides. What matters is that the aid is the right height and that someone has shown you how to use it."] },
-            { "q": "\"I'd better sit down more so I don't fall.\"", "a": ["This is the most dangerous idea on the page. Reducing activity to avoid falling weakens exactly the muscles that prevent falls, and fear of falling is itself an independent risk factor for falling. The answer to unsteadiness is training it in a safe place, not avoiding it."] },
-            { "q": "\"Wobble boards and balance cushions are the proper way to train.\"", "a": ["They are clinic tools used with someone standing beside you. At home, alone, the useful equivalents are a folded towel or a firm sofa cushion, used with both hands on the bench — and only once the flat-floor work is easy."] },
-            { "q": "\"I've only had one fall — it was just a trip.\"", "a": ["Almost every fall is 'just a trip'. A single fall is the strongest predictor of the next one, and it is the point at which the causes are most treatable. Tell me about it."] }
+            {
+              "q": "\"Vitamin D will stop me falling.\"",
+              "a": [
+                "It will not, unless you are actually deficient. In community-dwelling older adults, vitamin D supplements have not been shown to prevent falls or fractures, and large intermittent doses have *increased* falls in two trials. If you are deficient, house-bound, or have osteoporosis, replacement is still worthwhile — but it is not a falls treatment, and more is not better."
+              ]
+            },
+            {
+              "q": "\"I walk every day, so my balance is fine.\"",
+              "a": [
+                "Walking is excellent for your heart, your mood, your bones and your nerves. But across 88 trials, programmes built around walking had *smaller* effects on falls than programmes built around balance. Walking trains walking. Balance has to be trained on its own."
+              ]
+            },
+            {
+              "q": "\"If I use a stick, I'll become dependent on it.\"",
+              "a": [
+                "A walking aid used properly lets you do more, not less — and more activity is what protects you. Two walking poles are often better than one stick because they give information on both sides. What matters is that the aid is the right height and that someone has shown you how to use it."
+              ]
+            },
+            {
+              "q": "\"I'd better sit down more so I don't fall.\"",
+              "a": [
+                "This is the most dangerous idea on the page. Reducing activity to avoid falling weakens exactly the muscles that prevent falls, and fear of falling is itself an independent risk factor for falling. The answer to unsteadiness is training it in a safe place, not avoiding it."
+              ]
+            },
+            {
+              "q": "\"Wobble boards and balance cushions are the proper way to train.\"",
+              "a": [
+                "They are clinic tools used with someone standing beside you. At home, alone, the useful equivalents are a folded towel or a firm sofa cushion, used with both hands on the bench — and only once the flat-floor work is easy."
+              ]
+            },
+            {
+              "q": "\"I've only had one fall — it was just a trip.\"",
+              "a": [
+                "Almost every fall is 'just a trip'. A single fall is the strongest predictor of the next one, and it is the point at which the causes are most treatable. Tell me about it."
+              ]
+            },
+            {
+              "q": "\"A big multi-part falls programme from the hospital would sort this out.\"",
+              "a": [
+                "Perhaps less than you would expect. Large multifactorial programmes — assessment of everything, referrals in all directions — have produced disappointing or borderline results in trials, including a very large American study that failed to reduce serious fall injuries. Podiatry packages have likewise come out neutral.",
+                "This is not an argument against treating what is treatable. It is an argument for putting your effort where the effect actually is: challenging balance exercise, at enough of a dose, done indefinitely."
+              ]
+            }
           ]
         }
       ]
     },
-
     "@fragment:floor-rescue",
     "@fragment:hurt-vs-harm",
     "@fragment:adherence",
     "@fragment:australian-pathway",
-
     {
       "type": "box",
       "kind": "warning",

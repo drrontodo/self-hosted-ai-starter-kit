@@ -12,12 +12,11 @@
       "Hold the nod for 10 seconds, breathing normally, then fully relax for 10 seconds.",
       "Repeat 10 times. Stop the set early if you can no longer keep the surface muscles relaxed."
     ],
-    "progression": "Once you can do 10 × 10 seconds cleanly lying down, hold the nod and lift your head one centimetre off the bed for 5 seconds. Then progress to doing the nod sitting upright against a wall, which is how you will use it in real life.",
+    "progression": "Once you can do 10 × 10 seconds cleanly lying down, hold the nod and lift your head one centimetre off the bed for 5 seconds. Then progress to doing the nod sitting upright against a wall, which is how you will use it in real life. A physiotherapist can grade this more precisely using a pressure cuff, which is worth doing if you are not making progress.",
     "regression": "Shorten the hold to 3–5 seconds and do more repetitions. Effort matters less than doing it without the surface muscles.",
     "safety": "This should never be forceful and should not hurt. Jamming the chin hard into your chest is the commonest error and will make you sore.",
-    "evidence_note": "Training the deep cervical flexors in this graded, low-load way — the craniocervical flexion approach developed by Jull and colleagues in Queensland — reduces neck pain and restores the normal pattern of muscle activation, which does not happen with strength training alone."
+    "evidence_note": "This is the home version of the craniocervical flexion training developed by Jull and colleagues in Queensland. In the clinic it is done with a small pressure cuff behind the neck, working through five graded levels with 10-second holds, and it is deliberately low-load: the aim is to recruit the deep muscles *without* the surface muscles joining in. Training them this way restores the normal pattern of muscle activation and reduces neck pain — something that strength training alone does not achieve."
   },
-
   "neck-isometrics": {
     "name": "Gentle neck isometrics (four directions)",
     "badge": "Static strengthening",
@@ -34,9 +33,8 @@
     "progression": "Increase to 10-second holds, then to about half your maximum effort. Add a rotation direction: place your palm on your cheekbone and resist turning.",
     "regression": "Use a very light effort — 10% — and 3-second holds. Even that is enough to start.",
     "safety": "Never push to your maximum, and never hold your breath. If a direction reproduces arm pain, pins and needles, or dizziness, stop that direction and tell me.",
-    "evidence_note": "Both isometric and dynamic neck strengthening reduce chronic neck pain; Ylinen's Finnish trials showed clear, lasting benefit from regular neck training in women with chronic neck pain, sustained at 12 months."
+    "evidence_note": "In a randomised trial of 180 women with chronic neck pain published in *JAMA* in 2003, both isometric strength training and endurance training over 12 months reduced pain and disability substantially, while stretching and general aerobic exercise alone were much less effective. Most of the gain came in the first two months, and it continued to build over the year."
   },
-
   "scapular-squeeze": {
     "name": "Shoulder blade squeezes",
     "badge": "Postural endurance",
@@ -54,7 +52,6 @@
     "safety": "Keep your neck long and your jaw relaxed. If you feel it in your upper trapezius (the ridge between neck and shoulder), you are shrugging.",
     "evidence_note": "Scapular and shoulder-girdle strengthening is part of most successful neck-pain exercise programmes; treating the neck without the shoulder girdle is treating half the problem."
   },
-
   "wall-angels": {
     "name": "Wall angels",
     "badge": "Mobility + posture",
@@ -72,7 +69,6 @@
     "safety": "Do not force your head back against the wall or arch your low back to get further.",
     "evidence_note": "Chest and thoracic mobility work is a standard adjunct in neck programmes; a stiff upper back forces the neck to compensate."
   },
-
   "upper-trap-stretch": {
     "name": "Upper trapezius and levator stretches",
     "badge": "Symptom relief",
@@ -90,7 +86,6 @@
     "safety": "Stretch, not pull. Stop if you get pins and needles down the arm, or dizziness.",
     "evidence_note": "Stretching gives short-term relief; the durable improvements in chronic neck pain come from the strengthening and endurance work, which is why the stretches sit alongside them rather than replacing them."
   },
-
   "neck-rom": {
     "name": "Range of movement — the morning loosener",
     "badge": "Gentle mobility",
@@ -108,7 +103,6 @@
     "safety": "Avoid full circles that roll the head right back into extension, and avoid holding an extreme position with the head back and turned. If a movement causes dizziness, visual disturbance, or pins and needles, stop and tell me.",
     "evidence_note": "Early, gentle movement produces better outcomes than rest and collars after neck injury, including after whiplash."
   },
-
   "desk-microbreak": {
     "name": "The two-minute desk reset",
     "badge": "Do this hourly",

@@ -17,7 +17,6 @@
     "safety": "Breath-holding raises blood pressure. If you have heart disease or aneurysm, keep the effort light and the breathing continuous.",
     "evidence_note": "Bracing (all-round stiffening) rather than hollowing (drawing the belly in) is what generates spine stability under real-world loads. The two approaches have been argued over for twenty years; bracing is the more robust skill for daily activity."
   },
-
   "mcgill-curl-up": {
     "name": "Modified curl-up",
     "badge": "McGill Big 3",
@@ -36,7 +35,6 @@
     "safety": "If you get neck pain, you are lifting with your neck instead of your trunk. Lift less, and think of the whole upper body rising as one block.",
     "evidence_note": "Short 8–10 second holds in a descending pyramid build the muscular *endurance* that distinguishes healthy backs from painful ones, without the repeated flexion cycles that damage discs in laboratory testing."
   },
-
   "side-bridge": {
     "name": "Side bridge (side plank)",
     "badge": "McGill Big 3",
@@ -54,7 +52,6 @@
     "safety": "Painful shoulder is the usual limiter — do the wall version instead. Do not let the bottom shoulder sag.",
     "evidence_note": "The side bridge produces high activity in the lateral trunk muscles while keeping spinal compression far lower than sit-ups, which is why it is preferred for painful backs."
   },
-
   "bird-dog": {
     "name": "Bird dog",
     "badge": "McGill Big 3",
@@ -73,7 +70,6 @@
     "safety": "Sore wrists — make a fist and rest on your knuckles, or do it with forearms on a bench. Do not lift the leg high enough to arch your back.",
     "evidence_note": "Bird dog loads the spinal extensors while keeping the spine in a neutral, low-stress position, which is the recurring principle in every exercise on this page."
   },
-
   "dead-bug": {
     "name": "Dead bug",
     "badge": "Anti-arching control",
@@ -91,7 +87,6 @@
     "safety": "If your back arches or your neck strains, you have gone too far — shorten the range.",
     "evidence_note": "Motor-control exercises like this reduce pain and disability in chronic low back pain, though they are not clearly better than other well-delivered exercise. The best programme remains the one you will actually do."
   },
-
   "glute-bridge": {
     "name": "Glute bridge",
     "badge": "Hip strength",
@@ -109,7 +104,6 @@
     "safety": "Hamstring cramp is common — move your feet slightly further from your bottom and squeeze the buttocks harder.",
     "evidence_note": "Hip extensor strength is consistently reduced in people with persistent low back pain, and hip strengthening is a standard part of effective back programmes."
   },
-
   "front-plank": {
     "name": "Front plank (optional)",
     "badge": "Optional add-on",
@@ -126,7 +120,6 @@
     "safety": "Stop the moment your back begins to sag — a sagging plank loads exactly the structures we are protecting.",
     "evidence_note": "Long plank holds are popular but there is no benefit in grinding out minutes: endurance for daily life is built with repeated short holds, not one exhausting one."
   },
-
   "wall-press-antirotation": {
     "name": "Standing anti-twist press",
     "badge": "Standing carry-over",
@@ -144,12 +137,11 @@
     "safety": "Keep breathing. If you feel it in your shoulder rather than your trunk, lower your hands slightly.",
     "evidence_note": "Trunk stiffness generated while standing is what actually protects the spine during daily tasks; floor exercises alone do not automatically transfer."
   },
-
   "back-walking": {
     "name": "Walking as treatment for your back",
     "badge": "Strong evidence",
     "purpose": "Regular walking is one of the best-supported treatments for recurrent low back pain, and it is free.",
-    "dose": "20–30 minutes, most days",
+    "dose": "Build to 30 minutes, five times a week",
     "how_to": [
       "Start with what you can do comfortably, even if that is ten minutes.",
       "Increase by a few minutes each week rather than doubling it in one go.",
@@ -160,6 +152,6 @@
     "progression": "Longer, then slightly brisker; add gentle hills.",
     "regression": "Three short walks a day instead of one long one; walk in water if land walking is too painful.",
     "safety": "Bed rest is the one thing we now know makes back pain worse. Even during a flare, keep moving little and often.",
-    "evidence_note": "An individually tailored, progressive walking programme substantially prolonged the time to a recurrence of low back pain in a large Australian randomised trial (the WalkBack trial, published in The Lancet in 2024)."
+    "evidence_note": "The Australian WalkBack trial (published in *The Lancet* in 2024) followed 701 adults who had just recovered from an episode of back pain. Those given an individualised, progressive walking programme built up to about 30 minutes five times a week went a median of **208 days before their next episode, against 112 days** for those given nothing — roughly twice as long — and they sought less healthcare and took less time off work."
   }
 }

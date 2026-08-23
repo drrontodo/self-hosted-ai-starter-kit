@@ -16,7 +16,6 @@
     "safety": "None — but if the diary shows loud snoring, witnessed pauses in breathing, or falling asleep during the day despite adequate time in bed, tell me before starting sleep-window therapy.",
     "evidence_note": "The sleep diary is the standard measurement tool in every trial of cognitive behavioural therapy for insomnia, and clinicians use it to set and adjust the treatment."
   },
-
   "stimulus-control": {
     "name": "Stimulus control — rebuilding the bed–sleep connection",
     "badge": "First-line CBT-I component",
@@ -33,9 +32,8 @@
     "progression": "None — these rules do not change. They become easier by about the second or third week, and the improvement usually follows in weeks three to six.",
     "regression": "If getting out of bed is impractical — because of pain, cold, or unsteadiness — sit up out of the covers, or move to a chair in the bedroom instead. The principle is 'do not lie in bed awake and frustrated'.",
     "safety": "If you are unsteady on your feet at night, put a light on before getting up, and keep the path clear. Falls at night in the dark are common and serious.",
-    "evidence_note": "Stimulus control is one of the two components that carry most of the effect of cognitive behavioural therapy for insomnia, which is recommended as **first-line treatment ahead of medication** by both the American Academy of Sleep Medicine and the American College of Physicians."
+    "evidence_note": "Stimulus control is one of the two components that carry most of the effect of cognitive behavioural therapy for insomnia, which is recommended as **first-line treatment ahead of medication** by both the American Academy of Sleep Medicine (2021) and the American College of Physicians."
   },
-
   "sleep-window": {
     "name": "Sleep window therapy (sleep restriction)",
     "badge": "The most powerful single component",
@@ -52,9 +50,8 @@
     "progression": "The window widens by 15 minutes a week as your sleep consolidates. Most people finish somewhere between 6.5 and 7.5 hours.",
     "regression": "If the full method is too harsh, a gentler version — simply not going to bed before a fixed time, and always rising at the same time — captures much of the benefit.",
     "safety": "**This makes you sleepier during the first one to two weeks.** Do not start it in a week when you must drive long distances, operate machinery, or work night shifts, and stop driving if you feel sleepy at the wheel. Tell me first if you have epilepsy, bipolar disorder, or untreated sleep apnoea — sleep restriction can destabilise all three and needs supervision.",
-    "evidence_note": "Sleep restriction is the most potent single element of cognitive behavioural therapy for insomnia, and in a large UK primary-care trial nurse-delivered sleep restriction alone significantly improved insomnia compared with sleep hygiene advice."
+    "evidence_note": "Sleep restriction is the most potent single element of cognitive behavioural therapy for insomnia. In the HABIT trial (*The Lancet*, 2023), practice nurses with no previous sleep training delivered four brief sessions of sleep restriction therapy in UK general practice, and it significantly reduced insomnia severity compared with sleep hygiene advice — an effect that was still present six and twelve months later."
   },
-
   "slow-breathing": {
     "name": "Slow breathing",
     "badge": "Relaxation — start here",
@@ -73,7 +70,6 @@
     "safety": "If you feel light-headed or tingly, you are breathing too deeply — make the breaths smaller and slower.",
     "evidence_note": "Relaxation training is a recognised component of cognitive behavioural therapy for insomnia, most useful for people whose insomnia is driven by physical tension and racing thoughts. There is a fuller step-by-step version on my [stress management page]({{links.stress}})."
   },
-
   "progressive-muscle-relaxation": {
     "name": "Progressive muscle relaxation",
     "badge": "Best for physical tension",
@@ -92,7 +88,6 @@
     "safety": "Do not tense a painful, injured or recently operated area, and go gently on the neck and back. If you have cramps, reduce the tensing effort.",
     "evidence_note": "Progressive muscle relaxation dates to Jacobson's work in the 1930s and remains one of the best-studied relaxation methods for insomnia and anxiety. Step-by-step instructions are also on my [stress management page]({{links.stress}})."
   },
-
   "body-scan": {
     "name": "Body scan and mindful attention",
     "badge": "Best for a racing mind",
@@ -111,7 +106,6 @@
     "safety": "A few people find turning attention inwards uncomfortable, particularly after trauma. If it increases distress, use the breathing or muscle relaxation methods instead.",
     "evidence_note": "Mindfulness-based approaches improve insomnia and are a reasonable alternative for people who find the structure of cognitive behavioural therapy difficult, though the evidence base is smaller."
   },
-
   "constructive-worry": {
     "name": "Constructive worry — putting the day down",
     "badge": "For the 2 am problem-solving mind",
@@ -130,7 +124,6 @@
     "safety": "None.",
     "evidence_note": "Structured worry time is a standard cognitive technique in insomnia treatment, targeting the pre-sleep cognitive arousal that most patients describe as 'my mind won't switch off'."
   },
-
   "sleep-thoughts": {
     "name": "Challenging the thoughts that keep you awake",
     "badge": "Cognitive therapy",
@@ -148,7 +141,6 @@
     "safety": "None.",
     "evidence_note": "Cognitive restructuring targets the dysfunctional beliefs about sleep that maintain insomnia, and paradoxical intention — giving up the effort to sleep — is itself a recommended technique with trial support."
   },
-
   "sleep-hygiene": {
     "name": "Sleep hygiene — necessary but not sufficient",
     "badge": "Read the caveat",
@@ -166,9 +158,8 @@
     "progression": "Once these are in place, put your effort into stimulus control and the sleep window — that is where the results come from.",
     "regression": "Pick the two that most obviously apply to you rather than attempting all of them.",
     "safety": "Do not stop a regular sleeping tablet abruptly to 'do this properly' — benzodiazepines and z-drugs must be tapered, and rebound insomnia after sudden withdrawal is severe. Talk to me or your GP first.",
-    "evidence_note": "This is the point most often missed: trials consistently show sleep hygiene education **alone** is substantially less effective than full cognitive behavioural therapy for insomnia, and it is frequently used as the *control* condition against which real treatments are tested."
+    "evidence_note": "This is the point most often missed. The American Academy of Sleep Medicine's 2021 guideline gives a **strong** recommendation for multicomponent cognitive behavioural therapy for insomnia, and explicitly does **not** recommend sleep hygiene education as a treatment on its own, for lack of evidence that it works. It is so weak that trials routinely use it as the *control* condition against which real treatments are measured."
   },
-
   "daytime-activity": {
     "name": "Building sleep pressure during the day",
     "badge": "Often the missing piece",
@@ -186,7 +177,6 @@
     "safety": "If you are unsteady, see the balance sheets on this site before increasing outdoor walking.",
     "evidence_note": "Meta-analyses of exercise trials in people with insomnia show moderate improvements in sleep quality and time to fall asleep. Regular timing of light, activity and meals reinforces the circadian rhythm that insomnia typically erodes."
   },
-
   "pain-and-sleep": {
     "name": "Getting pain under control at night",
     "badge": "Two-way street",

@@ -17,7 +17,6 @@
     "safety": "Chair or bench in reach for every exercise. Do this during your 'on' time, when your medication is working.",
     "evidence_note": "High-amplitude training is the core of both LSVT BIG and the Australian PD Warrior programme, and it works by recalibrating the internal sense of how big a movement needs to be."
   },
-
   "ballistic-punches": {
     "name": "Ballistic punching",
     "badge": "PD Warrior style — power",
@@ -34,9 +33,8 @@
     "progression": "Punch to a target (a cushion held up, or spots marked on a wall). Add stepping forward and back with the punches. Add a count-down out loud to make it a dual task.",
     "regression": "Do it seated, or with one hand on the bench and one punching.",
     "safety": "Never punch anything solid — air, or a soft cushion held loosely. If you have shoulder problems, reduce the range. If you are unsteady, sit down for this one; explosive movement plus poor balance is how people fall.",
-    "evidence_note": "Power and speed training addresses bradykinesia directly. High effort, high complexity and salience are core neuroplasticity principles of PD Warrior; the Parkinson's-specific boxing literature is still small but consistently reports improved balance, gait and confidence."
+    "evidence_note": "Power and speed training addresses bradykinesia directly, and high effort, complexity and salience are core neuroplasticity principles. Be aware of the honest state of the evidence for the boxing classes this resembles: two systematic reviews published in 2025, covering thirteen studies, found no significant effect of boxing programmes on mobility, balance, motor symptoms or fitness — the enthusiasm for them currently runs ahead of the trial data. The case for training power and amplitude is much stronger than the case for any particular branded class."
   },
-
   "power-sit-to-stand": {
     "name": "Explosive sit-to-stand",
     "badge": "Power + function",
@@ -54,7 +52,6 @@
     "safety": "Fast standing can drop your blood pressure. If you feel light-headed on standing, stand up more slowly, pause holding the chair, and tell me — orthostatic drops are common in Parkinson's and are treatable.",
     "evidence_note": "The countdown before the movement is itself a treatment: an external cue like this bypasses the faulty internal 'go' signal, and is the same principle used for freezing of gait."
   },
-
   "big-steps": {
     "name": "Big steps in four directions",
     "badge": "Amplitude + balance",
@@ -73,7 +70,6 @@
     "safety": "Clear floor, no rugs, bench within reach. Backward stepping is the one most likely to cause a fall — keep a hand on the bench for it.",
     "evidence_note": "Step training in multiple directions targets the protective stepping response, which is impaired in Parkinson's and is the last defence against a fall."
   },
-
   "fast-feet": {
     "name": "Fast feet",
     "badge": "Speed drill",
@@ -91,7 +87,6 @@
     "safety": "Both hands on a solid surface until you are confident. Stop if you feel your feet 'sticking' to the floor and use the freezing strategies below.",
     "evidence_note": "Rapid stepping trains the same system as the protective step reaction, and speed-focused training addresses bradykinesia in a way that strength training alone does not."
   },
-
   "high-intensity-aerobic": {
     "name": "High-intensity aerobic exercise",
     "badge": "Possible disease-modifying effect",
@@ -107,10 +102,9 @@
     ],
     "progression": "Increase duration first, then intensity. Add hills or resistance on the bike.",
     "regression": "Start at a moderate intensity (60–65% of maximum heart rate) — that is the comparison arm in the trials, and it is far better than nothing.",
-    "safety": "**Talk to me before starting high-intensity exercise** if you have heart disease, uncontrolled blood pressure, significant orthostatic drops, or have not exercised vigorously in years. A stationary bike removes almost all the falls risk and is the right choice if your balance is impaired.",
-    "evidence_note": "The SPARX2 trial found that high-intensity treadmill exercise at 80–85% of maximum heart rate, four days a week, was safe in early Parkinson's and that motor scores did not worsen over six months, unlike the control group. The larger SPARX3 trial has been testing whether that translates into genuinely slowed progression."
+    "safety": "**Ask me before starting high-intensity exercise** — and cardiac clearance is not optional if you have known heart disease, uncontrolled blood pressure, a significant rhythm problem or valve disease. Drink a large glass of water fifteen minutes beforehand, and start seated if you get light-headed on standing. Exercise in the cool part of the day: Parkinson's impairs sweating and temperature control, which matters in a Sydney summer. A stationary bike removes almost all the falls risk and is the right choice if your balance is impaired.",
+    "evidence_note": "In the SPARX2 trial (*JAMA Neurology*, 2018), 128 people with newly diagnosed, untreated Parkinson's exercised on a treadmill four days a week for six months. High intensity — 80–85% of maximum heart rate — proved safe and achievable, and that group's motor scores were essentially unchanged over six months while the usual-care group's worsened; moderate intensity did not show the same effect. A separate Dutch trial (Park-in-Shape) used a home exercise bike with a game-based app and found an improvement of around four points in off-medication motor scores over six months. The larger SPARX3 trial was designed to test whether any of this genuinely slows the disease."
   },
-
   "dual-task-training": {
     "name": "Doing two things at once, on purpose",
     "badge": "Real-world training",
@@ -125,10 +119,9 @@
     ],
     "progression": "Harder mental tasks; carrying something less stable; adding a turn at each end.",
     "regression": "Do the thinking task standing still first, then while marching on the spot with a hand on the bench.",
-    "safety": "Corridor only, with clear floor. Do not practise dual tasking on stairs, and do not practise it if you have had a fall in the last month without discussing it with me first.",
-    "evidence_note": "Dual-task training improves gait under dual-task conditions in Parkinson's. Note the caution in the European Physiotherapy Guideline: for people with significant cognitive impairment or a recent fall history, dual tasking should be trained cautiously and supervised, because the same divided attention that we are training is what causes falls."
+    "safety": "Corridor only, with a clear floor, during 'on' time. Do not practise dual tasking on stairs. If you have had a fall in the last month, or you have been told you have significant memory or attention problems, do this with someone present rather than alone.",
+    "evidence_note": "Dual-task training improves walking under dual-task conditions. The blanket old advice to 'never do two things at once' is out of date: a randomised trial of 121 people with Parkinson's found dual-task training improved dual-task walking speed **without** increasing falls. The caution that remains is specific — significant cognitive impairment, or a recent fall, means this should be supervised rather than practised alone."
   },
-
   "freezing-strategies": {
     "name": "Getting out of a freeze",
     "badge": "Cueing strategies",
@@ -145,9 +138,8 @@
     "progression": "Practise with a family member so they know to cue you rather than pull you. Identify your own personal triggers — doorways, the bathroom, the phone ringing — and rehearse the strategy in exactly those places.",
     "regression": "Start with counting out loud as the single strategy and add others later.",
     "safety": "Freezing is a major cause of falls. If it is new or worsening, tell me — the timing relative to your medication doses matters, and freezing that occurs only when the medication is wearing off is often treatable by adjusting it.",
-    "evidence_note": "External cueing works because it bypasses the damaged internal timing system in the basal ganglia and routes movement through intact pathways. Cueing is a standard recommendation of the European Physiotherapy Guideline for Parkinson's Disease."
+    "evidence_note": "External cueing works by bypassing the damaged internal timing system in the basal ganglia and routing movement through intact pathways, and it is a standard recommendation of the European Physiotherapy Guideline for Parkinson's Disease. Two honest points: cueing is a **permanent strategy, not a course** — in the RESCUE trial the gains had largely faded six weeks after the training stopped — and **one cue does not fit all**. Some people respond dramatically to visual cues such as a line on the floor or a laser, others to rhythm and counting. Try several and keep the ones that work for you."
   },
-
   "big-writing": {
     "name": "Big writing and other carry-over",
     "badge": "Amplitude off the mat",
@@ -164,7 +156,6 @@
     "safety": "None.",
     "evidence_note": "LSVT BIG and LSVT LOUD share a single principle: recalibrating the internal sense of effort so that normal-sized movement and normal-volume speech stop feeling excessive. If your voice is becoming quiet, ask me about a speech pathology referral."
   },
-
   "posture-reset": {
     "name": "Posture reset against the wall",
     "badge": "Anti-stoop",
@@ -181,5 +172,23 @@
     "regression": "Sit in a firm chair against the wall and do the same thing.",
     "safety": "Do not force your head back if your neck is stiff or painful.",
     "evidence_note": "Postural exercise is a standard component of Parkinson's physiotherapy; a stooped posture measurably shortens stride length and shifts the centre of mass towards the toes."
+  },
+  "resistance-training": {
+    "name": "Progressive resistance training",
+    "badge": "Strongest single trial result",
+    "purpose": "Builds the muscle strength that Parkinson's and age erode together, and it has produced some of the largest and most durable improvements in motor scores of any exercise trial in this disease.",
+    "dose": "2 sessions a week, 2–3 sets of 8–12 repetitions",
+    "how_to": [
+      "Pick five or six movements covering the whole body: sit-to-stand or a supported squat, step-ups, heel raises, a row or a pull with a resistance band anchored in a door, a chest press or wall push-up, and a shoulder press only if your shoulders are comfortable.",
+      "Choose a resistance where the last two repetitions of a set of ten feel genuinely hard but your form does not break down.",
+      "Two to three sets of 8 to 12 repetitions of each, resting a minute or two between sets.",
+      "Lift with intent — push *fast* on the effort, and lower slowly over three seconds.",
+      "Add a little weight or another repetition when a set stops feeling hard. Progression is what makes it 'progressive', and it is the part people skip.",
+      "Two sessions a week is enough. This is the studied dose."
+    ],
+    "progression": "More weight, then more sets. Household weights work: tins, water bottles, a loaded backpack. Resistance bands are cheap and travel well.",
+    "regression": "Body weight alone, fewer repetitions, and seated versions of the upper-body movements.",
+    "safety": "Breathe out on the effort — do not hold your breath. Keep overhead pressing light or leave it out if your shoulder is painful, which is common in Parkinson's. If you have osteoporosis, avoid loaded forward bending.",
+    "evidence_note": "In a two-year trial, twice-weekly progressive resistance training improved off-medication motor scores by 7.3 points more than a stretching and balance comparator — one of the largest and longest-sustained results in the Parkinson's exercise literature."
   }
 }

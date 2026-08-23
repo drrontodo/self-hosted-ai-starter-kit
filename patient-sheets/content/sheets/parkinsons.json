@@ -9,7 +9,6 @@
     "summary": "A comprehensive home programme — big movements, fast movements, hard aerobic work and balance training — built on the principles behind PD Warrior and LSVT BIG.",
     "reviewed": "August 2026"
   },
-
   "blocks": [
     {
       "type": "intro",
@@ -23,62 +22,166 @@
         "text": "Parkinson's does not only slow your movements — it recalibrates your sense of how big a movement needs to be. A step that feels normal from the inside is visibly small from the outside. That is why you cannot simply be told to 'take bigger steps': you have to be trained to produce movements that feel excessive, because those are the ones that look and function normally."
       }
     },
-
     "@fragment:how-to-use",
-
     {
       "type": "box",
       "kind": "warning",
       "title": "Parkinson's-specific safety — read before starting",
       "list": [
-        "**Exercise during your 'on' time**, when your medication is working — usually 45 to 90 minutes after a dose. Exercising when you are 'off' is harder, less effective and more likely to end in a fall.",
-        "**Watch your blood pressure on standing.** Light-headedness on standing up is common in Parkinson's, and getting up quickly during exercise is exactly when it bites. Rise in stages, and tell me if it happens.",
+        "**Exercise during your 'on' time**, when your medication is working — usually 45 to 90 minutes after a dose. Never do balance work, stepping drills or intervals while 'off': freezing is more common and lasts longer then, and the fall risk is materially higher.",
+        "**Watch your blood pressure on standing.** This is the commonest reason home exercise goes wrong in Parkinson's. Drink a large glass of water fifteen minutes before you start, rise in stages, and start seated if you are prone to it.",
+        "**Get cardiac clearance before high-intensity work** if you have known heart disease, uncontrolled blood pressure, a rhythm problem or valve disease.",
         "**Ballistic and power exercises need something to hold.** Fast movements plus impaired balance is the highest-risk combination on this page. Bench, wall or chair, always.",
-        "**If you freeze, do not fight it.** Use the strategies below rather than trying to push through — pushing through is how people fall forwards.",
-        "**Tell me if you have fallen.** Falls in Parkinson's are common, and the reasons are often treatable: medication timing, blood pressure, freezing, or the dose itself."
+        "**If you freeze, do not fight it.** Pushing forward against stuck feet — or being pulled by a helper — is a classic mechanism of falls. Stop first, then use a strategy.",
+        "**Do not exercise when drowsy.** Dopamine agonists can cause sudden-onset sleepiness.",
+        "**Keep overhead arm movements below shoulder height if your shoulder is painful.** Frozen shoulder is common in Parkinson's and is often one of its earliest symptoms.",
+        "**Mind the heat.** Parkinson's impairs sweating and temperature regulation — exercise indoors in the cool part of the day in summer, and stop earlier than you think you need to.",
+        "**If you have had a fall recently, or your Parkinson's is advanced, this should not be a solo home programme.** The falls-prevention trials found the benefit concentrated in mild to moderate disease, and no reduction in falls in more advanced disease. Ask me to arrange supervision."
       ]
     },
     "@fragment:safety-first",
-
     {
       "type": "science",
       "title": "Why 'big, fast and difficult' is the prescription",
       "lede": "The principles below come from the neuroplasticity research that underpins PD Warrior and LSVT BIG. They explain why the exercises on this page look the way they do.",
       "cards": [
-        { "icon": "📏", "title": "Amplitude", "type": "primary", "body": ["Train movements that are deliberately too big. Your internal calibration is set too small, so 'too big' is what produces normal."] },
-        { "icon": "⚡", "title": "Power and speed", "type": "accent", "body": ["Parkinson's slows the starting and the speed of movement more than it weakens muscle. Explosive, ballistic movement trains precisely the deficit."] },
-        { "icon": "🔥", "title": "High effort", "type": "danger", "body": ["Comfortable exercise produces little. The trials that changed outcomes worked people hard — up to 80–85% of maximum heart rate."] },
-        { "icon": "🔁", "title": "Frequency", "type": "success", "body": ["Little and often, and permanently. The benefits fade within weeks of stopping, in every trial that has looked."] },
-        { "icon": "🧩", "title": "Complexity", "type": "purple", "body": ["Add thinking, changes of direction, changes of rhythm. A complicated task engages far more of the brain than a repetitive one."] },
-        { "icon": "❤️", "title": "Salience and enjoyment", "type": "blue", "body": ["The brain rewires around movements that matter to you. This is not sentimentality — it is why an exercise you enjoy outperforms one you endure, and why group classes work."] }
+        {
+          "icon": "📏",
+          "title": "Amplitude",
+          "type": "primary",
+          "body": [
+            "Train movements that are deliberately too big. Your internal calibration is set too small, so 'too big' is what produces normal."
+          ]
+        },
+        {
+          "icon": "⚡",
+          "title": "Power and speed",
+          "type": "accent",
+          "body": [
+            "Parkinson's slows the starting and the speed of movement more than it weakens muscle. Explosive, ballistic movement trains precisely the deficit."
+          ]
+        },
+        {
+          "icon": "🔥",
+          "title": "High effort",
+          "type": "danger",
+          "body": [
+            "Comfortable exercise produces little. The trials that changed outcomes worked people hard — up to 80–85% of maximum heart rate."
+          ]
+        },
+        {
+          "icon": "🔁",
+          "title": "Frequency",
+          "type": "success",
+          "body": [
+            "Little and often, and permanently. The benefits fade within weeks of stopping, in every trial that has looked."
+          ]
+        },
+        {
+          "icon": "🧩",
+          "title": "Complexity",
+          "type": "purple",
+          "body": [
+            "Add thinking, changes of direction, changes of rhythm. A complicated task engages far more of the brain than a repetitive one."
+          ]
+        },
+        {
+          "icon": "❤️",
+          "title": "Salience and enjoyment",
+          "type": "blue",
+          "body": [
+            "The brain rewires around movements that matter to you. This is not sentimentality — it is why an exercise you enjoy outperforms one you endure, and why group classes work."
+          ]
+        }
       ]
     },
-
-    { "type": "phaseBanner", "variant": "warm", "title": "Part 1 — Think BIG", "subtitle": "Start every session here. Five minutes, and it sets the calibration for everything that follows." },
-    { "type": "exercises", "items": ["@exercise:amplitude-warmup", "@exercise:posture-reset", "@exercise:big-writing"] },
-
-    { "type": "phaseBanner", "variant": "a", "title": "Part 2 — Ballistic and power work", "subtitle": "The PD Warrior element: fast, explosive, deliberately effortful. Three days a week." },
-    { "type": "exercises", "items": ["@exercise:ballistic-punches", "@exercise:power-sit-to-stand", "@exercise:fast-feet", "@exercise:big-steps"] },
-
-    { "type": "phaseBanner", "variant": "b", "title": "Part 3 — Aerobic exercise", "subtitle": "The part with the most interesting evidence of all. Four days a week." },
-    { "type": "exercises", "items": ["@exercise:high-intensity-aerobic"] },
-
-    { "type": "phaseBanner", "variant": "c", "title": "Part 4 — Balance", "subtitle": "Because most of what causes harm in Parkinson's, causes it by way of a fall." },
+    {
+      "type": "phaseBanner",
+      "variant": "warm",
+      "title": "Part 1 — Think BIG",
+      "subtitle": "Start every session here. Five minutes, and it sets the calibration for everything that follows."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:amplitude-warmup",
+        "@exercise:posture-reset",
+        "@exercise:big-writing"
+      ]
+    },
+    {
+      "type": "phaseBanner",
+      "variant": "a",
+      "title": "Part 2 — Ballistic and power work",
+      "subtitle": "The PD Warrior element: fast, explosive, deliberately effortful. Three days a week."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:ballistic-punches",
+        "@exercise:power-sit-to-stand",
+        "@exercise:resistance-training",
+        "@exercise:fast-feet",
+        "@exercise:big-steps"
+      ]
+    },
+    {
+      "type": "phaseBanner",
+      "variant": "b",
+      "title": "Part 3 — Aerobic exercise",
+      "subtitle": "The part with the most interesting evidence of all. Four days a week."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:high-intensity-aerobic"
+      ]
+    },
+    {
+      "type": "phaseBanner",
+      "variant": "c",
+      "title": "Part 4 — Balance",
+      "subtitle": "Because most of what causes harm in Parkinson's, causes it by way of a fall."
+    },
     {
       "type": "exercises",
       "items": [
         "@exercise:weight-shifts",
-        { "$ref": "exercise:tandem-stance", "append": { "safety": " Do this during 'on' time only." } },
-        { "$ref": "exercise:single-leg-stance", "set": { "dose": "Build to 15–30 seconds each leg, with hand support, daily" } },
-        { "$ref": "exercise:tandem-gait", "set": { "progression": "Fingertips off the wall; then adding a big deliberate arm swing; then walking heel-to-toe to a beat you count out loud." } },
+        {
+          "$ref": "exercise:tandem-stance",
+          "append": {
+            "safety": " Do this during 'on' time only."
+          }
+        },
+        {
+          "$ref": "exercise:single-leg-stance",
+          "set": {
+            "dose": "Build to 15–30 seconds each leg, with hand support, daily"
+          }
+        },
+        {
+          "$ref": "exercise:tandem-gait",
+          "set": {
+            "progression": "Fingertips off the wall; then adding a big deliberate arm swing; then walking heel-to-toe to a beat you count out loud."
+          }
+        },
         "@exercise:heel-raises",
         "@exercise:step-ups"
       ]
     },
-
-    { "type": "phaseBanner", "variant": "c", "title": "Part 5 — Complexity, freezing and real life", "subtitle": "The bridge between the exercises and the day." },
-    { "type": "exercises", "items": ["@exercise:dual-task-training", "@exercise:freezing-strategies"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "c",
+      "title": "Part 5 — Complexity, freezing and real life",
+      "subtitle": "The bridge between the exercises and the day."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:dual-task-training",
+        "@exercise:freezing-strategies"
+      ]
+    },
     {
       "type": "section",
       "title": "A week that covers all of it",
@@ -86,21 +189,52 @@
       "blocks": [
         {
           "type": "table",
-          "head": ["Day", "Session", "Roughly"],
+          "head": [
+            "Day",
+            "Session",
+            "Roughly"
+          ],
           "rows": [
-            ["Monday", "Think BIG warm-up · ballistic and power work · balance", "40 min"],
-            ["Tuesday", "Aerobic — bike or brisk walk, hard", "40 min"],
-            ["Wednesday", "Think BIG warm-up · balance · dual-task corridor work", "30 min"],
-            ["Thursday", "Aerobic — bike or brisk walk, hard", "40 min"],
-            ["Friday", "Think BIG warm-up · ballistic and power work · balance", "40 min"],
-            ["Saturday", "Aerobic, or a class — boxing, dance, Tai Chi, PD Warrior group", "45–60 min"],
-            ["Sunday", "Aerobic or an easy walk · big writing · posture resets", "30 min"]
+            [
+              "Monday",
+              "Think BIG warm-up · ballistic and power work · balance",
+              "40 min"
+            ],
+            [
+              "Tuesday",
+              "Aerobic — bike or brisk walk, hard",
+              "40 min"
+            ],
+            [
+              "Wednesday",
+              "Think BIG warm-up · balance · dual-task corridor work",
+              "30 min"
+            ],
+            [
+              "Thursday",
+              "Aerobic — bike or brisk walk, hard",
+              "40 min"
+            ],
+            [
+              "Friday",
+              "Think BIG warm-up · ballistic and power work · balance",
+              "40 min"
+            ],
+            [
+              "Saturday",
+              "Aerobic, or a class — boxing, dance, Tai Chi, PD Warrior group",
+              "45–60 min"
+            ],
+            [
+              "Sunday",
+              "Aerobic or an easy walk · big writing · posture resets",
+              "30 min"
+            ]
           ],
           "caption": "Big writing, posture resets and the freezing strategies are practised daily, in among everything else, rather than as a separate session."
         }
       ]
     },
-
     {
       "type": "section",
       "title": "Doing this with other people",
@@ -110,15 +244,42 @@
           "type": "cards",
           "variant": "side",
           "items": [
-            { "icon": "🥊", "title": "PD Warrior", "type": "accent", "body": ["An Australian programme built around exactly the principles on this page, delivered by accredited physiotherapists and exercise physiologists, with classes across the country and an online option. Ask me for a referral, or look for an accredited provider in your area."] },
-            { "icon": "📣", "title": "LSVT BIG (and LSVT LOUD)", "type": "primary", "body": ["An intensive amplitude-training protocol — four sessions a week for four weeks with a certified therapist, plus daily homework. If your movements have become noticeably small, this is the most concentrated way to reset them. LSVT LOUD does the same job for a quiet voice."] },
-            { "icon": "🤸", "title": "Group classes", "type": "success", "body": ["Boxing-style classes, dance for Parkinson's, Tai Chi and hydrotherapy all have a following and a growing evidence base, and all deliver the two things a sheet cannot: supervision and company."] },
-            { "icon": "🇦🇺", "title": "Parkinson's NSW and equivalents", "type": "blue", "body": ["State Parkinson's organisations run support groups, exercise classes and a nurse helpline, and can tell you what exists near you. Your GP can also arrange subsidised allied health sessions — see below."] }
+            {
+              "icon": "🥊",
+              "title": "PD Warrior",
+              "type": "accent",
+              "body": [
+                "An Australian programme built around exactly the principles on this page, delivered by accredited physiotherapists and exercise physiologists, with classes across the country and an online option. To be straightforward with you: the *principles* it applies are well supported, while the branded package itself rests on a small uncontrolled pilot rather than a randomised trial. That is not a reason to avoid it — supervision, progression and company are worth a great deal — but do not choose it over another good programme on the assumption that it has been proven superior."
+              ]
+            },
+            {
+              "icon": "📣",
+              "title": "LSVT BIG (and LSVT LOUD)",
+              "type": "primary",
+              "body": [
+                "An intensive amplitude-training protocol — sixteen one-hour sessions, four a week for four weeks, with a certified therapist, plus daily homework and carry-over tasks. It clearly outperformed unsupervised generic home exercise in a German randomised trial. Worth knowing: a much shorter and cheaper amplitude protocol produced very similar motor gains, which suggests it is the 'think and move BIG' principle doing the work rather than the sixteen-session package. LSVT LOUD does the same job for a quiet voice."
+              ]
+            },
+            {
+              "icon": "🤸",
+              "title": "Group classes",
+              "type": "success",
+              "body": [
+                "Dance for Parkinson's, Tai Chi, hydrotherapy and boxing-style classes all have a following, and all deliver the two things a sheet cannot: supervision and company. On the evidence, tango and dance have produced good results in small trials, while two 2025 reviews of Parkinson's boxing programmes found no significant effect on mobility, balance or motor symptoms. Choose the one you will keep attending — that matters more than the label."
+              ]
+            },
+            {
+              "icon": "🇦🇺",
+              "title": "Parkinson's NSW and equivalents",
+              "type": "blue",
+              "body": [
+                "State Parkinson's organisations run support groups, exercise classes and a nurse helpline, and can tell you what exists near you. Your GP can also arrange subsidised allied health sessions — see below."
+              ]
+            }
           ]
         }
       ]
     },
-
     {
       "type": "section",
       "title": "Questions people ask me",
@@ -126,23 +287,76 @@
         {
           "type": "faq",
           "items": [
-            { "q": "\"Will exercise slow my Parkinson's down?\"", "a": ["Possibly — and this is the most interesting question in the field. High-intensity treadmill exercise at 80–85% of maximum heart rate, four days a week, was tested in the SPARX2 trial in early Parkinson's: it proved safe, and the motor scores of the high-intensity group did not worsen over six months, while the control group's did. That is a promising signal rather than proof, and the larger SPARX3 trial was designed to answer it properly.", "What is beyond argument is that exercise improves how you function now, and that the benefit fades when you stop."] },
-            { "q": "\"Should I exercise before or after my tablets?\"", "a": ["After. Aim for the window when your medication is clearly working, typically 45 to 90 minutes after a dose. If you are consistently 'off' when you want to exercise, that is a reason to review the timing of your doses with me rather than to exercise 'off'."] },
-            { "q": "\"I get very light-headed when I stand up quickly.\"", "a": ["Common in Parkinson's, and treatable. Rise in stages — sit on the edge, count to ten, stand holding something, count to ten again. Increase your salt and fluid intake unless you have been told not to, and tell me: some of the medications used for Parkinson's contribute, and there are treatments for the blood pressure drop itself."] },
-            { "q": "\"Is it safe to do fast, explosive movements at my age?\"", "a": ["With something solid to hold, and during 'on' time — yes, and it is one of the most useful things you can do. Power fades faster than strength with both age and Parkinson's, and it is power that gets you out of a chair and stops you falling. If your balance is significantly impaired, do the ballistic work seated: you keep most of the benefit and lose the risk."] },
-            { "q": "\"I freeze in doorways. Is that laziness or fear?\"", "a": ["Neither. It is a failure of the brain's internal 'go' signal, and it responds to external cues rather than to effort — counting out loud, a beat, a line to step over, a deliberately huge first step. Practise the strategies in Part 5 when you are *not* frozen, so they are automatic when you are. And tell me when it happens, because freezing that appears as a dose wears off is often treatable by adjusting the medication."] },
-            { "q": "\"My handwriting has shrunk and my voice has gone quiet. Is that the same problem?\"", "a": ["Yes — the same loss of amplitude, in the hand and in the voice. Both respond to the same 'go bigger' training. Practise big writing daily, and ask me about a speech pathology referral for the voice; LSVT LOUD is very effective for it."] },
-            { "q": "\"How long before I notice a difference?\"", "a": ["Most people notice something within four to six weeks, and the trials generally ran for eight to twelve weeks or longer. The honest catch is that the gains disappear if you stop, so the aim is a routine you can sustain for years, not a course you complete."] }
+            {
+              "q": "\"Will exercise slow my Parkinson's down?\"",
+              "a": [
+                "Possibly — and this is the most interesting question in the field. High-intensity treadmill exercise at 80–85% of maximum heart rate, four days a week, was tested in newly diagnosed, untreated patients in the SPARX2 trial: it proved safe, and the motor scores of the high-intensity group were essentially unchanged over six months while the control group's worsened. That is a promising signal, not proof, and the larger SPARX3 trial was designed to answer it properly.",
+                "What is beyond argument is that exercise improves how you function now — across the trials it reduces falls by around a quarter, and two years of twice-weekly resistance training improved off-medication motor scores by more than seven points. And that the benefit fades within weeks of stopping."
+              ]
+            },
+            {
+              "q": "\"Should I exercise before or after my tablets?\"",
+              "a": [
+                "After. Aim for the window when your medication is clearly working, typically 45 to 90 minutes after a dose. If you are consistently 'off' when you want to exercise, that is a reason to review the timing of your doses with me rather than to exercise 'off'."
+              ]
+            },
+            {
+              "q": "\"I get very light-headed when I stand up quickly.\"",
+              "a": [
+                "Common in Parkinson's, and treatable. Rise in stages — sit on the edge, count to ten, stand holding something, count to ten again. Increase your salt and fluid intake unless you have been told not to, and tell me: some of the medications used for Parkinson's contribute, and there are treatments for the blood pressure drop itself."
+              ]
+            },
+            {
+              "q": "\"Is it safe to do fast, explosive movements at my age?\"",
+              "a": [
+                "With something solid to hold, and during 'on' time — yes, and it is one of the most useful things you can do. Power fades faster than strength with both age and Parkinson's, and it is power that gets you out of a chair and stops you falling. If your balance is significantly impaired, do the ballistic work seated: you keep most of the benefit and lose the risk."
+              ]
+            },
+            {
+              "q": "\"Will exercise stop me falling?\"",
+              "a": [
+                "It reduces falls in Parkinson's by around a quarter, which is worthwhile — but with an important caveat: the benefit in the trials was concentrated in people with mild to moderate disease. In more advanced Parkinson's, and particularly where there is significant cognitive impairment, exercise programmes have **not** reduced falls, and the answer shifts towards supervision, home modification, and managing the specific causes.",
+                "If you are falling, tell me. It changes what I would advise you to do on your own."
+              ]
+            },
+            {
+              "q": "\"I freeze in doorways. Is that laziness or fear?\"",
+              "a": [
+                "Neither. It is a failure of the brain's internal 'go' signal, and it responds to external cues rather than to effort — counting out loud, a beat, a line to step over, a deliberately huge first step. Practise the strategies in Part 5 when you are *not* frozen, so they are automatic when you are. And tell me when it happens, because freezing that appears as a dose wears off is often treatable by adjusting the medication."
+              ]
+            },
+            {
+              "q": "\"My handwriting has shrunk and my voice has gone quiet. Is that the same problem?\"",
+              "a": [
+                "Yes — the same loss of amplitude, in the hand and in the voice. Both respond to the same 'go bigger' training. Practise big writing daily, and ask me about a speech pathology referral for the voice; LSVT LOUD is very effective for it."
+              ]
+            },
+            {
+              "q": "\"How long before I notice a difference?\"",
+              "a": [
+                "Most people notice something within four to six weeks, and the trials generally ran for eight to twelve weeks or longer. The honest catch is that the gains disappear if you stop, so the aim is a routine you can sustain for years, not a course you complete."
+              ]
+            },
+            {
+              "q": "\"Will I use up my dopamine if I exercise hard?\"",
+              "a": [
+                "No. There is no reserve to deplete, and the evidence points firmly the other way — higher intensity is associated with better outcomes. Fatigue is real and worth pacing around, but it is not a sign that you are spending something you cannot replace."
+              ]
+            },
+            {
+              "q": "\"I'm on good medication now. Does exercise still matter?\"",
+              "a": [
+                "Yes, and the trials make this unusually clear: the improvements from resistance training and from dance were measured **off** medication, which means the exercise is doing something the tablets are not. They work on different things, and you want both."
+              ]
+            }
           ]
         }
       ]
     },
-
     "@fragment:floor-rescue",
     "@fragment:hurt-vs-harm",
     "@fragment:adherence",
     "@fragment:australian-pathway",
-
     {
       "type": "box",
       "kind": "warning",

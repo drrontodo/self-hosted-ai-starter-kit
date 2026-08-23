@@ -9,7 +9,6 @@
     "summary": "Exercises that retrain the balance organ of the inner ear — for dizziness, unsteadiness and the sense that the world moves when you do.",
     "reviewed": "August 2026"
   },
-
   "blocks": [
     {
       "type": "intro",
@@ -23,9 +22,7 @@
         "text": "The dizziness is not a side effect of the treatment. It **is** the treatment. Your brain only learns that its balance signals are wrong when it is given the mismatch to work on. Avoiding movement keeps you dizzy for longer — which is why rest, dark rooms and long-term motion-sickness tablets make people worse."
       }
     },
-
     "@fragment:how-to-use",
-
     {
       "type": "box",
       "kind": "reassurance",
@@ -38,9 +35,19 @@
         "Vomiting, or symptoms that build through the week rather than settling, means it is time to speak to me."
       ]
     },
-
     "@fragment:safety-first",
-
+    {
+      "type": "box",
+      "kind": "warning",
+      "title": "Where not to do these exercises",
+      "list": [
+        "Never in a car, on stairs, on a ladder, at the stove, or in the bath or shower.",
+        "Never standing in the middle of a room — a bench, a doorway or a corner, every time.",
+        "Do not drive during the acute phase of vertigo, and do not drive straight after a session.",
+        "If you have significant neck disease, previous neck surgery, or known problems with the arteries in your neck, check with me before starting the head-movement exercises.",
+        "If you have fallen in the past year — especially more than once, or once with an injury — be assessed before doing single-leg, eyes-closed or cushion work on your own."
+      ]
+    },
     {
       "type": "section",
       "title": "First — is this actually the right sheet for you?",
@@ -50,56 +57,140 @@
           "type": "cards",
           "variant": "side",
           "items": [
-            { "icon": "🔄", "title": "Brief spinning only on moving your head in bed", "type": "accent", "body": ["Intense spinning lasting **under a minute**, brought on by lying down, rolling over, or looking up — and settling completely in between — is the pattern of BPPV, loose crystals in the inner ear. **This is not treated by these exercises.** It is cured, usually in one or two visits, by a repositioning manoeuvre such as the Epley. Tell me, and we will do that instead."] },
-            { "icon": "🌊", "title": "Constant unsteadiness, worse when you move your head", "type": "primary", "body": ["Persistent imbalance, a sense that the world lags behind your head movements, worse in the dark and on uneven ground, following an episode of severe vertigo weeks or months earlier. This is vestibular hypofunction, and **this sheet is written for you**."] },
-            { "icon": "🛒", "title": "Constant dizziness worse in busy visual places", "type": "purple", "body": ["Rocking or swaying present most of the day, worse standing and walking, much worse in supermarkets, traffic, patterned floors and on screens, often after an initial vestibular event that has otherwise recovered. This is persistent postural-perceptual dizziness (PPPD). The exercises here help, but graded exposure and, often, medication or psychological therapy matter more — see the last section."] }
+            {
+              "icon": "🔄",
+              "title": "Brief spinning only on moving your head in bed",
+              "type": "accent",
+              "body": [
+                "Intense spinning lasting **under a minute**, brought on by lying down, rolling over, or looking up — and settling completely in between — is the pattern of BPPV, loose crystals in the inner ear. **This is not treated by these exercises.** It is cured, usually in one or two visits, by a repositioning manoeuvre such as the Epley. Tell me, and we will do that instead."
+              ]
+            },
+            {
+              "icon": "🌊",
+              "title": "Constant unsteadiness, worse when you move your head",
+              "type": "primary",
+              "body": [
+                "Persistent imbalance, a sense that the world lags behind your head movements, worse in the dark and on uneven ground, following an episode of severe vertigo weeks or months earlier. This is vestibular hypofunction, and **this sheet is written for you**."
+              ]
+            },
+            {
+              "icon": "🛒",
+              "title": "Constant dizziness worse in busy visual places",
+              "type": "purple",
+              "body": [
+                "Rocking or swaying present most of the day, worse standing and walking, much worse in supermarkets, traffic, patterned floors and on screens, often after an initial vestibular event that has otherwise recovered. This is persistent postural-perceptual dizziness (PPPD). The exercises here help, but graded exposure and, often, medication or psychological therapy matter more — see the last section."
+              ]
+            }
           ]
         }
       ]
     },
-
-    { "type": "phaseBanner", "variant": "a", "title": "Part 1 — Steadying your vision", "subtitle": "The core of vestibular rehabilitation. Little and often beats long sessions: three to five short sessions spread through the day." },
-    { "type": "exercises", "items": ["@exercise:vor-x1-horizontal", "@exercise:vor-x1-vertical", "@exercise:gaze-shifts", "@exercise:vor-x2"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "a",
+      "title": "Part 1 — Steadying your vision",
+      "subtitle": "The core of vestibular rehabilitation. Little and often beats long sessions: three to five short sessions spread through the day."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:vor-x1-horizontal",
+        "@exercise:vor-x1-vertical",
+        "@exercise:gaze-shifts",
+        "@exercise:vor-x2"
+      ]
+    },
     {
       "type": "box",
       "kind": "highlight",
       "title": "The dose that has actually been tested",
-      "text": "The 2022 clinical practice guideline from the American Physical Therapy Association recommends gaze stabilisation exercises totalling **at least 12 minutes a day, in three or more short sessions**, for recent symptoms; and **20 minutes or more a day, in three to five sessions**, sustained for four to six weeks, for longstanding symptoms. If both ears are affected, the target rises to 20–40 minutes a day for five to seven weeks. Three one-minute goes before each meal, plus one in the evening, gets most people most of the way there."
+      "text": "The 2022 clinical practice guideline from the American Physical Therapy Association gives a **strong recommendation** to offer vestibular rehabilitation for acute, subacute and chronic vestibular hypofunction. Its suggested doses are: gaze stabilisation totalling **at least 12 minutes a day in three or more short sessions** for recent symptoms; **20 minutes or more a day, in three to five sessions**, sustained for four to six weeks, once symptoms are longstanding; and 20–40 minutes a day for five to seven weeks if both ears are affected. Add **at least 20 minutes a day of balance and walking work** on top of that. Two honest caveats: the decision to treat rests on strong evidence, but the exact numbers are extrapolated from trial protocols rather than tested against each other — so treat them as a target, not a prescription. And you need no equipment: a trial comparing low-tech balance training on a sofa cushion with a virtual-reality system found identical results at eight weeks and six months."
     },
-
-    { "type": "phaseBanner", "variant": "b", "title": "Part 2 — Steadying your body", "subtitle": "Retraining balance by systematically taking away the senses you have learnt to rely on." },
-    { "type": "exercises", "items": ["@exercise:balance-eyes-closed", "@exercise:head-turns-walking"] },
+    {
+      "type": "phaseBanner",
+      "variant": "b",
+      "title": "Part 2 — Steadying your body",
+      "subtitle": "Retraining balance by systematically taking away the senses you have learnt to rely on."
+    },
     {
       "type": "exercises",
       "items": [
-        { "$ref": "exercise:tandem-stance", "set": { "badge": "Do this with eyes open first, then closed" } },
-        { "$ref": "exercise:tandem-gait", "append": { "safety": " Expect this to feel worse than it did before your inner ear was damaged. That is the point of doing it." } },
+        "@exercise:balance-eyes-closed",
+        "@exercise:head-turns-walking"
+      ]
+    },
+    {
+      "type": "exercises",
+      "items": [
+        {
+          "$ref": "exercise:tandem-stance",
+          "set": {
+            "badge": "Do this with eyes open first, then closed"
+          }
+        },
+        {
+          "$ref": "exercise:tandem-gait",
+          "append": {
+            "safety": " Expect this to feel worse than it did before your inner ear was damaged. That is the point of doing it."
+          }
+        },
         "@exercise:chair-squats"
       ]
     },
-
-    { "type": "phaseBanner", "variant": "c", "title": "Part 3 — Turning the sensitivity down", "subtitle": "For movement-provoked and visually-provoked symptoms. This is where avoidance is undone." },
-    { "type": "exercises", "items": ["@exercise:habituation", "@exercise:visual-desensitisation"] },
-
+    {
+      "type": "phaseBanner",
+      "variant": "c",
+      "title": "Part 3 — Turning the sensitivity down",
+      "subtitle": "For movement-provoked and visually-provoked symptoms. This is where avoidance is undone."
+    },
+    {
+      "type": "exercises",
+      "items": [
+        "@exercise:habituation",
+        "@exercise:visual-desensitisation"
+      ]
+    },
     {
       "type": "section",
       "title": "What to expect, and when",
       "blocks": [
         {
           "type": "table",
-          "head": ["Time", "What usually happens", "What to do"],
+          "head": [
+            "Time",
+            "What usually happens",
+            "What to do"
+          ],
           "rows": [
-            ["Days 1–3", "Symptoms often feel slightly worse. Most people are tired.", "Halve the repetitions rather than stopping. Keep the daily total up by doing more, shorter goes."],
-            ["Weeks 1–2", "The exercises stop being unbearable. Everyday head movements are still unpleasant.", "Build to the full dose. Start the balance work."],
-            ["Weeks 3–4", "Clear improvement in the exercises themselves; daily life beginning to follow.", "Add the harder progressions — standing, then feet together, then busy backgrounds."],
-            ["Weeks 6–12", "Most of the recovery. Residual symptoms are usually situational — supermarkets, driving at night, tiredness.", "Keep going. Stopping at 80% is the commonest reason people plateau."],
-            ["Beyond 3 months", "Improvement continues but more slowly.", "If you have not improved at all by now, come back — the diagnosis may need revisiting."]
+            [
+              "Days 1–3",
+              "Symptoms often feel slightly worse. Most people are tired.",
+              "Halve the repetitions rather than stopping. Keep the daily total up by doing more, shorter goes."
+            ],
+            [
+              "Weeks 1–2",
+              "The exercises stop being unbearable. Everyday head movements are still unpleasant.",
+              "Build to the full dose. Start the balance work."
+            ],
+            [
+              "Weeks 3–4",
+              "Clear improvement in the exercises themselves; daily life beginning to follow.",
+              "Add the harder progressions — standing, then feet together, then busy backgrounds."
+            ],
+            [
+              "Weeks 6–12",
+              "Most of the recovery. Residual symptoms are usually situational — supermarkets, driving at night, tiredness.",
+              "Keep going. Stopping at 80% is the commonest reason people plateau."
+            ],
+            [
+              "Beyond 3 months",
+              "Improvement continues but more slowly.",
+              "If you have not improved at all by now, come back — the diagnosis may need revisiting."
+            ]
           ]
         }
       ]
     },
-
     {
       "type": "section",
       "title": "Things that get in the way of recovery",
@@ -107,21 +198,127 @@
         {
           "type": "cards",
           "items": [
-            { "icon": "💊", "title": "Motion-sickness tablets", "type": "danger", "body": ["Prochlorperazine (Stemetil), betahistine and similar drugs are useful for a few days during an acute attack of severe vertigo with vomiting. Taken for weeks or months, they **suppress the very signals the brain needs in order to recalibrate**, and they delay recovery. If you are still taking one, let us plan how to stop it."] },
-            { "icon": "🛏️", "title": "Rest and avoidance", "type": "danger", "body": ["The instinct to lie still in a dark room is correct for about 48 hours and wrong after that. Every movement you avoid is a movement your brain never gets to recalibrate."] },
-            { "icon": "🧊", "title": "Holding your head rigid", "type": "danger", "body": ["Most people with dizziness stiffen their neck to keep their head still, and turn their whole body instead. This maintains the problem and adds neck pain to it. Deliberately loosening the neck is part of the treatment — see my neck sheet."] },
-            { "icon": "😰", "title": "Anxiety and hypervigilance", "type": "danger", "body": ["Anxiety and dizziness feed each other, and monitoring your own balance moment by moment makes it worse — this is the central mechanism in PPPD. Slow breathing and relaxation practice genuinely help here; my [stress management page]({{links.stress}}) covers the techniques in detail."] },
-            { "icon": "🍷", "title": "Alcohol", "type": "danger", "body": ["Alcohol directly disturbs the inner ear and interferes with the recalibration. Keep it low while you are doing this programme."] },
-            { "icon": "😴", "title": "Poor sleep", "type": "danger", "body": ["Dizziness is markedly worse when you are tired, and disturbed sleep is common after a vestibular event. If sleep is the problem, treat it — see my insomnia sheet."] }
+            {
+              "icon": "💊",
+              "title": "Motion-sickness tablets",
+              "type": "danger",
+              "body": [
+                "Prochlorperazine (Stemetil), betahistine and similar drugs are useful for a few days during an acute attack of severe vertigo with vomiting. Taken for weeks or months, they **suppress the very signals the brain needs in order to recalibrate**, and they delay recovery. If you are still taking one, let us plan how to stop it."
+              ]
+            },
+            {
+              "icon": "🛏️",
+              "title": "Rest and avoidance",
+              "type": "danger",
+              "body": [
+                "The instinct to lie still in a dark room is correct for about 48 hours and wrong after that. Every movement you avoid is a movement your brain never gets to recalibrate."
+              ]
+            },
+            {
+              "icon": "🧊",
+              "title": "Holding your head rigid",
+              "type": "danger",
+              "body": [
+                "Most people with dizziness stiffen their neck to keep their head still, and turn their whole body instead. This maintains the problem and adds neck pain to it. Deliberately loosening the neck is part of the treatment — see my neck sheet."
+              ]
+            },
+            {
+              "icon": "😰",
+              "title": "Anxiety and hypervigilance",
+              "type": "danger",
+              "body": [
+                "Anxiety and dizziness feed each other, and monitoring your own balance moment by moment makes it worse — this is the central mechanism in PPPD. Slow breathing and relaxation practice genuinely help here; my [stress management page]({{links.stress}}) covers the techniques in detail."
+              ]
+            },
+            {
+              "icon": "🍷",
+              "title": "Alcohol",
+              "type": "danger",
+              "body": [
+                "Alcohol directly disturbs the inner ear and interferes with the recalibration. Keep it low while you are doing this programme."
+              ]
+            },
+            {
+              "icon": "😴",
+              "title": "Poor sleep",
+              "type": "danger",
+              "body": [
+                "Dizziness is markedly worse when you are tired, and disturbed sleep is common after a vestibular event. If sleep is the problem, treat it — see my insomnia sheet."
+              ]
+            }
           ]
         }
       ]
     },
-
+    {
+      "type": "section",
+      "title": "Things people are told that are not true",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "\"Just follow my finger with your eyes — that's the exercise.\"",
+              "a": [
+                "This is one of the very few things the guideline actively recommends **against**, and it does so strongly. Moving the eyes while the head stays still does not generate the error signal the brain needs in order to recalibrate. Across the trials, eye movements without head movement did not work.",
+                "**The head must move.** That is what makes these exercises effective, and it is also why they make you dizzy."
+              ]
+            },
+            {
+              "q": "\"I should rest until the dizziness settles.\"",
+              "a": [
+                "Rest is the single most reliable way to prevent recovery. Beyond the first day or two of an acute attack, every head movement you avoid is a movement the brain never gets to correct. The evidence on this is consistent and it is why this page is written the way it is."
+              ]
+            },
+            {
+              "q": "\"If the exercise makes me dizzy, I must be doing damage.\"",
+              "a": [
+                "No. Provoked dizziness is expected, and it is the mechanism of the treatment — the guideline defines habituation exercises as movements that deliberately cause mild to moderate symptoms. The limit is not whether you feel dizzy but how long it takes to settle: back to baseline within 15 to 30 minutes is right, still worse the next morning means the dose was too high."
+              ]
+            },
+            {
+              "q": "\"A stronger tablet would help more.\"",
+              "a": [
+                "Vestibular suppressants make you feel less dizzy while measurably preventing you from getting better — people taking them daily showed no improvement in their sway measurements over six weeks. In people over 65 they are also associated with roughly a **threefold increase in falls**. They are for the first day or two of a severe attack with vomiting, and no longer."
+              ]
+            },
+            {
+              "q": "\"I'm too old for this to work.\"",
+              "a": [
+                "Age does not reduce the potential for recovery — that is a strong, high-level statement in the guideline, and older adults should be offered this treatment with the expectation of a good result. What changes with age is that the falls risk while training is higher, which is a reason to be careful about *how* you do the exercises, not whether."
+              ]
+            },
+            {
+              "q": "\"I need an app, a headset or special equipment.\"",
+              "a": [
+                "You do not. A randomised trial compared low-tech balance training using a foam cushion with a virtual-reality gaming system, and found identical outcomes on every measure at eight weeks and at six months. A kitchen bench, a business card and a sofa cushion are the whole kit."
+              ]
+            },
+            {
+              "q": "\"I walk and I use the exercise bike, so my balance is being trained.\"",
+              "a": [
+                "General fitness training without a balance component has not been shown to reduce vestibular symptoms. It is worth doing for every other reason; it does not substitute for the exercises above."
+              ]
+            },
+            {
+              "q": "\"The exercises stopped working, so there's nothing more to be done.\"",
+              "a": [
+                "Far more often, the exercises stopped *changing*. If the basic gaze stabilisation has become easy, it has stopped driving any adaptation — that is the signal to make it faster, to do it standing, to do it against a busy background, or to move on to the advanced version. A genuine plateau after proper progression is worth reassessing, and is a reason to come back rather than to give up."
+              ]
+            },
+            {
+              "q": "\"Holding onto the walls and looking at the floor keeps me safe.\"",
+              "a": [
+                "If your legs are genuinely weak, use the aid. But if the problem is dizziness rather than weakness, gripping, stiffening and staring at the ground are exactly what maintain it — this is the central mechanism in persistent postural-perceptual dizziness. The treatment is graded exposure with a deliberately loose neck and eyes up."
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "@fragment:hurt-vs-harm",
     "@fragment:adherence",
     "@fragment:australian-pathway",
-
     {
       "type": "box",
       "kind": "warning",
@@ -129,9 +326,10 @@
       "list": [
         "Double vision, difficulty speaking or swallowing, facial weakness or numbness.",
         "New weakness or clumsiness in an arm or leg, or a severe new headache or neck pain.",
-        "Deafness or new ringing in one ear with the dizziness.",
+        "New or fluctuating hearing loss, a feeling of fullness in one ear, or roaring tinnitus with attacks of vertigo lasting twenty minutes to hours.",
         "Dizziness that is constant and unremitting from the outset, rather than provoked by movement.",
         "Falls, especially falling consistently towards one side.",
+        "Feeling faint, greying out, or tunnel vision on standing — that is a blood pressure problem, not a balance-organ one, and needs lying and standing blood pressure measured.",
         "A first-ever episode of severe vertigo — that needs assessment before you start any exercises."
       ]
     }

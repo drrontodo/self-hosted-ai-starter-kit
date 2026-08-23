@@ -60,6 +60,10 @@
               ]
             }
           ]
+        },
+        {
+          "type": "researchNote",
+          "text": "Being honest about the evidence: teaching people to get up off the floor is widely recommended on the strength of the harm caused by long lies — about half of uninjured people who fall cannot get up unaided, and pressure injury, dehydration, muscle breakdown, hypothermia and pneumonia all follow from lying there. The trials that have tested floor-rise training are small and have not shown a clear change in the ability to rise. Rehearse it anyway: the cost is five minutes and the plan itself is worth having."
         }
       ]
     }
@@ -129,7 +133,7 @@
               "title": "Your GP can subsidise allied health",
               "type": "blue",
               "body": [
-                "Under a GP Chronic Condition Management Plan (the successor to the old GP Management Plan / Team Care Arrangements), patients with a chronic condition can access a limited number of Medicare-rebated allied health sessions each calendar year — typically five in total, shared across all providers. Ask your GP whether you are eligible for physiotherapy or exercise physiology under this."
+                "Since 1 July 2025, GP Management Plans and Team Care Arrangements have been replaced by the **GP Chronic Condition Management Plan**. With one in place, you can access up to **five Medicare-rebated allied health services per calendar year** — shared across all disciplines, so five physiotherapy sessions means none left for anything else (ten services for Aboriginal and Torres Strait Islander patients). Referral is now by an ordinary letter rather than a special form. Ask your GP whether you are eligible."
               ]
             },
             {
