@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Edit activity</h1>
+<p class="meta">Status: {{ a.status }}{% if a.confirmed_at %} · confirmed {{ a.confirmed_at }}{% endif %} · source: {{ a.source_module }}</p>
+<form method="post" action="/activity/{{ a.id }}" class="grid-form">
+  <label>Date <input type="date" name="date" value="{{ a.date }}" required></label>
+  <label>Category
+    <select name="category">
+      {% for c in [1, 2, 3] %}
+      <option value="{{ c }}" {% if a.category == c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Type
+    <select name="activity_type">
+      {% for t in activity_types %}
+      <option value="{{ t }}" {% if a.activity_type == t %}selected{% endif %}>{{ t.replace('_', ' ') }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Minutes <input type="number" name="minutes" value="{{ a.minutes }}" min="0" max="1440" required></label>
+  <label class="wide">Title <input type="text" name="title" value="{{ a.title }}" required></label>
+  <label class="wide">Description <textarea name="description" rows="4">{{ a.description }}</textarea></label>
+  <label class="wide">Reflection <textarea name="reflection" rows="3">{{ a.reflection }}</textarea></label>
+  <fieldset class="wide tags">
+    {% for tag in tag_options %}
+    <label class="inline"><input type="checkbox" name="tags" value="{{ tag }}"
+      {% if tag in a.tags %}checked{% endif %}> {{ tag.replace('_', ' ') }}</label>
+    {% endfor %}
+  </fieldset>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

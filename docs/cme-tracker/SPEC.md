@@ -24,6 +24,30 @@ Key evidence rule that shapes the whole design: **personal calendar/diary record
 
 Deadlines the app tracks: CPD year = calendar year; record in MyCPD by 31 March of the following year; audit evidence due 30 June.
 
+### Filling Categories 2 and 3: the playbook
+
+Category 1 fills itself from reading; Cat 2 and Cat 3 need deliberate but cheap structures. Beyond the core modules:
+
+**Category 2 (reviewing performance):**
+- **Recorded Annual Conversation** — record the conversation (with your colleague's consent), faster-whisper transcribes it locally, an LLM job drafts the RACP template + reflection from the transcript, you sign off (see M7).
+- **Letter peer-review exchange** — swap 5 de-identified letters with a colleague each quarter, structured feedback both ways; each side gets Cat 2 hours and the documented feedback is the evidence. The app schedules it and generates the feedback form.
+- **Solicitor/barrister feedback on medicolegal reports** — feedback on your reports is peer review of your work product; log it when it arrives (quick-add), with the correspondence as evidence.
+- **Referrer feedback** — GP comments on your letters/management, same pattern.
+- **Presenting at journal club / grand rounds** with feedback captured — presenting is Cat 1 teaching, the feedback on your presentation is Cat 2.
+- **Multi-source feedback (MSF)** — annual short survey to staff/colleagues; a later phase can generate the survey link and collate results.
+
+**Category 3 (measuring outcomes) — audits that fall out of data the practice already has:**
+- **EVOLVE top-5 audit** — prescribing/ordering vs the RACP-endorsed low-value-care list for neurology; the most "RACP-native" audit available.
+- **NCS/EMG report turnaround and quality** — digital data already exists.
+- **Headache clinic outcomes** — MIDAS/HIT-6 pre/post for CGRP agents/Botox; doubles as payer/marketing evidence that treatment works.
+- **MS DMT safety-monitoring compliance** — bloods/JCV/MRI schedules met on time.
+- **Epilepsy driving-advice documentation audit** — % of relevant consults with documented advice; classic medicolegal risk reducer.
+- **Autonomic testing diagnostic-yield audit** — tilt-table/autonomic outcomes at Autonomics Australia; both CPD and a publishable service differentiator.
+- **Practice incident/near-miss log** — quick-add incidents as they happen; the log itself is "incident reporting and monitoring" (a named Cat 3 activity).
+- **Practice outcomes/M&M meeting** — see below.
+
+**Hospital Zoom M&M vs running your own:** do both, they're not alternatives. Keep attending the hospital M&M — it's zero setup and already happening; just capture evidence (ask the organiser to email minutes/attendance, or log it with the calendar invite + a 3-line account). *Additionally* run a lightweight **quarterly practice outcomes meeting** (30–45 min, you + a colleague or practice staff): the app generates the agenda automatically from the quarter's incident log, audit metrics and complaint themes, and minutes it via M7 recording→transcription. A solo practice rarely has enough mortality for a true M&M, so frame it as "clinical incidents and outcomes review" — that's squarely Cat 3, fully auto-evidenced, under your control, and it's also just good governance for the practice.
+
 ## 2. Architecture
 
 ```
@@ -118,6 +142,13 @@ The endpoint your Claude Code sessions write to at the end of a session.
 - **Mandatory-items widget:** PDP done? Annual Conversation done? (links to the RACP templates, due-date nudges early in the year, upload slot for the completed template = evidence). Counters for cultural-safety and ethics activities with suggestions from the digest when a counter is behind.
 - **Other one-click activity templates** (from the framework research): journal club, grand rounds, literature search for a patient, teaching/supervision, referrer feedback received, incident review, mini clinical audit (e.g. EMG turnaround, migraine prophylaxis vs guidelines, EVOLVE recommendations) — each template pre-fills category and the evidence type RACP expects.
 
+### M7 — Voice capture & local transcription (faster-whisper)
+
+- Audio in: upload from the dashboard (phone-friendly), or drop files into `inbox/audio/`. Sources: Annual Conversation recordings, peer case discussions on the go, practice outcomes-meeting recordings, dictated reflections.
+- The generic `jobs` queue carries an `engine` field: `claude` jobs are drained by the nightly Claude Code run; `whisper` jobs are drained by a small script on the Windows host that runs the already-installed **faster-whisper** (RTX 5090 makes this near-instant) and posts the transcript back.
+- Pipeline: audio → whisper job (transcript) → claude job (structured minutes/reflection/RACP-template draft appropriate to the recording type) → inbox draft → sign-off → activity + evidence document. Audio and transcripts never leave the server.
+- Consent note: record conversations only with the other party's knowledge and consent (NSW surveillance-devices law); the upload form carries a consent checkbox as a record.
+
 ## 4. Dashboard (HTML, server-rendered + htmx)
 
 - **Home:** progress bars — total/50 h, Cat 1/12.5, Cat 2+3/25 with per-category ≥5 floors; mandatory checklist; "pace" indicator (hours vs day-of-year); pending drafts awaiting sign-off; audit-readiness score (% of confirmed entries with evidence attached).
@@ -162,7 +193,7 @@ The same pipelines that earn CPD hours can produce assets for East Neurology (an
 |---|---|---|
 | 1 | FastAPI skeleton, SQLite schema, auth, activities CRUD, dashboard home + log, M1 sessions endpoint + weekly rollup, CSV export | Claude sessions logging real dev/research time; manual entries possible; progress bars live |
 | 2 | M3 feeds + digest + reading timer + reading-log evidence; LLM job queue + `cpd-runner` Claude Code contract | Daily digest with counted reading time |
-| 3 | M5 medicolegal watcher + metrics + audit drafting + sign-off; M4 quick-add | Cat 3 engine running monthly |
+| 3 | M5 medicolegal watcher + metrics + audit drafting + sign-off; M4 quick-add; M7 audio upload + whisper/claude job pipeline | Cat 3 engine running monthly; recordings become minutes |
 | 4 | M2 Places API poller + review cycles + improvement backlog; M6 mandatory widget + templates + email-harvest runner prompt | All six modules live |
 | 5 | Practice growth loop: info-sheet action, opportunity scan, referrer newsletter, output tracking | Reading produces website content and service briefs |
 | 6 | Backups, audit bundle export, Tailscale notes, polish | Audit-proof, phone-accessible |

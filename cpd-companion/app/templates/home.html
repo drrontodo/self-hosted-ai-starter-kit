@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ year }} CPD progress</h1>
+
+{% set t = prog.targets %}
+<section class="bars">
+  <div class="bar-row">
+    <div class="bar-label">Total <strong>{{ prog.total_min|hours }}h</strong> / {{ t.total_min|hours }}h</div>
+    <div class="bar"><div class="fill {{ 'ok' if prog.total_min >= t.total_min else '' }}"
+      style="width: {{ [100, (100 * prog.total_min / t.total_min)|round(1)]|min }}%"></div></div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">Cat 1 — Educational <strong>{{ prog.cat1_min|hours }}h</strong> / {{ t.cat1_min|hours }}h</div>
+    <div class="bar"><div class="fill {{ 'ok' if prog.cat1_min >= t.cat1_min else '' }}"
+      style="width: {{ [100, (100 * prog.cat1_min / t.cat1_min)|round(1)]|min }}%"></div></div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">Cat 2 + 3 combined <strong>{{ prog.cat23_min|hours }}h</strong> / {{ t.cat23_min|hours }}h
+      <span class="floors">(Cat 2: {{ prog.cat2_min|hours }}h / ≥{{ t.cat2_floor_min|hours }}h,
+       Cat 3: {{ prog.cat3_min|hours }}h / ≥{{ t.cat3_floor_min|hours }}h)</span></div>
+    <div class="bar"><div class="fill {{ 'ok' if prog.cat23_min >= t.cat23_min and prog.cat2_min >= t.cat2_floor_min and prog.cat3_min >= t.cat3_floor_min else '' }}"
+      style="width: {{ [100, (100 * prog.cat23_min / t.cat23_min)|round(1)]|min }}%"></div></div>
+  </div>
+</section>
+
+<p class="pace {{ 'behind' if prog.total_min < pace_min else 'ahead' }}">
+  Pace: {{ prog.total_min|hours }}h logged vs {{ pace_min|hours }}h expected at this point of the year —
+  {{ 'behind' if prog.total_min < pace_min else 'on track' }}.
+</p>
+
+{% if drafts %}
+<p class="notice"><a href="/inbox">{{ drafts }} draft {{ 'entry' if drafts == 1 else 'entries' }} awaiting your sign-off →</a></p>
+{% endif %}
+
+<h2>Recent confirmed activities</h2>
+{% if recent %}
+<table>
+  <tr><th>Date</th><th>Cat</th><th>Title</th><th>Hours</th></tr>
+  {% for a in recent %}
+  <tr>
+    <td>{{ a.date }}</td><td>{{ a.category }}</td>
+    <td><a href="/activity/{{ a.id }}">{{ a.title }}</a></td>
+    <td>{{ a.minutes|hours }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p class="muted">Nothing confirmed yet — add entries in the <a href="/log">Log</a> or confirm drafts in the <a href="/inbox">Inbox</a>.</p>
+{% endif %}
+{% endblock %}

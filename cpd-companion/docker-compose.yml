@@ -1,0 +1,12 @@
+services:
+  cpd-companion:
+    build: .
+    container_name: cpd-companion
+    restart: unless-stopped
+    ports:
+      - "8340:8340"
+    env_file: .env
+    environment:
+      - CPD_DATA_DIR=/data
+    volumes:
+      - ./data:/data

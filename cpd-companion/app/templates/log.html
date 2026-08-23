@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Activity log — {{ year }}</h1>
+
+<details class="add-form" {% if not rows %}open{% endif %}>
+  <summary>Add an entry</summary>
+  <form method="post" action="/log/add" class="grid-form">
+    <label>Date <input type="date" name="date" value="{{ today }}" required></label>
+    <label>Category
+      <select name="category">
+        <option value="1">1 — Educational</option>
+        <option value="2">2 — Reviewing performance</option>
+        <option value="3">3 — Measuring outcomes</option>
+      </select>
+    </label>
+    <label>Type
+      <select name="activity_type">
+        {% for t in activity_types %}<option value="{{ t }}">{{ t.replace('_', ' ') }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Minutes <input type="number" name="minutes" min="1" max="1440" required></label>
+    <label class="wide">Title <input type="text" name="title" required></label>
+    <label class="wide">Description <textarea name="description" rows="2"></textarea></label>
+    <label class="wide">Reflection <textarea name="reflection" rows="2"></textarea></label>
+    <fieldset class="wide tags">
+      {% for tag in tag_options %}
+      <label class="inline"><input type="checkbox" name="tags" value="{{ tag }}"> {{ tag.replace('_', ' ') }}</label>
+      {% endfor %}
+    </fieldset>
+    <button type="submit">Add confirmed entry</button>
+  </form>
+</details>
+
+<p class="filters">
+  Category:
+  <a href="/log?year={{ year }}" {% if not category %}class="active"{% endif %}>all</a>
+  {% for c in [1, 2, 3] %}
+  <a href="/log?year={{ year }}&amp;category={{ c }}" {% if category == c %}class="active"{% endif %}>{{ c }}</a>
+  {% endfor %}
+  &middot; Year:
+  <a href="/log?year={{ year - 1 }}">{{ year - 1 }}</a> <strong>{{ year }}</strong>
+</p>
+
+{% if rows %}
+<table>
+  <tr><th>Date</th><th>Cat</th><th>Type</th><th>Title</th><th>Hours</th><th>Tags</th></tr>
+  {% for a in rows %}
+  <tr>
+    <td>{{ a.date }}</td><td>{{ a.category }}</td><td>{{ a.activity_type.replace('_', ' ') }}</td>
+    <td><a href="/activity/{{ a.id }}">{{ a.title }}</a></td>
+    <td>{{ a.minutes|hours }}</td><td>{{ a.tags.replace(',', ', ') }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p class="muted">No confirmed entries for this filter yet.</p>
+{% endif %}
+{% endblock %}

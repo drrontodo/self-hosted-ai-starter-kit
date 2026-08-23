@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Inbox — drafts awaiting sign-off</h1>
+<p class="muted">Only confirm entries that reflect genuine activity and time. Trim the minutes if the
+auto-captured figure overstates your active involvement.</p>
+
+{% if not rows %}<p class="muted">Nothing pending.</p>{% endif %}
+
+{% for a in rows %}
+<article class="draft-card">
+  <h3>{{ a.title }}</h3>
+  <p class="meta">{{ a.date }} · Category {{ a.category }} · {{ a.activity_type.replace('_', ' ') }} · source: {{ a.source_module }}</p>
+  <pre class="desc">{{ a.description }}</pre>
+  <form method="post" action="/inbox/{{ a.id }}/confirm" class="confirm-form">
+    <label>Minutes <input type="number" name="minutes" value="{{ a.minutes }}" min="1" max="1440" required></label>
+    <label class="wide">Reflection (optional) <textarea name="reflection" rows="2">{{ a.reflection }}</textarea></label>
+    <button type="submit">Confirm</button>
+  </form>
+  <form method="post" action="/inbox/{{ a.id }}/discard" class="discard-form">
+    <button type="submit" class="secondary">Discard</button>
+  </form>
+</article>
+{% endfor %}
+{% endblock %}
