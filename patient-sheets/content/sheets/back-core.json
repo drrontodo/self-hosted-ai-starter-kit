@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "id": "back-core",
+    "order": 6,
+    "group": "Spine",
+    "title": "Core Strengthening for Back Pain",
+    "shortTitle": "Back pain & core",
+    "eyebrow": "Patient Information",
+    "summary": "A static, spine-sparing core programme built on holds rather than sit-ups — plus the daily habits that decide whether back pain keeps coming back.",
+    "reviewed": "August 2026"
+  },
+
+  "blocks": [
+    {
+      "type": "intro",
+      "paras": [
+        "Most back pain is not caused by anything that shows up on a scan, and most of it settles. The problem is that it comes back — and what decides whether it comes back is largely how the trunk muscles behave during ordinary movements: getting out of the car, lifting a grandchild, loading the dishwasher, carrying shopping on one side.",
+        "The programme below trains the trunk to stay **still and stiff** while the arms and legs do the moving. That is the job the back muscles actually have. It deliberately avoids sit-ups, crunches and repeated bending, because those train the opposite thing."
+      ],
+      "box": {
+        "kind": "highlight",
+        "title": "Why I do not give patients sit-ups",
+        "text": "A sit-up bends the lumbar spine under load, dozens of times per set, which is the loading pattern that damages discs in laboratory testing. It also pulls hard on the psoas muscle, which compresses the lower back. There is a better way to train the same muscles: hold the trunk still and let the limbs move. That is what every exercise here does."
+      }
+    },
+
+    "@fragment:how-to-use",
+
+    {
+      "type": "science",
+      "title": "Four things worth understanding first",
+      "lede": "They explain why this programme looks so different from the abdominal workouts people expect.",
+      "cards": [
+        { "icon": "⏱️", "title": "Endurance beats strength", "type": "primary", "body": ["Healthy backs are not distinguished by powerful trunk muscles but by trunk muscles that can hold on for a long time without tiring. That is why every exercise here is a short hold repeated many times, rather than a maximal effort."] },
+        { "icon": "🧱", "title": "Stiffness is protection", "type": "accent", "body": ["The spine is stable when the muscles around it stiffen together, like guy ropes on a mast. That skill — bracing — is what transfers to real life, and it is why the first exercise on this page is not an exercise at all but a technique."] },
+        { "icon": "🌅", "title": "Mornings are different", "type": "purple", "body": ["The discs absorb fluid overnight and are at their most swollen and least tolerant of bending in the first hour after you get up. Save the floor exercises, and any heavy lifting or toe-touching, until you have been up and about for an hour."] },
+        { "icon": "🚶", "title": "Motion is the medicine", "type": "success", "body": ["The single most useful thing you can do for a back that keeps flaring is to walk regularly. Bed rest, once standard advice, is now known to make back pain worse and to prolong it."] }
+      ]
+    },
+
+    {
+      "type": "box",
+      "kind": "reassurance",
+      "title": "Hurt is not harm — and this is central to back pain",
+      "text": "@text:acceptable-soreness"
+    },
+
+    { "type": "phaseBanner", "variant": "a", "title": "Step 1 — Learn the skill", "subtitle": "One week. Everything else depends on it." },
+    { "type": "exercises", "items": ["@exercise:abdominal-brace"] },
+
+    { "type": "phaseBanner", "variant": "b", "title": "Step 2 — The three core exercises", "subtitle": "Done daily. Together they train the front, the sides and the back of the trunk while keeping the spine in its neutral, comfortable position." },
+    { "type": "exercises", "items": ["@exercise:mcgill-curl-up", "@exercise:side-bridge", "@exercise:bird-dog"] },
+
+    {
+      "type": "box",
+      "kind": "highlight",
+      "title": "Why 10 seconds, and why 6 then 4 then 2?",
+      "text": "Muscle endurance is built by repeated short contractions with brief rests, not by one long, grinding hold. Ten seconds is roughly the point at which a muscle's oxygen supply starts to be squeezed, so holding much longer trains fatigue rather than endurance. Descending the repetitions — six holds, then four, then two — lets you keep the quality high as you tire, which is exactly what you cannot do in a single two-minute plank."
+    },
+
+    { "type": "phaseBanner", "variant": "c", "title": "Step 3 — Useful additions", "subtitle": "Add these once the Big 3 are comfortable. They cover the hips, and they take the training into standing." },
+    { "type": "exercises", "items": ["@exercise:dead-bug", "@exercise:glute-bridge", "@exercise:wall-press-antirotation", "@exercise:front-plank"] },
+
+    { "type": "phaseBanner", "variant": "warm", "title": "Step 4 — The part that matters most", "subtitle": "No floor exercise beats simply moving regularly." },
+    { "type": "exercises", "items": ["@exercise:back-walking"] },
+
+    {
+      "type": "section",
+      "title": "A week of it",
+      "blocks": [
+        {
+          "type": "table",
+          "head": ["", "Daily", "Three days a week", "Every day"],
+          "rows": [
+            ["Morning", "Get up and move about for an hour before floor exercises", "—", "Walk"],
+            ["Main session (10–15 min)", "Curl-up 6/4/2 · side bridge 6/4/2 each side · bird dog 6/4/2 each side", "Add dead bug, glute bridge, anti-twist press", "—"],
+            ["Through the day", "Brace before you lift, twist, or stand from a chair", "—", "Break up long sitting every 30–45 minutes"]
+          ],
+          "caption": "Ten to fifteen minutes a day. If you have time for only one thing, do the Big 3 — and walk."
+        }
+      ]
+    },
+
+    {
+      "type": "section",
+      "title": "The habits that decide whether it comes back",
+      "lede": "The exercises take fifteen minutes. What you do with the other fifteen hours matters more.",
+      "blocks": [
+        {
+          "type": "contentCards",
+          "items": [
+            {
+              "title": "Hinge at the hips, do not curl the spine",
+              "paras": ["To pick something up, push your bottom backwards and let your knees bend, keeping your back in its natural shape and your chest facing forwards. The movement happens at the hips.", "For something light and low, the 'golfer's lift' is elegant and back-sparing: hold a chair or bench with one hand, tip forward at the hip and let the opposite leg swing back behind you like a see-saw."]
+            },
+            {
+              "title": "Bring the load close before you lift it",
+              "paras": ["The force through your low back depends far more on how far the load is from your body than on how heavy it is. A light box held at arm's length loads the spine more than a heavier one held against your chest. Step in close, brace, then lift."]
+            },
+            {
+              "title": "Sitting is a position, not a punishment",
+              "paras": ["There is no single correct sitting posture, and the evidence that posture causes back pain is much weaker than people are told. What does matter is duration: change position every half hour or so, and get up regularly. Use the chair's backrest, keep both feet on the floor, and support the small of your back with a rolled towel if that is comfortable."]
+            },
+            {
+              "title": "Get out of bed in one piece",
+              "paras": ["Roll onto your side with your knees bent, drop your feet over the edge of the bed, and push up with your arms so your trunk stays in one unit. Reverse it to get in. This is the single change that helps most people through a flare-up."]
+            },
+            {
+              "title": "During a flare-up, keep moving little and often",
+              "paras": ["Shorten your walks rather than stopping. Keep doing whatever exercises you can manage without a marked increase in pain. Use heat, use simple analgesia if you need it, and expect improvement over days to a few weeks.", "Complete rest is the one approach that reliably makes things worse."]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "type": "section",
+      "title": "Things people are told that are not true",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            { "q": "\"My scan shows disc degeneration, so my back is damaged.\"", "a": ["Degenerative changes, disc bulges and 'wear and tear' are found in large proportions of people with **no** pain at all, and they become more common with every decade — in the same way that grey hair does. They are usually a description of age rather than an explanation for pain.", "There are important exceptions, which is what the red flags at the bottom of this page are for. But for most people, a scan report full of alarming words is not a reason to stop moving."] },
+            { "q": "\"I need to strengthen my core because it is weak.\"", "a": ["Perhaps — but core weakness is not a proven cause of back pain, and stronger abdominal muscles have not been shown to prevent it. What exercise reliably does is reduce the pain and disability you have, and reduce recurrences. That is a good enough reason to do it. Be sceptical of anyone who tells you your pain is caused by one weak muscle."] },
+            { "q": "\"Motor control exercise is the best type of exercise for backs.\"", "a": ["It works — but the reviews are clear that it is not clearly *better* than other well-delivered exercise, including general strengthening, Pilates, yoga and walking. The most important variable is whether you will keep doing it. If you hate these exercises, tell me, and we will choose something you will actually do."] },
+            { "q": "\"I should avoid bending forwards forever.\"", "a": ["No. Avoiding a movement permanently makes it feel more threatening and makes the back less tolerant of it. The advice about bending applies to *repeated, loaded* bending, and to the first hour after getting up. The aim is to return to normal movement, gradually and confidently."] },
+            { "q": "\"Planks are the gold standard for core strength.\"", "a": ["Long planks train endurance to fatigue and are hard on the shoulders and the low back once form fails. Short, repeated holds with good position beat one long hold, every time."] },
+            { "q": "\"Bed rest until it settles.\"", "a": ["This was standard advice for decades and is now known to be actively harmful: it prolongs pain, weakens muscle, and increases the chance of the pain becoming persistent. Stay as active as the pain allows, and expect ordinary activity to be uncomfortable rather than damaging."] }
+          ]
+        }
+      ]
+    },
+
+    "@fragment:adherence",
+    "@fragment:australian-pathway",
+
+    {
+      "type": "box",
+      "kind": "warning",
+      "title": "Stop and seek medical attention urgently if you develop",
+      "list": [
+        "**Loss of bladder or bowel control**, difficulty passing urine, or numbness in the saddle area between the legs — this needs emergency assessment the same day.",
+        "**Progressive weakness or numbness in a leg**, or a foot that begins to drag.",
+        "Back pain with **fever, unexplained weight loss, or night sweats**.",
+        "Back pain following significant trauma, or in anyone with osteoporosis, long-term steroid use, or a history of cancer.",
+        "Severe pain that is **worse at night and not relieved by lying down**.",
+        "Morning back stiffness lasting more than an hour in a younger adult, improving with exercise and worsening with rest — this pattern suggests inflammatory back disease and needs a different assessment.",
+        "Pain that is simply not improving after six weeks of doing the right things."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "eastneuro-patient-sheets",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Data-driven generator for East Neurology patient information sheets. Content lives in JSON; the HTML house style lives in code.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node src/build.mjs",
+    "clean": "rm -f dist/*.html"
+  }
+}

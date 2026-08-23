@@ -1,0 +1,248 @@
+{
+  "safety-first": [
+    {
+      "type": "box",
+      "kind": "warning",
+      "title": "Before you start — making this safe to do alone",
+      "list": [
+        "**Always have something solid to grab.** A kitchen bench, a heavy table, a wall on each side, or the back of a chair wedged against a wall. Not a wheeled chair, not a towel rail.",
+        "**Choose the right floor.** Bare, level, non-slip. Move rugs and cords out of the way. Do not do balance work on a rug edge or a wet bathroom floor.",
+        "**Wear shoes or bare feet, not socks.** Well-fitting shoes with a firm heel counter and a thin sole let you feel the floor.",
+        "**If you have fallen in the last six months, or you feel unsafe standing still with your feet together, do not start alone.** Do these first with a family member present, or ask me to arrange a physiotherapist.",
+        "**Carry your phone, or wear a personal alarm,** if you live alone.",
+        "**Stop and contact your doctor** if an exercise causes chest pain, sudden severe dizziness, a new weakness, or a fall."
+      ]
+    }
+  ],
+  "hurt-vs-harm": [
+    {
+      "type": "box",
+      "kind": "highlight",
+      "title": "Hurt is not the same as harm",
+      "text": "@text:acceptable-soreness"
+    }
+  ],
+  "floor-rescue": [
+    {
+      "type": "section",
+      "title": "If you do fall: the plan you make in advance",
+      "lede": "Long lies on the floor cause far more harm than the fall itself. Rehearse this before you need it.",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            {
+              "type": "accent",
+              "title": "Do not rush to get up",
+              "body": [
+                "Lie still for a moment. Check whether anything hurts badly, and whether you can move both arms and both legs. If you suspect a broken bone, or you hit your head, or you are on blood thinners, call for help and stay where you are."
+              ]
+            },
+            {
+              "type": "accent",
+              "title": "Roll, crawl, kneel, rise",
+              "body": [
+                "Roll onto your side, then onto your hands and knees. Crawl to a solid chair or a bed. Put both hands on the seat, bring your strongest leg up so that foot is flat on the floor, then push up through that leg and both arms and turn to sit."
+              ]
+            },
+            {
+              "type": "accent",
+              "title": "If you cannot get up",
+              "body": [
+                "Get to a warm place if you can — drag a blanket or cushion down. Keep moving your arms and legs to protect your skin and circulation. Bang on a wall or floor. This is exactly what a personal alarm pendant is for, and why it must be worn rather than left on the bedside table."
+              ]
+            },
+            {
+              "type": "success",
+              "title": "Tell me about it",
+              "body": [
+                "Every fall is worth reporting, even one you were not hurt by. A fall is the single strongest predictor of the next fall, and most causes are treatable — blood pressure medication, vision, inner ear, sensation in the feet, or simple loss of leg strength."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "adherence": [
+    {
+      "type": "section",
+      "title": "Making it actually happen",
+      "lede": "The best programme is the one you will still be doing in three months. These are the things that reliably make the difference.",
+      "blocks": [
+        {
+          "type": "cards",
+          "items": [
+            {
+              "icon": "🔗",
+              "title": "Attach it to something you already do",
+              "type": "success",
+              "body": [
+                "Balance work while the kettle boils. Neck exercises after brushing your teeth. Relaxation practice as you get into bed. A new habit hooked onto an old one survives; a new habit floating free does not."
+              ]
+            },
+            {
+              "icon": "📅",
+              "title": "Keep a tick sheet",
+              "type": "success",
+              "body": [
+                "A calendar on the fridge with a tick for each day. Self-monitoring is one of the few adherence strategies with consistent evidence behind it, and it gives us something real to look at in clinic."
+              ]
+            },
+            {
+              "icon": "🎯",
+              "title": "Set a specific, checkable goal",
+              "type": "success",
+              "body": [
+                "Not 'improve my balance', but 'stand on one leg for 30 seconds each side by the end of March', or 'walk to the shops and back without stopping'. Write it down."
+              ]
+            },
+            {
+              "icon": "⏱️",
+              "title": "Ten minutes beats an hour you never start",
+              "type": "success",
+              "body": [
+                "@text:little-and-often"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "researchNote",
+          "text": "@text:consistency"
+        }
+      ]
+    }
+  ],
+  "australian-pathway": [
+    {
+      "type": "section",
+      "title": "Getting extra help in Australia",
+      "lede": "You do not have to do this alone, and supervised programmes work better than unsupervised ones for people at higher risk.",
+      "blocks": [
+        {
+          "type": "cards",
+          "variant": "side",
+          "items": [
+            {
+              "icon": "🩺",
+              "title": "Your GP can subsidise allied health",
+              "type": "blue",
+              "body": [
+                "Under a GP Chronic Condition Management Plan (the successor to the old GP Management Plan / Team Care Arrangements), patients with a chronic condition can access a limited number of Medicare-rebated allied health sessions each calendar year — typically five in total, shared across all providers. Ask your GP whether you are eligible for physiotherapy or exercise physiology under this."
+              ]
+            },
+            {
+              "icon": "🏃",
+              "title": "Physiotherapist or exercise physiologist",
+              "type": "blue",
+              "body": [
+                "A physiotherapist is the right choice for a specific problem — a painful neck, an unsteady gait, vestibular rehabilitation. An accredited exercise physiologist is the right choice for building and supervising a long-term conditioning programme. Both can be seen privately without a referral."
+              ]
+            },
+            {
+              "icon": "👥",
+              "title": "Community falls programmes",
+              "type": "blue",
+              "body": [
+                "NSW Health and many local councils run group strength-and-balance programmes such as Stepping On. Group programmes add the two things a home sheet cannot: supervision and company. Ask your GP or your local council, or search Active and Healthy NSW."
+              ]
+            },
+            {
+              "icon": "🏠",
+              "title": "My Aged Care and NDIS",
+              "type": "blue",
+              "body": [
+                "If you are over 65 and finding daily tasks harder, a My Aged Care assessment can fund home exercise support, home modifications such as rails, and an occupational therapy home-safety visit. Under 65 with a permanent disability, the same supports may be available through the NDIS."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "related-sheets": [
+    {
+      "type": "related",
+      "lede": "These programmes overlap deliberately. If more than one applies to you, do not do them all — tell me, and we will build one combined programme."
+    }
+  ],
+  "cta-standard": [
+    {
+      "type": "cta",
+      "title": "Questions about your own programme?",
+      "text": "Bring this sheet to your next appointment and we will adapt it to you — your diagnosis, your other conditions, and what you are actually willing to do.",
+      "buttons": [
+        {
+          "label": "East Neurology",
+          "href": "{{practice.siteUrl}}"
+        },
+        {
+          "label": "Stress & relaxation guide",
+          "href": "{{links.stress}}",
+          "ghost": true
+        }
+      ]
+    }
+  ],
+  "how-to-use": [
+    {
+      "type": "box",
+      "kind": "reassurance",
+      "title": "How to use this sheet",
+      "list": [
+        "Read it once through, then start with the first two or three exercises only.",
+        "Add an exercise every week or two rather than starting everything at once.",
+        "Print it, tick off the days, and bring it back to your appointment.",
+        "@text:not-medical-advice"
+      ]
+    }
+  ],
+  "australian-pathway-sleep": [
+    {
+      "type": "section",
+      "title": "Getting more help in Australia",
+      "lede": "Cognitive behavioural therapy for insomnia is the treatment with the best evidence, and there are several ways to get it.",
+      "blocks": [
+        {
+          "type": "cards",
+          "variant": "side",
+          "items": [
+            {
+              "icon": "💻",
+              "title": "Online CBT-I programmes",
+              "type": "blue",
+              "body": [
+                "Structured digital programmes deliver the same components as face-to-face therapy — sleep window, stimulus control, cognitive work — and have good trial evidence. They are the most practical option for most people: no waiting list, done at your own pace. Australian and international programmes are available; ask me which I currently recommend."
+              ]
+            },
+            {
+              "icon": "🧠",
+              "title": "A psychologist trained in CBT-I",
+              "type": "blue",
+              "body": [
+                "Your GP can prepare a Mental Health Treatment Plan giving Medicare-rebated sessions with a psychologist. Ask specifically for someone who does **CBT for insomnia** — it is a particular protocol, not general counselling, and typically takes four to eight sessions."
+              ]
+            },
+            {
+              "icon": "🩺",
+              "title": "Your GP",
+              "type": "blue",
+              "body": [
+                "The right person to review your medications, check thyroid function, iron studies (low ferritin drives restless legs), mood, menopause symptoms and pain control, and to arrange a sleep study if one is needed."
+              ]
+            },
+            {
+              "icon": "😴",
+              "title": "A sleep physician and a sleep study",
+              "type": "blue",
+              "body": [
+                "Worth arranging if there is loud snoring, witnessed pauses in breathing, unrefreshing sleep despite adequate hours, marked daytime sleepiness, restless legs, or acting out of dreams. Insomnia that has not responded to proper CBT-I is also a reason to look again."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "practice": {
+    "name": "East Neurology",
+    "clinician": "Dr Ron Granot",
+    "address": "301/251 Oxford St, Bondi Junction, Sydney",
+    "site": "eastneurology.com.au",
+    "siteUrl": "https://www.eastneurology.com.au",
+    "copyright": "This information is for educational purposes and does not replace individual medical advice. Content © Dr Ron Granot & East Neurology."
+  },
+  "links": {
+    "stress": "https://eastneuro.info/stress",
+    "home": "https://eastneuro.info"
+  },
+  "fonts": {
+    "headingStack": "'Crimson Pro', Georgia, 'Times New Roman', serif",
+    "bodyStack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "googleHref": "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+  },
+  "colors": {
+    "primary": "#1a5f7a",
+    "primary-light": "#2a7a9e",
+    "accent": "#e67e22",
+    "accent-light": "#f39c12",
+    "accent2": "#8e44ad",
+    "text-dark": "#2c3e50",
+    "text-medium": "#546e7a",
+    "text-light": "#78909c",
+    "bg-cream": "#fdfbf7",
+    "bg-light": "#f8f6f2",
+    "border": "#e0ddd6",
+    "success": "#27ae60",
+    "phase-b": "#2980b9",
+    "phase-c": "#8e44ad",
+    "danger": "#c0392b"
+  },
+  "gradients": {
+    "primary": "linear-gradient(135deg, #1a5f7a 0%, #2a7a9e 100%)",
+    "warm": "linear-gradient(135deg, #e67e22 0%, #f39c12 100%)"
+  }
+}

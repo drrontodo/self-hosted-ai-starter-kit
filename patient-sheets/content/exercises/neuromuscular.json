@@ -1,0 +1,111 @@
+{
+  "haptic-contact": {
+    "name": "Light-touch training (the fingertip trick)",
+    "badge": "Substitution strategy",
+    "purpose": "When your feet cannot report where you are in space, your hand can. Resting a fingertip on a surface steadies you dramatically — and it works through information, not through physical support.",
+    "dose": "Use it as the support setting for every balance exercise",
+    "how_to": [
+      "Stand at the bench in whatever balance position you are working on.",
+      "Instead of gripping, rest **one fingertip** lightly on the surface — press no harder than you would to touch a soap bubble without popping it.",
+      "Notice how much steadier you are. That steadiness is not coming from the strength of your finger; it is your brain using the contact to work out where your body is.",
+      "Practise progressing between four settings: two hands gripping → one hand → one fingertip → hand hovering a centimetre above the bench.",
+      "Move down a setting only when the current one is easy, and always keep the next setting up within reach."
+    ],
+    "progression": "Fingertip → hovering hand → no hand, always beside the bench.",
+    "regression": "Back to whole-hand contact. There is no shame in it, and the training effect is nearly as good.",
+    "safety": "Hovering is the highest-risk setting: keep the hand directly above the bench so that catching yourself takes no time at all.",
+    "evidence_note": "Light fingertip contact at forces under one newton — far too little to hold you up — substantially reduces body sway, including in people with peripheral neuropathy. This is also the argument for walking poles: two poles give the same information on both sides, and are often better than one stick."
+  },
+
+  "foot-check": {
+    "name": "The daily foot check",
+    "badge": "Non-negotiable if sensation is reduced",
+    "purpose": "If you cannot feel your feet, they cannot tell you when something is wrong. Your eyes have to do the job instead. This takes 30 seconds and prevents most serious foot problems.",
+    "dose": "Every day, at the same time",
+    "how_to": [
+      "Every evening, look at the whole of both feet — top, sole, heel, and between every toe. Use a mirror on the floor, or your phone camera, if you cannot see the soles.",
+      "You are looking for: redness, blisters, cuts, cracks, new hard skin, a change in colour, or anything wet.",
+      "Feel the temperature of each foot with the back of your hand and compare the two.",
+      "Check inside your shoes with your hand before you put them on — for a stone, a fold in the insole, or a protruding stitch.",
+      "**Never** use hot water bottles, heat packs, foot spas or radiant heaters on feet you cannot feel, and never cut corns or calluses yourself."
+    ],
+    "progression": "Add an annual (or more frequent) podiatry review, which for people with diabetes is subsidised in Australia.",
+    "regression": "If you cannot see or reach your feet, ask someone else to check them, or make it a regular podiatry task.",
+    "safety": "**A hot, red, swollen foot needs same-day assessment**, even without a wound and even if it does not hurt. In diabetic neuropathy this can be an acute Charcot foot, and continuing to walk on it can destroy the joint.",
+    "evidence_note": "Daily foot self-examination is a standing recommendation of the International Working Group on the Diabetic Foot. A persistent difference of more than about 2°C between the same spot on the two feet, on two consecutive days, is a recognised early warning worth acting on."
+  },
+
+  "night-safety": {
+    "name": "Night-time and darkness planning",
+    "badge": "Where these falls happen",
+    "purpose": "Vision is doing the work your feet used to do. Take the light away and the system fails — which is why so many falls in neuropathy happen on the way to the toilet at 2 am.",
+    "dose": "Set it up once; check it every few months",
+    "how_to": [
+      "Put a plug-in sensor night light in the bedroom, the hallway and the bathroom. This is the single highest-value change on this page.",
+      "Keep a torch and your phone within reach of the bed.",
+      "Clear the entire route to the bathroom — no shoes, no charging cables, no pets' bowls, no low furniture. Do it once, properly, and keep it that way.",
+      "Sit on the edge of the bed for a count of ten before standing, and stand for a count of ten before walking. Blood pressure and stiff ankles both need that moment.",
+      "Consider slip-resistant slippers with a firm back kept beside the bed — not loose scuffs and not bare feet on tiles.",
+      "If you are up more than twice a night, tell me. Nocturia is a strong, treatable falls risk factor, and so are the medications that cause it."
+    ],
+    "progression": "Add a grab rail beside the toilet and in the shower. An occupational therapist home visit is worth arranging if you have had any fall at night.",
+    "regression": "Start with the night lights alone.",
+    "safety": "Never walk in the dark to avoid waking a partner. Falls in the dark are the ones that break hips.",
+    "evidence_note": "Home fall-hazard reduction reduces falls by around a quarter overall, and by considerably more — nearly 40% — in people already at high risk. Note that this benefit comes from an actual assessment and actual changes, not from a leaflet."
+  },
+
+  "submaximal-loading": {
+    "name": "How hard to push a diseased muscle",
+    "badge": "The rule that governs everything else",
+    "purpose": "Two opposite mistakes are common: not exercising at all for fear of damage, and training to exhaustion. The evidence supports a clear middle path.",
+    "dose": "Effort 6–7 out of 10; never to failure",
+    "how_to": [
+      "Work at an effort you would rate about 6 or 7 out of 10 — 'somewhat hard'. You should finish each set feeling you could have done two or three more repetitions.",
+      "**Never train to failure**, and never chase 'the burn'.",
+      "Prefer lifting and pushing (concentric work) over slow lowering of heavy loads (eccentric work). If you have a muscular dystrophy, actively avoid heavy eccentric work: no downhill hiking on steep gradients, no jumping, no slowly lowering heavy weights.",
+      "Leave at least one rest day between sessions for the same muscle group — two or three sessions a week, not daily.",
+      "Judge the last session by how you feel **two days later**: normal training soreness settles within 24 to 48 hours.",
+      "**Halve the load** if soreness is severe, lasts beyond 72 hours, or comes with swelling — do not push through it."
+    ],
+    "progression": "Add repetitions before adding load. When you can comfortably do 15 repetitions at a given effort, add a small amount of weight and return to 10.",
+    "regression": "Reduce range, then repetitions, then frequency — in that order.",
+    "safety": "**Stop and seek urgent medical care if your urine turns dark, red or cola-coloured after exercise**, which suggests muscle breakdown. If you have a metabolic muscle disease (such as McArdle disease or a fatty-acid oxidation disorder), never exercise fasted, take carbohydrate beforehand, warm up gently, and stop immediately if a muscle cramps and will not release — that is a contracture, not fatigue, and pushing through it is what causes damage.",
+    "evidence_note": "The old fear of 'overwork weakness' comes largely from post-polio observation and a mouse model, not from human trials. Moderate resistance and aerobic training has repeatedly proved safe in inclusion body myositis, limb-girdle and Becker dystrophy and inflammatory myopathy, with no rise in muscle enzymes or biopsy inflammation. A Cochrane review classifies the benefit as low-certainty — safe, probably helpful, not miraculous. The genuine exceptions are high-force eccentric loading in the dystrophies and unpaced exertion in metabolic myopathy."
+  },
+
+  "sit-to-stand-endurance": {
+    "name": "Sit-to-stand endurance test and training",
+    "badge": "Track your own progress",
+    "purpose": "A simple number you can measure at home, repeat monthly, and bring to your appointment. It tracks exactly the muscles that fail first in myopathy — the thigh and hip.",
+    "dose": "Test monthly; train 3 days a week",
+    "how_to": [
+      "**The test:** sit on a firm dining chair, arms folded across your chest. Time how many complete stands you can do in 30 seconds. Write down the number and the date.",
+      "If you cannot stand without using your arms, record that instead — 'five stands in 30 seconds with hands on thighs' is a perfectly good baseline.",
+      "**The training:** do 3 sets of as many stands as you can comfortably manage in 30 seconds, resting a full minute between sets, three days a week.",
+      "Keep the chair against a wall and stop each set with two or three repetitions still in reserve.",
+      "Retest on the first of each month, under the same conditions."
+    ],
+    "progression": "Fewer arm assists, then a lower seat, then a slower lowering phase, then holding a light weight against the chest.",
+    "regression": "Use a higher chair or a cushion, and push off your thighs.",
+    "safety": "Chair against a wall. If you have inclusion body myositis, be aware that the knees can buckle without warning — keep a hand within reach of the bench for every set.",
+    "evidence_note": "In limb-girdle and Becker dystrophy, twelve weeks of moderate resistance training improved sit-to-stand and stair times by roughly 18–36%, with no evidence of damage. In inclusion body myositis, training maintained quadriceps strength over three months while untrained controls lost around 9%."
+  },
+
+  "aerobic-submaximal": {
+    "name": "Steady aerobic exercise",
+    "badge": "Safe and worthwhile",
+    "purpose": "Nerve and muscle disease make everyday activity more expensive in energy terms, so people become deconditioned quickly — and deconditioning then gets blamed on the disease. Aerobic training treats the part that is reversible.",
+    "dose": "20–30 minutes at a moderate pace, 3 days a week",
+    "how_to": [
+      "A stationary bike is the best choice: it is seated, it removes the falls risk, and the resistance is easy to control. Walking, swimming or water walking also work well.",
+      "Work at a pace where you can talk in short sentences but not sing — around 60–65% of your maximum heart rate.",
+      "Start with 10 minutes if that is where you are, and add 2–3 minutes per week.",
+      "Warm up for 5 minutes at a very easy pace and cool down the same way, which matters more in muscle disease than in healthy muscle.",
+      "Pace it: it is better to do 20 minutes three times a week than 60 minutes once and then need three days to recover."
+    ],
+    "progression": "Add duration first, then a little intensity. Interval formats (2 minutes harder, 3 minutes easy) suit people who fatigue quickly.",
+    "regression": "Split into two 10-minute sessions. Water-based exercise offloads the joints and the falls risk together.",
+    "safety": "In metabolic myopathies, avoid sudden high-intensity bursts and never exercise fasted. Stop for chest pain, unusual breathlessness, or muscle pain that is sharp rather than tired.",
+    "evidence_note": "Submaximal cycling has been shown to be safe and effective in limb-girdle dystrophy and in mitochondrial myopathy, with meaningful gains in aerobic capacity and no significant rise in muscle enzymes. In early diabetic neuropathy, sustained aerobic exercise over a year has even been associated with an increase in small nerve fibre density in the skin — the one intervention with any evidence of a structural nerve effect."
+  }
+}

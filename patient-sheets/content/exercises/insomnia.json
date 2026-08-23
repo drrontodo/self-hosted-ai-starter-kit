@@ -1,0 +1,208 @@
+{
+  "sleep-diary": {
+    "name": "Step 0 — Two weeks of a sleep diary",
+    "badge": "Do this before anything else",
+    "purpose": "Everything else on this page depends on knowing what your sleep is actually doing. Memory is a poor guide: most people with insomnia underestimate how much they sleep and overestimate how long they lie awake.",
+    "dose": "Every morning for 2 weeks, takes 2 minutes",
+    "how_to": [
+      "Each morning, write down: what time you went to bed, roughly how long it took to fall asleep, how many times you woke and for roughly how long, what time you finally woke, and what time you got out of bed.",
+      "Add a line for daytime naps, alcohol, caffeine after midday, and any sleeping tablet.",
+      "**Estimate, do not measure.** Do not clock-watch during the night, and turn the clock face away from you.",
+      "At the end of each week, add up your average **time in bed** and your average **actual sleep time**.",
+      "Divide sleep time by time in bed and multiply by 100 — that is your sleep efficiency, and it is the number that drives the treatment below."
+    ],
+    "progression": "Keep it going through the first month of treatment, so you can see the change rather than guess at it.",
+    "regression": "If a paper diary is a burden, a note on your phone each morning is fine. Sleep-tracking watches and rings are not a substitute and often make things worse by fuelling anxiety about the numbers.",
+    "safety": "None — but if the diary shows loud snoring, witnessed pauses in breathing, or falling asleep during the day despite adequate time in bed, tell me before starting sleep-window therapy.",
+    "evidence_note": "The sleep diary is the standard measurement tool in every trial of cognitive behavioural therapy for insomnia, and clinicians use it to set and adjust the treatment."
+  },
+
+  "stimulus-control": {
+    "name": "Stimulus control — rebuilding the bed–sleep connection",
+    "badge": "First-line CBT-I component",
+    "purpose": "After months of lying awake, your bed becomes a cue for frustrated wakefulness instead of sleep. These six rules break that association. They are simple, they are hard, and they work.",
+    "dose": "Every night, without exception, for at least 4 weeks",
+    "how_to": [
+      "**Go to bed only when you are sleepy** — not merely tired, but genuinely nodding off. Being 'ready for bed' is not the same as being sleepy.",
+      "**Use the bed only for sleep and sex.** No reading, television, phone, laptop, radio, or worrying in bed.",
+      "**If you are awake for what feels like 15–20 minutes, get up.** Leave the bedroom. Sit somewhere else in dim light and do something quiet and undemanding until you feel sleepy, then return to bed.",
+      "**Repeat that as often as necessary,** even five times a night. This is the hard part and it is the part that works.",
+      "**Get up at the same time every morning, seven days a week,** regardless of how badly you slept. The morning alarm anchors the whole rhythm.",
+      "**Do not nap.** If you must, keep it under 20 minutes and before 3 pm."
+    ],
+    "progression": "None — these rules do not change. They become easier by about the second or third week, and the improvement usually follows in weeks three to six.",
+    "regression": "If getting out of bed is impractical — because of pain, cold, or unsteadiness — sit up out of the covers, or move to a chair in the bedroom instead. The principle is 'do not lie in bed awake and frustrated'.",
+    "safety": "If you are unsteady on your feet at night, put a light on before getting up, and keep the path clear. Falls at night in the dark are common and serious.",
+    "evidence_note": "Stimulus control is one of the two components that carry most of the effect of cognitive behavioural therapy for insomnia, which is recommended as **first-line treatment ahead of medication** by both the American Academy of Sleep Medicine and the American College of Physicians."
+  },
+
+  "sleep-window": {
+    "name": "Sleep window therapy (sleep restriction)",
+    "badge": "The most powerful single component",
+    "purpose": "Lying in bed for nine hours to catch six hours of sleep spreads the sleep thin and broken. Compressing time in bed makes sleep deeper, more continuous and more reliable — then the window is widened again.",
+    "dose": "Reset weekly, based on your diary",
+    "how_to": [
+      "From your two-week diary, work out your **average actual sleep time** per night. Say it is 5 hours 30 minutes.",
+      "That, plus about 30 minutes, becomes your **time in bed** — your sleep window. **Never set it below 5 hours.**",
+      "Fix your **rising time** first, at whatever time you must be up. Then count backwards to set your bedtime. If your window is 6 hours and you must rise at 6:30 am, you go to bed at 12:30 am — and not before, no matter how tired you feel.",
+      "Keep the same window every night, weekends included, for a week.",
+      "At the end of the week, work out your sleep efficiency (sleep time ÷ time in bed × 100). **If it is 90% or more, move your bedtime 15 minutes earlier.** If it is 85–89%, change nothing. **If it is below 85%, move your bedtime 15 minutes later.**",
+      "Repeat every week until you reach a window that gives you good sleep efficiency and you feel rested."
+    ],
+    "progression": "The window widens by 15 minutes a week as your sleep consolidates. Most people finish somewhere between 6.5 and 7.5 hours.",
+    "regression": "If the full method is too harsh, a gentler version — simply not going to bed before a fixed time, and always rising at the same time — captures much of the benefit.",
+    "safety": "**This makes you sleepier during the first one to two weeks.** Do not start it in a week when you must drive long distances, operate machinery, or work night shifts, and stop driving if you feel sleepy at the wheel. Tell me first if you have epilepsy, bipolar disorder, or untreated sleep apnoea — sleep restriction can destabilise all three and needs supervision.",
+    "evidence_note": "Sleep restriction is the most potent single element of cognitive behavioural therapy for insomnia, and in a large UK primary-care trial nurse-delivered sleep restriction alone significantly improved insomnia compared with sleep hygiene advice."
+  },
+
+  "slow-breathing": {
+    "name": "Slow breathing",
+    "badge": "Relaxation — start here",
+    "purpose": "Slowing the breath is the quickest reliable way to shift the body out of alert mode. It is the foundation of every other relaxation technique, and the easiest to learn.",
+    "dose": "5–10 minutes, twice a day plus at bedtime",
+    "how_to": [
+      "Lie on your back or sit comfortably. Put one hand on your chest and one on your belly.",
+      "Breathe in gently through your nose for a count of four, letting the hand on your **belly** rise while the hand on your chest stays still.",
+      "Breathe out slowly through your mouth or nose for a count of six. The out-breath being longer than the in-breath is the important part.",
+      "Continue at about six breaths a minute. Do not force a big breath — this is slow and soft, not deep and effortful.",
+      "When your mind wanders — it will — simply notice and return to the counting. That returning *is* the practice, not a failure of it.",
+      "Practise it during the **day** as well as at night. A technique first attempted at 3 am rarely works."
+    ],
+    "progression": "Lengthen the out-breath to a count of eight. Add a word on the out-breath such as 'calm', or count each breath backwards from 20.",
+    "regression": "Do 2 minutes rather than 10. Or simply make every out-breath a little longer than the in-breath, without counting at all.",
+    "safety": "If you feel light-headed or tingly, you are breathing too deeply — make the breaths smaller and slower.",
+    "evidence_note": "Relaxation training is a recognised component of cognitive behavioural therapy for insomnia, most useful for people whose insomnia is driven by physical tension and racing thoughts. There is a fuller step-by-step version on my [stress management page]({{links.stress}})."
+  },
+
+  "progressive-muscle-relaxation": {
+    "name": "Progressive muscle relaxation",
+    "badge": "Best for physical tension",
+    "purpose": "Tense muscles keep the nervous system alert. Deliberately tensing and then releasing each muscle group teaches you what relaxed actually feels like — most people with chronic tension have lost the ability to recognise it.",
+    "dose": "15 minutes daily; a shortened version at bedtime",
+    "how_to": [
+      "Lie down somewhere warm and quiet, and take three slow breaths.",
+      "Starting with your feet: curl your toes and tense the muscles hard for 5 seconds — about three-quarters effort, not maximal.",
+      "Release suddenly and completely, and spend 15–20 seconds noticing the difference between the tense state and the released one. That contrast is the whole technique.",
+      "Work upwards in turn: calves, thighs, buttocks, stomach, hands (clench the fists), forearms, upper arms, shoulders (shrug to the ears), neck, jaw (clench gently), and finally the face (screw it up).",
+      "Finish by lying still for a minute, breathing slowly, letting everything feel heavy.",
+      "Once you have practised this for two or three weeks, learn the short version: tense the whole body at once for 5 seconds, release, and repeat three times."
+    ],
+    "progression": "Move to 'release-only' relaxation — going through the same muscle groups and simply letting go of each, without tensing first. This is the version you can use anywhere, including in bed.",
+    "regression": "Do the upper body only, seated. Skip any muscle group that hurts.",
+    "safety": "Do not tense a painful, injured or recently operated area, and go gently on the neck and back. If you have cramps, reduce the tensing effort.",
+    "evidence_note": "Progressive muscle relaxation dates to Jacobson's work in the 1930s and remains one of the best-studied relaxation methods for insomnia and anxiety. Step-by-step instructions are also on my [stress management page]({{links.stress}})."
+  },
+
+  "body-scan": {
+    "name": "Body scan and mindful attention",
+    "badge": "Best for a racing mind",
+    "purpose": "Gives an overactive mind something undemanding to rest on. The aim is not to force sleep — it is to stop the effortful struggle that keeps you awake.",
+    "dose": "10–20 minutes, daily practice",
+    "how_to": [
+      "Lie comfortably and close your eyes.",
+      "Move your attention slowly through the body, starting at the toes of one foot: simply notice whatever is there — warmth, coolness, pressure, tingling, or nothing at all.",
+      "Spend perhaps 20 seconds on each area and move steadily up through the body to the top of the head.",
+      "You are not trying to relax the area or change anything. You are only noticing, without judging.",
+      "When you realise you have been lost in thought, note where the mind went, and return to where you were. This will happen many times a session.",
+      "If you fall asleep during it, that is a welcome side effect, not the goal."
+    ],
+    "progression": "Extend to 30 minutes; add a formal daily mindfulness practice; consider a structured mindfulness course.",
+    "regression": "Scan only from the feet to the hips, or use a guided audio recording.",
+    "safety": "A few people find turning attention inwards uncomfortable, particularly after trauma. If it increases distress, use the breathing or muscle relaxation methods instead.",
+    "evidence_note": "Mindfulness-based approaches improve insomnia and are a reasonable alternative for people who find the structure of cognitive behavioural therapy difficult, though the evidence base is smaller."
+  },
+
+  "constructive-worry": {
+    "name": "Constructive worry — putting the day down",
+    "badge": "For the 2 am problem-solving mind",
+    "purpose": "Bed is the first quiet moment of the day, so the mind uses it to review problems. Giving worry a proper slot earlier in the evening reliably reduces how much of it turns up at bedtime.",
+    "dose": "15 minutes, early evening, daily",
+    "how_to": [
+      "At least two hours before bed, sit at a table with a notebook — not in the bedroom.",
+      "Draw a line down the middle. On the left, write down everything on your mind. On the right, write the **single next step** for each, and when you will do it.",
+      "For things with no next step — the genuinely uncontrollable — write 'nothing to do tonight' beside them. That is a legitimate and useful answer.",
+      "Close the notebook. It is now on paper and does not need to be held in your head.",
+      "If a worry surfaces in bed anyway, say to yourself: 'that is on the list, it is dealt with tomorrow', and return to your breathing.",
+      "Keep a pad by the bed for anything genuinely new — write it down in the dark, and let it go."
+    ],
+    "progression": "Add a short gratitude or 'what went well' list at the end — a deliberate change of mental gear before bed.",
+    "regression": "Just the list, no columns.",
+    "safety": "None.",
+    "evidence_note": "Structured worry time is a standard cognitive technique in insomnia treatment, targeting the pre-sleep cognitive arousal that most patients describe as 'my mind won't switch off'."
+  },
+
+  "sleep-thoughts": {
+    "name": "Challenging the thoughts that keep you awake",
+    "badge": "Cognitive therapy",
+    "purpose": "Insomnia is maintained by a small set of beliefs — 'I must get eight hours', 'tomorrow will be ruined', 'I have no control over this'. These beliefs create the anxiety that prevents the sleep, and the prophecy fulfils itself.",
+    "dose": "Ongoing, whenever the thought appears",
+    "how_to": [
+      "Notice the thought and write it down exactly as it occurs to you: 'if I don't sleep tonight I won't cope tomorrow'.",
+      "Ask: what is the evidence? Look back over your diary at the days after your worst nights. Did you actually fail to cope, or did you get through a below-par day?",
+      "Ask: what is a more accurate version? For example — 'tomorrow will be harder than I would like, and I have got through many such days before'.",
+      "Correct the arithmetic. Sleep need varies: many healthy adults need seven hours, some need six, and normal sleep includes brief awakenings you would not remember when you were sleeping well.",
+      "Drop the effort. **Trying** to sleep is the one activity guaranteed to prevent it. Aim only to rest quietly — if you are willing to be awake, you will usually fall asleep."
+    ],
+    "progression": "Set yourself a behavioural test: deliberately keep a normal day's plans after a bad night, and check whether the catastrophe you predicted actually happened.",
+    "regression": "Use the single most useful reframe: 'rest is valuable too, and my body will take the sleep it needs eventually'.",
+    "safety": "None.",
+    "evidence_note": "Cognitive restructuring targets the dysfunctional beliefs about sleep that maintain insomnia, and paradoxical intention — giving up the effort to sleep — is itself a recommended technique with trial support."
+  },
+
+  "sleep-hygiene": {
+    "name": "Sleep hygiene — necessary but not sufficient",
+    "badge": "Read the caveat",
+    "purpose": "These are the background conditions for sleep. They are worth getting right — but be clear that on its own, sleep hygiene advice is a **weak treatment for established insomnia**. It is the floor, not the building.",
+    "dose": "Daily habits",
+    "how_to": [
+      "**Caffeine:** none after midday. Its half-life is around five to six hours, and longer with age, so a 3 pm coffee is still working at midnight. Remember tea, cola, energy drinks and dark chocolate.",
+      "**Alcohol:** it shortens the time to fall asleep and then fragments the second half of the night, suppresses REM sleep and worsens snoring and apnoea. It is one of the most common causes of 3 am waking.",
+      "**Nicotine** is a stimulant, and overnight withdrawal wakes people.",
+      "**The bedroom:** cool (around 18°C), dark, quiet. Your core temperature must fall for sleep to begin, which is also why a warm bath 1–2 hours before bed helps — the warming is followed by a drop.",
+      "**Screens:** the content matters more than the light. A work email or an argument on social media is far more arousing than the screen's brightness. Keep the phone out of the bedroom, and use an ordinary alarm clock.",
+      "**Food:** avoid a heavy meal in the two hours before bed, but do not go to bed hungry.",
+      "**Fluids:** taper drinks in the evening if you are up to the toilet at night."
+    ],
+    "progression": "Once these are in place, put your effort into stimulus control and the sleep window — that is where the results come from.",
+    "regression": "Pick the two that most obviously apply to you rather than attempting all of them.",
+    "safety": "Do not stop a regular sleeping tablet abruptly to 'do this properly' — benzodiazepines and z-drugs must be tapered, and rebound insomnia after sudden withdrawal is severe. Talk to me or your GP first.",
+    "evidence_note": "This is the point most often missed: trials consistently show sleep hygiene education **alone** is substantially less effective than full cognitive behavioural therapy for insomnia, and it is frequently used as the *control* condition against which real treatments are tested."
+  },
+
+  "daytime-activity": {
+    "name": "Building sleep pressure during the day",
+    "badge": "Often the missing piece",
+    "purpose": "Sleep at night is built during the day. Two things generate it: physical activity, and enough hours of continuous wakefulness. Sitting all day and dozing in the evening dismantles both.",
+    "dose": "30 minutes of activity most days + morning light",
+    "how_to": [
+      "**Move every day.** Aim for 30 minutes of moderate activity — brisk walking counts — on most days. Break it up if you need to.",
+      "**Get outside within an hour or two of waking**, for at least 20–30 minutes. Morning daylight is the strongest signal setting your body clock, and it is many times brighter outdoors than in any lit room, even on an overcast day.",
+      "**Do not doze in the evening chair.** An evening nap in front of the television discharges exactly the sleep pressure you need at bedtime. If you find yourself nodding off at 8 pm, stand up and do something.",
+      "**Keep the evening dimmer.** Lower the lights in the last hour, which supports the natural rise in melatonin.",
+      "**Do not exercise vigorously in the last hour before bed** if it keeps you awake — though the evidence is that for most people, evening exercise does *not* harm sleep, and the old blanket warning was overstated. Judge it on your own experience."
+    ],
+    "progression": "Add a second daylight walk in the late afternoon. Increase the intensity of the daily activity.",
+    "regression": "Even 10 minutes outdoors in the morning and a short walk after lunch will help.",
+    "safety": "If you are unsteady, see the balance sheets on this site before increasing outdoor walking.",
+    "evidence_note": "Meta-analyses of exercise trials in people with insomnia show moderate improvements in sleep quality and time to fall asleep. Regular timing of light, activity and meals reinforces the circadian rhythm that insomnia typically erodes."
+  },
+
+  "pain-and-sleep": {
+    "name": "Getting pain under control at night",
+    "badge": "Two-way street",
+    "purpose": "Pain fragments sleep, and poor sleep lowers the pain threshold the following day — a loop that tightens over months. Neither problem is fully treatable while the other is ignored.",
+    "dose": "Plan the evening deliberately",
+    "how_to": [
+      "**Time your analgesia to cover the night,** not just the evening. If a dose wears off at 3 am, that is when you will wake — discuss the timing and the preparation with me or your GP rather than simply taking more.",
+      "**Set up the bed for the painful part.** For back pain, a pillow under the knees when lying on your back, or between the knees when on your side. For neck pain, one pillow supporting the hollow of the neck rather than a stack propping the head forward, and no sleeping on your front.",
+      "**Do the gentle exercises from the relevant sheet in the evening,** not just the morning — stiffness that has built through the day is what wakes you at 2 am.",
+      "**Use heat before bed** if it helps — a warm shower or heat pack has the added benefit of the temperature drop that follows.",
+      "**Apply the same relaxation techniques to the pain.** Slow breathing and progressive muscle relaxation reduce the muscle guarding that amplifies pain, and reduce the distress that makes it harder to bear.",
+      "**Expect to be more sensitive after a bad night**, and do not read that as your condition deteriorating."
+    ],
+    "progression": "If pain is the dominant barrier, cognitive behavioural approaches for pain and for insomnia can be combined, and are more effective together than either alone.",
+    "regression": "Start with a single change: the pillow arrangement, or the timing of the last dose.",
+    "safety": "Be cautious with sedating painkillers as sleeping aids. Opioids fragment sleep architecture and worsen sleep apnoea; combining them with sleeping tablets is genuinely dangerous.",
+    "evidence_note": "The relationship between sleep and pain is bidirectional, and evidence suggests poor sleep predicts next-day pain more strongly than pain predicts that night's sleep — which is an argument for treating the insomnia in its own right rather than waiting for the pain to settle."
+  }
+}

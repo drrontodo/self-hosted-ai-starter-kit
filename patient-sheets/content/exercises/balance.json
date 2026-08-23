@@ -1,0 +1,206 @@
+{
+  "tandem-gait": {
+    "name": "Tandem walking (heel-to-toe), corridor only",
+    "badge": "Core balance drill",
+    "purpose": "Trains the side-to-side balance control that keeps you upright when you turn, step around something, or are jostled.",
+    "dose": "10 steps × 3, once a day",
+    "how_to": [
+      "@text:corridor-rule",
+      "Stand at one end with your fingertips lightly brushing one wall.",
+      "Place one foot directly in front of the other so the heel of the front foot touches the toes of the back foot, as if walking a tightrope.",
+      "Take ten slow heel-to-toe steps, looking ahead at a point on the wall rather than at your feet.",
+      "Turn around carefully — wide, slow steps, not a quick pivot — and walk back.",
+      "Rest, then repeat twice more."
+    ],
+    "progression": "Fingertips off the wall (but still within reach). Then hands folded across your chest. Then walk backwards heel-to-toe. Only when all of that is easy, try it with your head turning slowly side to side.",
+    "regression": "Walk with one whole hand on the wall, and use a semi-tandem step (front heel beside the back toes, not in front of them) until that feels steady.",
+    "safety": "Never in an open room, never on a rug, never in socks. If you find yourself repeatedly grabbing the wall, the drill is too hard — go back a stage.",
+    "evidence_note": "Narrowing your base of support is the most efficient way to challenge balance, and challenging balance is what makes falls prevention work. In the Cochrane review of 108 trials, exercise reduced the rate of falls by 23% overall — but programmes that genuinely challenged balance *and* totalled three or more hours a week reduced falls by around 40%. Comfortable, seated, low-dose programmes did not."
+  },
+  "tandem-stance": {
+    "name": "Tandem and semi-tandem standing",
+    "badge": "Foundation",
+    "purpose": "The static version of tandem walking — the safest way to start if walking heel-to-toe is still too much.",
+    "dose": "3 × 30 seconds each foot in front, daily",
+    "how_to": [
+      "Stand beside a kitchen bench with one hand resting on it.",
+      "Put one foot half a step in front of the other, heel beside the opposite big toe (semi-tandem).",
+      "Hold for 30 seconds, breathing normally, eyes ahead.",
+      "Swap which foot is in front and repeat.",
+      "When 30 seconds is comfortable, move the front foot fully in front (true tandem) so heel touches toe."
+    ],
+    "progression": "One fingertip on the bench, then no hands, then eyes closed with a hand hovering over the bench — eyes closed doubles the difficulty and is where the real gains are.",
+    "regression": "Feet together, both hands on the bench, 30 seconds.",
+    "safety": "Stand facing into the corner of a bench, not out into the room, so there is something to catch on either side.",
+    "evidence_note": "Feet-together, semi-tandem and tandem stance are the standard progression used in the Otago programme and in nearly every trial that reduced falls."
+  },
+  "single-leg-stance": {
+    "name": "Single-leg standing",
+    "badge": "Otago exercise",
+    "purpose": "Almost every step you take is a moment of standing on one leg. This trains the hip and ankle muscles that stop you toppling sideways.",
+    "dose": "Build to 30 seconds each leg, 2 rounds, daily",
+    "how_to": [
+      "Stand at the bench with both hands on it.",
+      "Shift your weight fully onto one leg and lift the other foot a few centimetres off the floor — just enough to clear it.",
+      "Keep the standing knee soft, hips level, and look at a fixed point ahead.",
+      "Hold as long as you can steadily, up to 30 seconds, then swap.",
+      "Do two rounds on each leg."
+    ],
+    "progression": "Two fingers on the bench → one finger → hands hovering just above it. Then add slow head turns, or stand on a firm cushion.",
+    "regression": "Keep the toes of the lifted foot resting lightly on the floor (a 'kickstand'), taking almost no weight.",
+    "safety": "Always within arm's reach of support. Do not test yourself in the middle of the room to 'see how long you can last'.",
+    "evidence_note": "Single-leg stance time is one of the balance tests used to decide who needs a falls intervention. Being unable to hold it for 10 seconds is a marker worth telling me about — it has been linked to higher mortality and to injurious falls, though it is a warning light rather than a target in itself."
+  },
+  "standing-leg-raises": {
+    "name": "Standing leg raises — front, side and back",
+    "badge": "Strength + balance in one",
+    "purpose": "Strengthens the hip muscles (particularly the side-hip muscles that stop your pelvis dropping) while forcing you to balance on the other leg. Two exercises for the price of one.",
+    "dose": "10 raises in each of the 3 directions, each leg, 3 days a week",
+    "how_to": [
+      "Stand tall behind a firm chair or at the bench, hands resting on it.",
+      "**Front:** keeping the knee straight and the body upright, lift one leg forward about 20–30 cm. Lower slowly under control. Repeat 10 times.",
+      "**Side:** lift the same leg directly out to the side, toes pointing forwards (not turned out), 20–30 cm. Do not lean away — the trick is to keep your trunk vertical. Lower slowly. Repeat 10 times.",
+      "**Back:** lift the leg straight behind you, squeezing the buttock, without arching your low back or leaning forwards. Repeat 10 times.",
+      "Swap legs and repeat all three directions."
+    ],
+    "progression": "Reduce hand support to fingertips. Then add a 2-second hold at the top of each raise. Then add a light ankle weight (start at 0.5–1 kg) for the side and back raises.",
+    "regression": "Do them seated for the front raises, and do side and back raises with both hands firmly on the bench and a smaller range.",
+    "safety": "Slow and controlled beats high. A 20 cm raise done with a still trunk builds far more than a 50 cm raise done by swinging and leaning.",
+    "evidence_note": "Ankle-weighted hip and knee exercises are the strength backbone of the Otago programme, which cut falls by roughly a third (rate ratio 0.68) across seven trials, and which also reduced falls in people referred to a falls clinic after an injury."
+  },
+  "chair-squats": {
+    "name": "Chair squats (sit-to-stand)",
+    "badge": "Highest-value exercise",
+    "purpose": "The single most useful strengthening exercise for an older adult: it is how you get off the toilet, out of the car, and up off the floor after a fall.",
+    "dose": "10 repetitions × 2–3 sets, 3 days a week",
+    "how_to": [
+      "Use a firm dining chair with its back against a wall. Not an armchair, not a chair on castors.",
+      "Sit forward on the seat with your feet flat, hip-width apart, drawn back slightly so your heels sit under your knees.",
+      "Lean your chest forwards over your knees (nose over toes) — this, not leg strength, is what most people are missing.",
+      "Push down through your heels and stand up all the way, squeezing your buttocks at the top.",
+      "Lower yourself back down slowly — take 3 seconds — and touch the seat lightly rather than dropping onto it.",
+      "That is one repetition. Do 10, rest a minute, and repeat."
+    ],
+    "progression": "Arms folded across the chest instead of pushing off your knees. Then a slower, 4-second lowering. Then a lower seat (a firm cushion removed, or a lower chair). Then stand from the chair and hold a half-squat for 3 seconds before sitting.",
+    "regression": "Push off your thighs or the chair arms with your hands, and use a higher seat with a cushion on it. Even five repetitions counts.",
+    "safety": "Chair against a wall, every time. If your knees are painful, reduce the depth rather than abandoning the exercise.",
+    "evidence_note": "Sit-to-stand is a named component of the Otago programme — which reduced falls by about a third in trials of frail older people with an average age of 81 — and functional balance training of this kind carries a strong recommendation in the 2022 World Guidelines for Falls Prevention."
+  },
+  "heel-raises": {
+    "name": "Heel raises (calf strength)",
+    "badge": "Otago exercise",
+    "purpose": "The calf is the engine of push-off in walking and the first muscle that catches you when you sway forwards.",
+    "dose": "10–15 repetitions × 2 sets, 3 days a week",
+    "how_to": [
+      "Stand at the bench, feet hip-width apart, hands resting on it for balance only.",
+      "Rise up onto the balls of both feet as high as you can.",
+      "Pause for a second at the top — most people cheat this part.",
+      "Lower slowly, taking about 3 seconds, until your heels touch the floor.",
+      "Repeat 10 to 15 times."
+    ],
+    "progression": "Fingertip support only. Then single-leg heel raises (holding the bench), building to 10 each side. Then do them with the balls of your feet on the edge of a step so the heel drops below the step — only with a solid rail.",
+    "regression": "Smaller range, both hands on the bench, and do them seated first if standing is unsteady.",
+    "safety": "If you get calf cramps, reduce the number and stretch afterwards. Stop if you get sudden calf pain and swelling — that needs assessment.",
+    "evidence_note": "Calf strength and ankle power decline steeply with age and correlate closely with walking speed, which itself predicts falls, hospitalisation and independence."
+  },
+  "toe-raises": {
+    "name": "Toe raises (shin strength)",
+    "badge": "Otago exercise",
+    "purpose": "The muscles on the front of the shin lift your toes clear of the carpet. When they are weak, you trip.",
+    "dose": "10–15 repetitions × 2 sets, 3 days a week",
+    "how_to": [
+      "Stand at the bench with your feet hip-width apart.",
+      "Keeping your heels planted, lift the fronts of both feet up as far as you can.",
+      "Hold for a second, then lower slowly.",
+      "Repeat 10 to 15 times."
+    ],
+    "progression": "Do them one foot at a time, or while standing on one leg with support.",
+    "regression": "Do them sitting in a chair with your heels on the floor.",
+    "safety": "Do not lean back on the bench to make it easier — keep your weight over your feet.",
+    "evidence_note": "Weak ankle dorsiflexors are strongly associated with trips, which are the most common single mechanism of falls in people who are still walking independently."
+  },
+  "sideways-walking": {
+    "name": "Sideways and backward walking",
+    "badge": "Direction training",
+    "purpose": "Most falls happen when you step sideways or backwards — reaching into a cupboard, stepping back from an open door, being nudged. Practise the directions you actually fall in.",
+    "dose": "10 steps each way × 2, most days",
+    "how_to": [
+      "Stand side-on to the kitchen bench with one hand on it.",
+      "Step sideways along the bench: step out with the leading foot, then bring the trailing foot to meet it. Ten steps.",
+      "Come back the other way, so both directions are trained.",
+      "Then, facing the bench with both hands on it, take ten slow steps backwards and ten forwards along its length.",
+      "Keep your steps deliberate and your body upright."
+    ],
+    "progression": "Cross-over stepping (grapevine) sideways; fingertip support only; then a slightly quicker tempo.",
+    "regression": "Two hands on the bench and half-sized steps.",
+    "safety": "Look behind you before backward stepping, and keep the path completely clear. Never reverse into an open room.",
+    "evidence_note": "Stepping and walking in different directions and at different speeds is specifically recommended in the 2022 World Falls Guidelines, because balance training is task-specific: practising forwards walking does not protect you sideways."
+  },
+  "step-ups": {
+    "name": "Step-ups on the bottom stair",
+    "badge": "Power + confidence",
+    "purpose": "Rebuilds the leg power you need for stairs, kerbs and buses, and rehearses the exact task people become frightened of.",
+    "dose": "10 step-ups each leg, 2 sets, 3 days a week",
+    "how_to": [
+      "Use the bottom step of a staircase with a solid handrail, or a sturdy step block.",
+      "Hold the rail. Place one whole foot on the step.",
+      "Push down through that heel to lift yourself up — try to let the leg on the step do the work rather than pushing off the floor with the back foot.",
+      "Step back down slowly, leading with the same leg, and touch down quietly.",
+      "Do 10 with that leg, then swap."
+    ],
+    "progression": "Light fingertip contact on the rail; then a slower 3-second lowering; then a higher step (only with a rail).",
+    "regression": "A single low step or a thick book taped down; or start by simply stepping up and down onto a doorway threshold.",
+    "safety": "Handrail in hand for every repetition until you are certain. Shoes on.",
+    "evidence_note": "Stair negotiation demands more strength than walking and is where a lot of serious falls occur, so it is worth training deliberately rather than avoiding."
+  },
+  "head-turns-walking": {
+    "name": "Walking with head turns",
+    "badge": "Real-world balance",
+    "purpose": "Balance fails when you have to look away from where you are going — checking traffic, reading a shelf, being spoken to. This trains that exact situation safely.",
+    "dose": "3 lengths of the corridor, most days",
+    "how_to": [
+      "Walk down a clear corridor at your normal pace, within reach of a wall.",
+      "As you walk, turn your head slowly to the left, count two steps, then slowly to the right, count two steps. Keep walking in a straight line.",
+      "Do one length with side-to-side head turns, then one length nodding up and down.",
+      "If you feel dizzy or you veer, stop, steady yourself, and make the head movements slower and smaller."
+    ],
+    "progression": "Faster head turns, then adding a task — naming animals, counting backwards from 100 by threes — while you walk.",
+    "regression": "Do the head turns standing still with a hand on the bench before combining them with walking.",
+    "safety": "Corridor only. If head turning provokes true spinning vertigo rather than mild unsteadiness, stop and tell me — that is a different problem.",
+    "evidence_note": "Head movement removes visual stabilisation and forces the inner ear and body-position senses to do the work. Dual-task walking training is specifically recommended in the 2022 World Falls Guidelines."
+  },
+  "walking-program": {
+    "name": "Walking — the background to everything else",
+    "badge": "Aerobic base",
+    "purpose": "Walking will not by itself fix your balance, but it maintains leg strength, bone, mood, sleep and blood pressure control, and it is the platform the rest of the programme sits on.",
+    "dose": "Build towards 30 minutes on most days",
+    "how_to": [
+      "Start from where you actually are. If that is five minutes to the letterbox and back, start there.",
+      "Add roughly 10% per week — an extra two or three minutes.",
+      "Walk at a pace where you could talk but not sing.",
+      "Take a route you can shorten easily if you tire: laps of a level block beat a one-way walk you have to complete.",
+      "If you are unsteady, walk with someone, or use walking poles or your stick — using an aid is not a failure, it is what allows you to do more."
+    ],
+    "progression": "Add a hill, add pace intervals (two minutes brisk, two minutes easy), or add uneven ground such as a grassy park — but only once your balance work is solid.",
+    "regression": "Split it into three 10-minute walks. Indoor shopping-centre laps are a legitimate winter option.",
+    "safety": "Do not do your balance-challenging exercises outdoors on uneven ground unsupervised.",
+    "evidence_note": "Be clear about this: walking alone has **not** been shown to prevent falls, and across 88 trials the programmes that included walking training had *smaller* effects on falls than those that did not. Walking is essential for fitness, mood, bone and nerve health. It is not a substitute for the balance work above."
+  },
+  "weight-shifts": {
+    "name": "Weight shifts and reaching",
+    "badge": "Starting point",
+    "purpose": "Teaches you where your limits of balance actually are, and how to move to the edge of them and come back without panicking.",
+    "dose": "10 shifts in each direction, daily",
+    "how_to": [
+      "Stand at the bench, feet hip-width apart, hands lightly resting on it.",
+      "Keeping your body straight like a tall mast, sway slowly forwards over your toes, then back over your heels. Go only as far as you can come back from.",
+      "Do ten of those, then sway slowly side to side, taking your weight over one foot then the other, ten times.",
+      "Then reach one hand slowly out to the side and across your body, following your hand with your eyes, and return.",
+      "Finish by reaching down towards a spot on the floor beside your foot and back up."
+    ],
+    "progression": "Reduce hand support; increase how far you reach; reach to place and pick up an object on a low stool.",
+    "regression": "Do it seated on a firm chair first, or with both hands on the bench and very small movements.",
+    "safety": "Small ranges first. The point is control, not distance.",
+    "evidence_note": "Reaching while standing is one of the functional balance tasks named in the 2022 World Falls Guidelines, and it directly rehearses the movements that cause household falls."
+  }
+}

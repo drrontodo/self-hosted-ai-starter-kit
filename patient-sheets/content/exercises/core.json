@@ -1,0 +1,165 @@
+{
+  "abdominal-brace": {
+    "name": "Learning to brace (do this first)",
+    "badge": "Technique, not a workout",
+    "purpose": "Every core exercise on this sheet depends on this one skill: stiffening the trunk without holding your breath and without flattening your back into the floor.",
+    "dose": "10 × 10-second braces, once or twice a day for the first week",
+    "how_to": [
+      "Lie on your back, knees bent, feet flat.",
+      "Put your fingertips on the muscles just inside your hip bones.",
+      "Imagine someone is about to poke you in the stomach, and stiffen your whole abdominal wall against it — a firm, all-round tension, about 20–30% of your maximum. You should feel the muscles under your fingers tighten.",
+      "Do **not** suck your stomach in, and do **not** push your low back flat against the floor. The natural small hollow in your low back should stay.",
+      "Keep breathing normally while you hold it. Say your address out loud to prove you are not holding your breath.",
+      "Hold 10 seconds, relax 5 seconds, repeat 10 times."
+    ],
+    "progression": "Practise bracing while sitting, standing, and while getting out of a chair — this is where it actually protects you.",
+    "regression": "If you cannot brace and breathe at the same time, drop the effort to 10% and just practise the breathing.",
+    "safety": "Breath-holding raises blood pressure. If you have heart disease or aneurysm, keep the effort light and the breathing continuous.",
+    "evidence_note": "Bracing (all-round stiffening) rather than hollowing (drawing the belly in) is what generates spine stability under real-world loads. The two approaches have been argued over for twenty years; bracing is the more robust skill for daily activity."
+  },
+
+  "mcgill-curl-up": {
+    "name": "Modified curl-up",
+    "badge": "McGill Big 3",
+    "purpose": "Trains the front of the trunk without repeatedly bending the spine — which is the entire reason we do not use sit-ups.",
+    "dose": "Hold 10 seconds; 6 reps, then 4, then 2 (rest ~20 s between sets)",
+    "how_to": [
+      "Lie on your back. Bend **one** knee with that foot flat on the floor; leave the other leg straight.",
+      "Slide both hands, palms down, under the small of your back to support its natural hollow. Do not let your back flatten onto your hands.",
+      "Brace your abdominal wall as you practised.",
+      "Lift your head and shoulders only a centimetre or two off the floor — the head and neck ride with the chest as one rigid unit, as if head, neck and upper chest were in a plaster cast. Your chin does not tuck to your chest and your low back does not move.",
+      "Hold for 10 seconds, breathing normally, then lower.",
+      "Do 6 holds, rest, 4 holds, rest, 2 holds. Swap which knee is bent halfway through your sets."
+    ],
+    "progression": "Once 6-4-2 is easy, add a set (8-6-4), or lift the elbows a centimetre off the floor during the hold.",
+    "regression": "Do not lift the head at all — simply brace and press the head lightly back into the floor for 10 seconds.",
+    "safety": "If you get neck pain, you are lifting with your neck instead of your trunk. Lift less, and think of the whole upper body rising as one block.",
+    "evidence_note": "Short 8–10 second holds in a descending pyramid build the muscular *endurance* that distinguishes healthy backs from painful ones, without the repeated flexion cycles that damage discs in laboratory testing."
+  },
+
+  "side-bridge": {
+    "name": "Side bridge (side plank)",
+    "badge": "McGill Big 3",
+    "purpose": "Trains the sides of the trunk — the muscles that stop you collapsing sideways — with very low compressive load on the spine.",
+    "dose": "Hold 10 seconds; 6 reps, then 4, then 2, each side",
+    "how_to": [
+      "Lie on your side with your knees bent to about 90°, propped on the elbow directly under your shoulder, forearm flat.",
+      "Place your top hand on the opposite shoulder.",
+      "Brace, then lift your hips off the floor so your body makes a straight line from knees to shoulders.",
+      "Hold 10 seconds, breathing normally, then lower.",
+      "Do 6, 4, then 2 holds on that side, then roll over and repeat."
+    ],
+    "progression": "Straighten the legs and support on your feet instead of your knees. Then, from the full position, roll slowly forwards and backwards a few degrees while staying stiff.",
+    "regression": "Keep the hips on the floor and simply hold the propped-up position with a brace. Or do it standing, leaning your forearm on a wall and pushing your hip in towards it.",
+    "safety": "Painful shoulder is the usual limiter — do the wall version instead. Do not let the bottom shoulder sag.",
+    "evidence_note": "The side bridge produces high activity in the lateral trunk muscles while keeping spinal compression far lower than sit-ups, which is why it is preferred for painful backs."
+  },
+
+  "bird-dog": {
+    "name": "Bird dog",
+    "badge": "McGill Big 3",
+    "purpose": "Trains the muscles along the back of the spine and teaches you to move an arm and a leg while the spine stays still — the pattern you need for lifting, gardening and vacuuming.",
+    "dose": "Hold 10 seconds; 6 reps, then 4, then 2, each side",
+    "how_to": [
+      "Kneel on all fours, hands under shoulders, knees under hips. Use a mat or folded towel under the knees.",
+      "Brace your abdominal wall and set your back in its natural, neutral position — not arched up, not sagged down.",
+      "Slide one arm forward along the floor and the opposite leg back, then lift both just to the height of your body. No higher: hips and shoulders stay square and level, as though balancing a cup of tea on your low back.",
+      "Make a fist and reach it away, and push your heel away, as if pushing two walls apart. Hold 10 seconds while breathing.",
+      "Return to all fours, sweep the hand and knee under you to touch briefly, then repeat.",
+      "Do 6, 4, then 2 holds, then swap sides."
+    ],
+    "progression": "Draw a small square in the air with the raised hand and the raised foot while the trunk stays completely still.",
+    "regression": "Lift the arm only, then the leg only, before combining them.",
+    "safety": "Sore wrists — make a fist and rest on your knuckles, or do it with forearms on a bench. Do not lift the leg high enough to arch your back.",
+    "evidence_note": "Bird dog loads the spinal extensors while keeping the spine in a neutral, low-stress position, which is the recurring principle in every exercise on this page."
+  },
+
+  "dead-bug": {
+    "name": "Dead bug",
+    "badge": "Anti-arching control",
+    "purpose": "Teaches you to keep your low back still while your arms and legs move — the same skill as bird dog, trained lying down where it is easier to control.",
+    "dose": "8–10 slow repetitions each side, 2 sets",
+    "how_to": [
+      "Lie on your back, knees bent up over your hips, arms pointing at the ceiling.",
+      "Brace lightly. Your low back keeps its small natural hollow — a hand slid underneath should feel light, steady pressure that does not change.",
+      "Slowly lower one arm overhead and straighten the opposite leg towards the floor, going only as far as you can go without the pressure under your back changing.",
+      "Breathe out as you extend, and bring them back slowly.",
+      "Alternate sides. Stop the set as soon as the low back starts to arch."
+    ],
+    "progression": "Take the leg lower and closer to the floor; slow the movement to a four-second count each way.",
+    "regression": "Move one limb at a time; keep the moving leg bent and just slide the heel along the floor.",
+    "safety": "If your back arches or your neck strains, you have gone too far — shorten the range.",
+    "evidence_note": "Motor-control exercises like this reduce pain and disability in chronic low back pain, though they are not clearly better than other well-delivered exercise. The best programme remains the one you will actually do."
+  },
+
+  "glute-bridge": {
+    "name": "Glute bridge",
+    "badge": "Hip strength",
+    "purpose": "Strengthens the buttock muscles, which take load off the low back when you stand, lift and climb stairs. Weak buttocks means an overworked back.",
+    "dose": "10 repetitions with a 5-second hold, 2 sets",
+    "how_to": [
+      "Lie on your back, knees bent, feet flat and hip-width apart, arms by your sides.",
+      "Brace gently, then squeeze your buttocks and lift your hips until your body makes a straight line from knees to shoulders.",
+      "The lift comes from squeezing the buttocks, not from arching the low back — you should feel it behind, not in the spine.",
+      "Hold 5 seconds, then lower slowly.",
+      "Repeat 10 times."
+    ],
+    "progression": "Hold longer (10 seconds), then march slowly on the spot at the top, then do it with one foot lightly off the floor.",
+    "regression": "Lift only halfway; or simply squeeze the buttocks hard for 5 seconds without lifting.",
+    "safety": "Hamstring cramp is common — move your feet slightly further from your bottom and squeeze the buttocks harder.",
+    "evidence_note": "Hip extensor strength is consistently reduced in people with persistent low back pain, and hip strengthening is a standard part of effective back programmes."
+  },
+
+  "front-plank": {
+    "name": "Front plank (optional)",
+    "badge": "Optional add-on",
+    "purpose": "A whole-trunk isometric hold. Useful, but not essential — the Big 3 cover the same ground with less shoulder and back strain.",
+    "dose": "3 holds of 10–20 seconds",
+    "how_to": [
+      "Rest on your forearms and knees, elbows under your shoulders.",
+      "Brace, and lift your knees so your body makes a straight line from knees or feet to shoulders.",
+      "Squeeze your buttocks, and do not let your hips sag or hike up.",
+      "Hold 10–20 seconds with normal breathing, then rest. Three holds are plenty."
+    ],
+    "progression": "From the knees to the toes; then lift one foot slightly for a few seconds at a time.",
+    "regression": "Do it standing, with your forearms on the kitchen bench and your body angled forwards.",
+    "safety": "Stop the moment your back begins to sag — a sagging plank loads exactly the structures we are protecting.",
+    "evidence_note": "Long plank holds are popular but there is no benefit in grinding out minutes: endurance for daily life is built with repeated short holds, not one exhausting one."
+  },
+
+  "wall-press-antirotation": {
+    "name": "Standing anti-twist press",
+    "badge": "Standing carry-over",
+    "purpose": "The most useful core work is done standing up. This trains your trunk to resist being twisted — exactly what happens when you carry shopping on one side or open a heavy door.",
+    "dose": "5 × 10-second holds each side",
+    "how_to": [
+      "Stand about half a metre from a wall, side-on, feet hip-width apart.",
+      "Put both hands together, palms flat, against the wall at chest height, arms straight out in front of you.",
+      "Brace your trunk, and press your hands into the wall as if trying to push it away. The wall will try to twist you — do not let it.",
+      "Keep your hips and shoulders square and your trunk absolutely still. Breathe normally.",
+      "Hold 10 seconds, rest, and do five holds before turning around to face the other way."
+    ],
+    "progression": "Stand in a narrow stance, then in a split stance, then press harder.",
+    "regression": "Stand closer to the wall and press more gently.",
+    "safety": "Keep breathing. If you feel it in your shoulder rather than your trunk, lower your hands slightly.",
+    "evidence_note": "Trunk stiffness generated while standing is what actually protects the spine during daily tasks; floor exercises alone do not automatically transfer."
+  },
+
+  "back-walking": {
+    "name": "Walking as treatment for your back",
+    "badge": "Strong evidence",
+    "purpose": "Regular walking is one of the best-supported treatments for recurrent low back pain, and it is free.",
+    "dose": "20–30 minutes, most days",
+    "how_to": [
+      "Start with what you can do comfortably, even if that is ten minutes.",
+      "Increase by a few minutes each week rather than doubling it in one go.",
+      "Walk at a comfortable, relaxed pace — this is not a fitness test.",
+      "Expect some stiffness at first. Movement is safe; the back is a robust structure, and it does better with load than with rest.",
+      "If pain flares after a walk, shorten the next one rather than stopping altogether."
+    ],
+    "progression": "Longer, then slightly brisker; add gentle hills.",
+    "regression": "Three short walks a day instead of one long one; walk in water if land walking is too painful.",
+    "safety": "Bed rest is the one thing we now know makes back pain worse. Even during a flare, keep moving little and often.",
+    "evidence_note": "An individually tailored, progressive walking programme substantially prolonged the time to a recurrence of low back pain in a large Australian randomised trial (the WalkBack trial, published in The Lancet in 2024)."
+  }
+}

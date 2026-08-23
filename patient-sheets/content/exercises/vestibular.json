@@ -1,0 +1,127 @@
+{
+  "vor-x1-horizontal": {
+    "name": "Gaze stabilisation — side to side (VOR × 1)",
+    "badge": "Cornerstone of vestibular rehab",
+    "purpose": "Retrains the reflex that keeps your eyes locked on a target while your head moves. When that reflex is damaged, the world appears to bounce or blur when you move — this is the exercise that fixes it.",
+    "dose": "1–2 minutes at a time, 3–5 times a day",
+    "how_to": [
+      "Sit down. Hold a business card, or a piece of paper with a single large letter on it, at arm's length at eye level. You can also stick it on the wall.",
+      "Look at the letter and keep it in sharp focus. **Your eyes stay on the target the whole time.**",
+      "Now turn your head from side to side — a small arc, about 30° each way — while the letter stays perfectly clear.",
+      "Go as fast as you can *while still keeping the letter in focus*. The moment it blurs, you are going too fast: slow down slightly and stay just below that speed.",
+      "Continue for 1 minute, then rest until any dizziness settles.",
+      "Build up to 2 minutes per session, and do 3 to 5 sessions spread through the day."
+    ],
+    "progression": "Stand instead of sit. Then stand with feet together. Then do it against a busy background such as a patterned curtain or a bookshelf. Then walk on the spot while doing it.",
+    "regression": "Do 20 seconds at a time and rest. Reduce the speed, not the frequency — little and often is what drives adaptation.",
+    "safety": "Sit down for the first week. If you are unsteady, sit with your back against a chair. Never do this standing at the top of stairs.",
+    "evidence_note": "The 2022 vestibular hypofunction guideline from the American Physical Therapy Association recommends gaze stabilisation exercises for at least 12 minutes a day in the acute phase and 20 minutes a day for longstanding problems, sustained over 4 to 6 weeks."
+  },
+
+  "vor-x1-vertical": {
+    "name": "Gaze stabilisation — up and down",
+    "badge": "The other half",
+    "purpose": "The same reflex works in the vertical plane, and it is the one you use on stairs, on kerbs, and when looking down at your feet. It is often neglected.",
+    "dose": "1–2 minutes, 3–5 times a day",
+    "how_to": [
+      "Hold the same target at arm's length at eye level.",
+      "Keeping your eyes fixed on it, nod your head up and down through a small arc.",
+      "Again, move as fast as you can while the target stays clear.",
+      "One minute, then rest. Alternate with the side-to-side version through the day."
+    ],
+    "progression": "Standing, then feet together, then against a busy background, then while walking on the spot.",
+    "regression": "Smaller, slower movements, 20 seconds at a time.",
+    "safety": "Vertical head movement is more likely to provoke nausea. Have a chair, and do it before rather than after meals.",
+    "evidence_note": "Adaptation of the vestibulo-ocular reflex is direction-specific: training side-to-side movements does not fully transfer to up-and-down movements."
+  },
+
+  "vor-x2": {
+    "name": "Advanced gaze stabilisation (VOR × 2)",
+    "badge": "Weeks 3–4 onwards",
+    "purpose": "A harder version that demands twice as much from the reflex. Only start it once the basic version is comfortable.",
+    "dose": "1 minute × 2–3 times a day, once the basic version is easy",
+    "how_to": [
+      "Hold the card at arm's length in front of you.",
+      "Move your head **and** the card in *opposite* directions at the same time — head left while the card moves right, and vice versa.",
+      "Keep the letter in focus throughout.",
+      "Start with slow, small movements. One minute at a time is plenty."
+    ],
+    "progression": "Increase speed and range gradually; then perform standing.",
+    "regression": "Return to the basic version for another week. There is no prize for rushing this.",
+    "safety": "This provokes more symptoms than the basic exercise. Sit down for it initially.",
+    "evidence_note": "VOR × 2 exercises drive a larger adaptation stimulus, but the standard VOR × 1 exercises carry the strongest evidence and remain the foundation."
+  },
+
+  "gaze-shifts": {
+    "name": "Target-to-target gaze shifts",
+    "badge": "Substitution training",
+    "purpose": "Teaches your eyes and head to work together in a new way, compensating for the part of the reflex that will not recover.",
+    "dose": "10 shifts each way, 2–3 times a day",
+    "how_to": [
+      "Stick two targets on the wall about a metre apart, at eye level, and sit or stand about a metre away.",
+      "Look at the left target with your head facing it.",
+      "Move your **eyes** to the right-hand target first, and only then turn your head to follow, so the eyes lead and the head catches up.",
+      "Pause, then reverse the process back to the left.",
+      "Do ten each way."
+    ],
+    "progression": "Move the targets further apart; do it standing with feet together; add a vertical pair of targets.",
+    "regression": "Move the targets closer together and slow down.",
+    "safety": "Stop and rest if symptoms climb above the acceptable level described below.",
+    "evidence_note": "Substitution strategies — using eye movements and neck position sense to fill the gap — are a recognised complement to adaptation exercises in the vestibular hypofunction guideline."
+  },
+
+  "habituation": {
+    "name": "Habituation — repeating what makes you dizzy",
+    "badge": "The dizziness is the treatment",
+    "purpose": "The brain turns down its response to a movement that is repeated often enough and found to be harmless. Avoidance does the opposite: it keeps the alarm turned up.",
+    "dose": "3 repetitions of your 2–3 worst movements, 2 times a day",
+    "how_to": [
+      "Identify two or three movements that reliably make you dizzy — for example, lying down and rolling over, looking up at a high shelf, bending to the floor, or turning quickly.",
+      "Sitting safely on a bed or firm chair, perform one of them at a moderate speed.",
+      "Wait for the dizziness to settle — usually under a minute — then do it again.",
+      "Three repetitions, then move on to the next movement.",
+      "Do the whole set twice a day. Keep a note of how strong the dizziness is out of 10; over two to four weeks the number should fall."
+    ],
+    "progression": "Increase the speed of the movement, and add movements you have been avoiding in daily life.",
+    "regression": "Do the movement more slowly and in stages, stopping halfway.",
+    "safety": "Do this where you cannot fall — sitting on a bed, with the floor clear. If a movement causes intense brief spinning specifically on lying down or rolling over, tell me first: that pattern suggests crystals in the inner ear (BPPV), which is cured by a repositioning manoeuvre, not by exercises.",
+    "evidence_note": "Habituation exercises reduce motion-provoked dizziness and are recommended for people whose main complaint is symptoms brought on by movement."
+  },
+
+  "balance-eyes-closed": {
+    "name": "Standing balance with vision removed",
+    "badge": "Forces the inner ear to work",
+    "purpose": "With your eyes open, vision does most of the work and the damaged system stays lazy. Closing your eyes forces the inner ear and the sensation in your feet to take over — which is how they improve.",
+    "dose": "3 × 30 seconds in each position, daily",
+    "how_to": [
+      "Stand in a corner, or facing into the corner of a kitchen bench, so support is available on both sides. Have someone nearby the first time.",
+      "**Stage 1:** feet together, eyes open, 30 seconds. Then eyes closed, 30 seconds.",
+      "**Stage 2:** semi-tandem (one heel beside the other big toe), eyes open then closed.",
+      "**Stage 3:** full tandem (heel to toe), eyes open then closed.",
+      "**Stage 4:** repeat the whole sequence standing on a firm sofa cushion or folded pillow, which removes reliable information from your feet as well.",
+      "Move to the next stage only when you can hold the current one for 30 seconds without touching down."
+    ],
+    "progression": "Add slow head turns while your eyes are closed — this is demanding and is where most of the remaining gain lives.",
+    "regression": "Stay at eyes-open, feet apart, with fingertips resting on the bench.",
+    "safety": "Never with your eyes closed in an open room. Corner or bench, every time.",
+    "evidence_note": "Balance training that systematically removes vision and reliable foot sensation is a core recommendation in the vestibular hypofunction guideline, alongside gaze stabilisation."
+  },
+
+  "visual-desensitisation": {
+    "name": "Getting back into busy places",
+    "badge": "For visually induced dizziness",
+    "purpose": "For people whose dizziness is worst in supermarkets, on patterned carpets, in traffic or on screens. Avoiding those places makes the sensitivity worse; graded exposure reverses it.",
+    "dose": "Once daily, building duration weekly",
+    "how_to": [
+      "Make a list of visually busy situations, ranked from mildly uncomfortable to worst.",
+      "Start with the mildest — perhaps watching a slow-moving video, or standing in a quiet aisle of a shop.",
+      "Stay in it until the symptoms begin to settle, or for a set time such as two minutes, rather than leaving at the peak of the discomfort.",
+      "Repeat daily until that step is easy, then move up your list.",
+      "Do not brace, grip trolleys, or hold your head rigid — stiffening is part of what maintains the problem."
+    ],
+    "progression": "Longer exposures, busier places, then adding head movement while you are there.",
+    "regression": "Shorter exposure with a companion; start with a photograph or a static pattern.",
+    "safety": "Choose places where sitting down is possible. Do not drive somewhere you may not feel able to drive home from.",
+    "evidence_note": "Graded exposure combined with reducing bracing and vigilance is the mainstay of treatment for persistent postural-perceptual dizziness (PPPD), often alongside medication and, where appropriate, cognitive behavioural therapy."
+  }
+}

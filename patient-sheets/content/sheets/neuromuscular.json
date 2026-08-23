@@ -1,0 +1,161 @@
+{
+  "meta": {
+    "id": "balance-neuromuscular",
+    "order": 2,
+    "group": "Balance and falls",
+    "title": "Balance When the Problem Is Nerve or Muscle",
+    "shortTitle": "Neuropathy & myopathy balance",
+    "eyebrow": "Patient Information",
+    "summary": "A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.",
+    "reviewed": "August 2026"
+  },
+
+  "blocks": [
+    {
+      "type": "intro",
+      "paras": [
+        "If your unsteadiness comes from the nerves in your legs or from the muscles themselves, the ordinary balance advice needs adjusting. The problem is not that your brain has forgotten how to balance. It is that the information reaching it, or the power leaving it, has been reduced — and a programme has to be built around that.",
+        "**In neuropathy**, the nerves that report where your feet and ankles are have become unreliable. Your brain is left balancing with two of its three senses. **In myopathy**, the sensing is intact but the muscles cannot produce the force to correct you in time. Both are trainable, but in different ways, and both have a few specific hazards that do not apply to anyone else."
+      ],
+      "box": {
+        "kind": "highlight",
+        "title": "What this programme can and cannot do",
+        "text": "Balance training will not restore feeling in your feet, and no exercise regrows a damaged nerve quickly. What it does is teach your brain to lean harder on vision, on the inner ear and on light hand contact, and it builds the hip and calf strength that buys you time to correct. That is a real and worthwhile gain — and it is honest to say it is a workaround rather than a cure."
+      }
+    },
+
+    "@fragment:how-to-use",
+
+    "@fragment:safety-first",
+
+    {
+      "type": "box",
+      "kind": "warning",
+      "title": "Extra rules that apply specifically to you",
+      "list": [
+        "**Never train with your eyes closed, or on any soft surface, without both hands on a fixed bench.** This is where people with neuropathy fall at home.",
+        "**Do not train barefoot** if you have an active or healed foot ulcer, a significant foot deformity, or poor circulation — wear a well-fitting shoe instead.",
+        "**Never use heat** — hot water bottles, heat packs, foot spas, radiant heaters — on feet with reduced sensation, and never treat corns or calluses yourself.",
+        "**Do not train to failure.** In muscle disease, the correct target is 'somewhat hard' and stopping with two or three repetitions in reserve.",
+        "**Stop and get help the same day** for a hot, red or swollen foot, or for dark, red or cola-coloured urine after exercise."
+      ]
+    },
+
+    {
+      "type": "science",
+      "title": "Balance runs on three senses. You have lost one of them.",
+      "lede": "Understanding which one explains why your symptoms behave the way they do — and what the training is actually doing.",
+      "cards": [
+        { "icon": "🦶", "title": "The feet (position sense)", "type": "danger", "body": ["Normally the dominant sense on firm ground. In large-fibre neuropathy this is the one that fails, which is why your balance is worst on carpet, sand, grass and gravel — surfaces where the signal was already poor."] },
+        { "icon": "👁️", "title": "Vision", "type": "primary", "body": ["The sense that takes over, which is why you are steady in a lit room and unsafe in the dark. It explains why turning the bathroom light on is not a small matter, and why your balance is worse when you are tired or your glasses are wrong."] },
+        { "icon": "👂", "title": "The inner ear", "type": "blue", "body": ["Usually the sense with most spare capacity. It can be trained to take on more work — but it is slower and cruder than the feet were, which is why quick corrections and uneven ground remain hard."] }
+      ]
+    },
+
+    { "type": "phaseBanner", "variant": "warm", "title": "Part 1 — The three things that prevent most of the falls", "subtitle": "Do these before, and alongside, any exercise. They matter more than the exercises do." },
+    { "type": "exercises", "items": ["@exercise:night-safety", "@exercise:haptic-contact", "@exercise:foot-check"] },
+
+    { "type": "phaseBanner", "variant": "a", "title": "Part 2 — Strength", "subtitle": "Three days a week, on non-consecutive days. Read the loading rule first — it governs everything below it." },
+    { "type": "exercises", "items": ["@exercise:submaximal-loading", "@exercise:sit-to-stand-endurance", "@exercise:heel-raises"] },
+    {
+      "type": "exercises",
+      "items": [
+        {
+          "$ref": "exercise:standing-leg-raises",
+          "append": {
+            "safety": " If your sensation is reduced, keep **both** hands on the bench for these until the movement is second nature — you cannot rely on your feet to tell you that you are drifting.",
+            "how_to": ["If your balance on the standing leg is poor, do all three directions lying on your side and on your back instead — you get most of the strengthening effect and none of the risk."]
+          }
+        },
+        {
+          "$ref": "exercise:step-ups",
+          "set": { "dose": "5–10 step-ups each leg, 2 sets, 3 days a week" },
+          "append": { "safety": " With reduced sensation, look at your foot as you place it on the step, every single time — do not place it by feel." }
+        }
+      ]
+    },
+
+    { "type": "phaseBanner", "variant": "b", "title": "Part 3 — Balance, adapted", "subtitle": "Same exercises as the general programme, with the support settings turned up and the progressions taken more slowly." },
+    { "type": "exercises", "items": ["@exercise:weight-shifts"] },
+    {
+      "type": "exercises",
+      "items": [
+        {
+          "$ref": "exercise:tandem-stance",
+          "set": { "progression": "Whole hand → one hand → one fingertip → hovering hand. Progress the *support*, not the eyes. Do not attempt eyes closed in tandem stance at home." },
+          "append": { "safety": " Keep the light on. Practising in dim light is not a useful challenge for you — it is simply dangerous." }
+        },
+        {
+          "$ref": "exercise:single-leg-stance",
+          "set": { "dose": "Build to 15–30 seconds each leg, 2 rounds, daily, with hand support" },
+          "append": { "safety": " If you have inclusion body myositis, the knee can give way without warning — keep a hand on the bench for every repetition, no exceptions." }
+        },
+        {
+          "$ref": "exercise:tandem-gait",
+          "set": { "dose": "10 steps × 2, once a day", "progression": "Reduce from whole hand to fingertips on the wall. Do **not** progress to no hands, to head turns, or to walking backwards heel-to-toe unless a physiotherapist has assessed you." },
+          "append": { "safety": " Corridor with two reachable walls, well lit, shoes on. Semi-tandem is a perfectly good end point if full tandem never becomes steady." }
+        }
+      ]
+    },
+    {
+      "type": "exercises",
+      "items": [
+        {
+          "$ref": "exercise:balance-eyes-closed",
+          "set": {
+            "name": "Training the inner ear to take over (carefully)",
+            "dose": "3 × 15 seconds, feet apart, both hands down, every second day",
+            "badge": "Advanced — read the safety note",
+            "progression": "Increase the time before you narrow the feet. Never combine a narrow stance with closed eyes at home.",
+            "regression": "Do it with your eyes open in a dim room instead — you get some of the same effect with far less risk."
+          },
+          "append": {
+            "safety": " **This is the highest-risk exercise on the page for you.** Both hands stay on the bench throughout, feet stay hip-width apart, and someone should be in the house. If in doubt, skip it — the rest of the programme works without it."
+          }
+        }
+      ]
+    },
+
+    { "type": "phaseBanner", "variant": "c", "title": "Part 4 — Conditioning", "subtitle": "The part that protects against becoming weaker for reasons that have nothing to do with your diagnosis." },
+    { "type": "exercises", "items": ["@exercise:aerobic-submaximal", { "$ref": "exercise:walking-program", "append": { "safety": " Check your feet after every longer walk, and check inside your shoes before it." } }] },
+
+    {
+      "type": "section",
+      "title": "Things people are told that are not true",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            { "q": "\"Exercising a weak muscle will wear it out permanently.\"", "a": ["This is the 'overwork weakness' idea, and it comes largely from observations after polio and from a mouse model — not from human trials. Moderate resistance training has been studied in inclusion body myositis, limb-girdle and Becker muscular dystrophy and inflammatory myopathy, and it improved or maintained strength without raising muscle enzymes or inflammation on biopsy.", "The nuance that does survive is narrow but real: avoid **heavy eccentric loading** (slowly lowering heavy weights, steep downhill walking, jumping) if you have a muscular dystrophy, and avoid unpaced, all-out exertion if you have a metabolic muscle disease."] },
+            { "q": "\"My CK went up, so the exercise is damaging my muscles.\"", "a": ["Creatine kinase rises modestly after unaccustomed exercise in almost everyone. In the training trials it did not rise significantly, and where it did there was no accompanying loss of function. Your symptoms, your function and the colour of your urine are far more useful safety monitors than a single CK level."] },
+            { "q": "\"If I can't feel my feet I shouldn't be walking on them.\"", "a": ["Weight-bearing exercise was formally discouraged in diabetic neuropathy for decades. A randomised trial of a walking programme found no increase in foot ulcers, and the advice was reversed. What is required is the footwear, the daily foot check and prompt attention to any break in the skin — not inactivity."] },
+            { "q": "\"Balance training will bring the feeling back in my feet.\"", "a": ["It will not, and I would rather you knew that at the start. It trains substitution — vision, the inner ear, hip strength and hand contact. The only intervention with any evidence of a structural effect on small nerve fibres is sustained aerobic exercise over about a year, mostly in people whose neuropathy is early or not yet established."] },
+            { "q": "\"Wobble boards and balance cushions are the proper way to train.\"", "a": ["For someone with proprioceptive loss they are the worst possible choice for unsupervised use: an unstable surface is precisely where you have no capacity to correct. They are clinic tools, used with a therapist beside you. The home version is a folded towel with both hands on the bench, once everything on firm ground is easy."] },
+            { "q": "\"Using poles or a stick means giving in.\"", "a": ["A hand resting on a stable surface reduces body sway even at pressures far too light to hold you up — the hand is supplying the position information your feet no longer can. Two poles give that on both sides and are often better than a single stick. This is physiology, not weakness."] },
+            { "q": "\"Textured or vibrating insoles will fix my balance.\"", "a": ["The evidence is thin and mixed — around a 5% change in sway in one small trial, and other studies show textured insoles slowing walking. Spend the money on good shoes and a night light instead."] }
+          ]
+        }
+      ]
+    },
+
+    "@fragment:floor-rescue",
+    "@fragment:hurt-vs-harm",
+    "@fragment:adherence",
+    "@fragment:australian-pathway",
+
+    {
+      "type": "box",
+      "kind": "warning",
+      "title": "Contact me, or seek urgent care, if",
+      "list": [
+        "**Your foot becomes hot, red or swollen**, with or without pain and with or without a wound — same-day assessment.",
+        "**Your urine turns dark, red or cola-coloured after exercise** — this needs urgent assessment. Do not take ibuprofen or similar anti-inflammatories for post-exercise muscle pain if you have a metabolic muscle disease.",
+        "A muscle cramps during exercise and will not release within seconds — stop immediately.",
+        "You develop any break in the skin, blister or new callus on a foot with reduced sensation.",
+        "Your balance or strength deteriorates quickly, over days or weeks. That is not a training problem — it needs re-examination.",
+        "You develop new difficulty swallowing, or your legs give way without warning.",
+        "Muscle soreness is severe, lasts beyond 72 hours, or comes with visible swelling."
+      ]
+    }
+  ]
+}

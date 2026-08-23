@@ -1,0 +1,129 @@
+{
+  "chin-nod": {
+    "name": "Chin nod (deep neck flexor training)",
+    "badge": "Best-supported neck exercise",
+    "purpose": "Wakes up the small, deep muscles at the front of the neck that hold your head up all day. When these fail, the big surface muscles take over, tire, and ache.",
+    "dose": "10-second holds × 10, 1–2 times a day",
+    "how_to": [
+      "Lie on your back with your knees bent and your head flat on the bed or floor. Use a folded towel under your head only if lying flat forces your chin up.",
+      "Without lifting your head at all, make a slow, gentle nodding movement — as if saying a small 'yes', or gently lengthening the back of your neck.",
+      "The movement is tiny. Almost nothing should be visible from the outside.",
+      "Feel the front of your throat: the big muscles running down the sides of your neck should stay soft. If they tighten and stand out like cords, you are pushing far too hard.",
+      "Hold the nod for 10 seconds, breathing normally, then fully relax for 10 seconds.",
+      "Repeat 10 times. Stop the set early if you can no longer keep the surface muscles relaxed."
+    ],
+    "progression": "Once you can do 10 × 10 seconds cleanly lying down, hold the nod and lift your head one centimetre off the bed for 5 seconds. Then progress to doing the nod sitting upright against a wall, which is how you will use it in real life.",
+    "regression": "Shorten the hold to 3–5 seconds and do more repetitions. Effort matters less than doing it without the surface muscles.",
+    "safety": "This should never be forceful and should not hurt. Jamming the chin hard into your chest is the commonest error and will make you sore.",
+    "evidence_note": "Training the deep cervical flexors in this graded, low-load way — the craniocervical flexion approach developed by Jull and colleagues in Queensland — reduces neck pain and restores the normal pattern of muscle activation, which does not happen with strength training alone."
+  },
+
+  "neck-isometrics": {
+    "name": "Gentle neck isometrics (four directions)",
+    "badge": "Static strengthening",
+    "purpose": "Builds neck strength without moving the joints at all — which is why it suits a neck that hurts when it moves.",
+    "dose": "5-second holds × 5 in each direction, once daily",
+    "how_to": [
+      "Sit tall in a chair, shoulders relaxed, looking straight ahead.",
+      "**Forwards:** place your palm on your forehead. Press your head gently into your hand and your hand back into your head, so nothing moves. Use about a third of your strength. Hold 5 seconds, then relax.",
+      "**Backwards:** lace your fingers behind your head and press your head back into your hands, again without moving.",
+      "**Sideways:** put your palm against the side of your head above the ear, and press your head into it. Repeat on the other side.",
+      "Do five holds in each direction, resting a few seconds between each.",
+      "Breathe out during each hold — do not hold your breath."
+    ],
+    "progression": "Increase to 10-second holds, then to about half your maximum effort. Add a rotation direction: place your palm on your cheekbone and resist turning.",
+    "regression": "Use a very light effort — 10% — and 3-second holds. Even that is enough to start.",
+    "safety": "Never push to your maximum, and never hold your breath. If a direction reproduces arm pain, pins and needles, or dizziness, stop that direction and tell me.",
+    "evidence_note": "Both isometric and dynamic neck strengthening reduce chronic neck pain; Ylinen's Finnish trials showed clear, lasting benefit from regular neck training in women with chronic neck pain, sustained at 12 months."
+  },
+
+  "scapular-squeeze": {
+    "name": "Shoulder blade squeezes",
+    "badge": "Postural endurance",
+    "purpose": "The muscles between your shoulder blades hold your upper back upright. When they give up, your head drifts forwards and the neck carries the load.",
+    "dose": "10 × 5-second holds, 2–3 times a day",
+    "how_to": [
+      "Sit or stand tall, arms hanging by your sides, shoulders down.",
+      "Draw your shoulder blades gently back and down — as if sliding them into your back pockets. Not up towards your ears.",
+      "It is a small movement. Hold for 5 seconds while breathing normally.",
+      "Relax completely, then repeat 10 times.",
+      "Do a set every time you get up from your desk."
+    ],
+    "progression": "Hold for 10 seconds. Then do it with your arms out at shoulder height, or holding a light resistance band and pulling it apart.",
+    "regression": "Do it lying on your back, where gravity helps.",
+    "safety": "Keep your neck long and your jaw relaxed. If you feel it in your upper trapezius (the ridge between neck and shoulder), you are shrugging.",
+    "evidence_note": "Scapular and shoulder-girdle strengthening is part of most successful neck-pain exercise programmes; treating the neck without the shoulder girdle is treating half the problem."
+  },
+
+  "wall-angels": {
+    "name": "Wall angels",
+    "badge": "Mobility + posture",
+    "purpose": "Opens the front of the chest and restores the upper-back extension that a day at a keyboard takes away.",
+    "dose": "10 slow repetitions, 1–2 times a day",
+    "how_to": [
+      "Stand with your back against a wall, feet about 20 cm out from it, knees slightly bent.",
+      "Flatten your low back gently towards the wall, and rest the back of your head against it — if your head does not reach, stand with a folded towel behind it rather than forcing it back.",
+      "Put your arms against the wall in a 'goalpost' position, elbows bent to 90° at shoulder height, backs of hands touching the wall.",
+      "Slowly slide your arms up the wall as far as you can while keeping hands, elbows and head in contact, then slide back down.",
+      "Move slowly and stop where contact is lost — that point is your current limit, and it will improve."
+    ],
+    "progression": "Slide higher; hold for 3 seconds at the top; do it with your feet closer to the wall.",
+    "regression": "Do it seated in a firm chair, or lying on the floor with the arms sliding on the carpet.",
+    "safety": "Do not force your head back against the wall or arch your low back to get further.",
+    "evidence_note": "Chest and thoracic mobility work is a standard adjunct in neck programmes; a stiff upper back forces the neck to compensate."
+  },
+
+  "upper-trap-stretch": {
+    "name": "Upper trapezius and levator stretches",
+    "badge": "Symptom relief",
+    "purpose": "Eases the tight band between neck and shoulder that aches by mid-afternoon. Relief is temporary — this is for comfort, while the strengthening does the lasting work.",
+    "dose": "30 seconds × 3 each side, as often as helpful",
+    "how_to": [
+      "Sit tall on a chair and hold the seat with your right hand to anchor that shoulder down.",
+      "**For the trapezius:** tilt your left ear towards your left shoulder. Rest your left hand lightly over your head to add a little weight — do not pull hard.",
+      "Hold for 30 seconds of comfortable stretch, never pain. Repeat three times, then swap sides.",
+      "**For the levator scapulae:** from the same anchored position, turn your nose towards your left armpit and gently lower your chin, so the stretch is felt at the back corner of the neck.",
+      "Hold 30 seconds, three times each side."
+    ],
+    "progression": "None needed — this is not a strengthening exercise.",
+    "regression": "Use no hand on the head at all; the weight of your head is enough.",
+    "safety": "Stretch, not pull. Stop if you get pins and needles down the arm, or dizziness.",
+    "evidence_note": "Stretching gives short-term relief; the durable improvements in chronic neck pain come from the strengthening and endurance work, which is why the stretches sit alongside them rather than replacing them."
+  },
+
+  "neck-rom": {
+    "name": "Range of movement — the morning loosener",
+    "badge": "Gentle mobility",
+    "purpose": "Neck pain makes people hold still, and holding still makes the neck stiffer and more painful. This breaks the cycle.",
+    "dose": "5 slow repetitions each direction, morning and evening",
+    "how_to": [
+      "Sit tall. Move slowly and smoothly, never forcing.",
+      "Turn your head to look over your right shoulder, then your left. Five each way.",
+      "Tilt your right ear towards your right shoulder, then the left. Five each way.",
+      "Nod your chin down towards your chest, then lift it to look slightly up — only slightly. Five each way.",
+      "Finish by rolling your shoulders backwards five times."
+    ],
+    "progression": "Take the movement a little further each week as comfort allows.",
+    "regression": "Do half the range, or do it lying down where the muscles do not have to hold your head up.",
+    "safety": "Avoid full circles that roll the head right back into extension, and avoid holding an extreme position with the head back and turned. If a movement causes dizziness, visual disturbance, or pins and needles, stop and tell me.",
+    "evidence_note": "Early, gentle movement produces better outcomes than rest and collars after neck injury, including after whiplash."
+  },
+
+  "desk-microbreak": {
+    "name": "The two-minute desk reset",
+    "badge": "Do this hourly",
+    "purpose": "No posture is a good posture if you hold it for three hours. The dose of a position matters more than the position itself.",
+    "dose": "Every 30–45 minutes",
+    "how_to": [
+      "Stand up. That alone is most of the benefit.",
+      "Do ten shoulder-blade squeezes.",
+      "Do five slow neck turns each way.",
+      "Look at something at least six metres away for twenty seconds — this rests the eye muscles, and eye strain drives head-forward posture.",
+      "Sit back down deliberately, with your bottom right to the back of the chair."
+    ],
+    "progression": "Set a timer, or attach it to a natural trigger such as the end of each meeting or each phone call.",
+    "regression": "Even standing and taking three breaths is worth doing.",
+    "safety": "None.",
+    "evidence_note": "Frequent short breaks reduce discomfort in office workers and are one of the few ergonomic measures with reasonably consistent trial support — more consistent than any particular chair or desk."
+  }
+}

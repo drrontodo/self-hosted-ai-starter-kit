@@ -1,0 +1,185 @@
+{
+  "amplitude-warmup": {
+    "name": "Think BIG warm-up",
+    "badge": "Amplitude training",
+    "purpose": "Parkinson's shrinks movement without telling you it is doing so — your 'normal' feels normal from the inside while looking small from the outside. Every session starts by deliberately over-doing the size of movement.",
+    "dose": "5 minutes at the start of every session",
+    "how_to": [
+      "Stand tall behind a firm chair, hands resting on it if needed.",
+      "**Big reaches:** reach one arm as high above your head as you can, stretching your fingers to the ceiling and letting your chest open and your eyes follow your hand. Alternate arms, 10 each.",
+      "**Big side reaches:** reach out and across to the opposite side, letting your trunk rotate. 10 each side.",
+      "**Big steps on the spot:** march with exaggerated knee lift and an exaggerated arm swing, as if in a military parade. 20 steps.",
+      "**Big shoulder rolls and chest opening:** roll your shoulders back 10 times, pulling your shoulder blades together and standing as tall as you can.",
+      "Everything should feel about twice as big as it needs to be. That feeling of 'too much' is the point — it usually looks about right."
+    ],
+    "progression": "Add speed once the size is reliable. Then do the same movements without hand support, then with your eyes closed for a few repetitions.",
+    "regression": "Do it seated in a firm chair — the amplitude principle works just as well sitting down.",
+    "safety": "Chair or bench in reach for every exercise. Do this during your 'on' time, when your medication is working.",
+    "evidence_note": "High-amplitude training is the core of both LSVT BIG and the Australian PD Warrior programme, and it works by recalibrating the internal sense of how big a movement needs to be."
+  },
+
+  "ballistic-punches": {
+    "name": "Ballistic punching",
+    "badge": "PD Warrior style — power",
+    "purpose": "Parkinson's slows the *initiation* and *speed* of movement more than it weakens muscle. Fast, explosive movement trains exactly what the disease takes away, and it is the reason boxing-style classes have become so popular in Parkinson's.",
+    "dose": "30 seconds of work, 30 seconds of rest × 6 rounds",
+    "how_to": [
+      "Stand with feet shoulder-width apart in a stable split stance, beside a bench or with a wall behind you.",
+      "Bring both fists up in front of your chest.",
+      "Punch one arm forward as fast and as far as you can — full extension, with a sharp snap, letting your trunk rotate with the punch — and pull it back just as fast.",
+      "Alternate arms, punching as explosively as you can manage for 30 seconds.",
+      "Rest 30 seconds. Repeat for six rounds.",
+      "Then do the same with upward punches and with cross-body punches, so you cover different directions."
+    ],
+    "progression": "Punch to a target (a cushion held up, or spots marked on a wall). Add stepping forward and back with the punches. Add a count-down out loud to make it a dual task.",
+    "regression": "Do it seated, or with one hand on the bench and one punching.",
+    "safety": "Never punch anything solid — air, or a soft cushion held loosely. If you have shoulder problems, reduce the range. If you are unsteady, sit down for this one; explosive movement plus poor balance is how people fall.",
+    "evidence_note": "Power and speed training addresses bradykinesia directly. High effort, high complexity and salience are core neuroplasticity principles of PD Warrior; the Parkinson's-specific boxing literature is still small but consistently reports improved balance, gait and confidence."
+  },
+
+  "power-sit-to-stand": {
+    "name": "Explosive sit-to-stand",
+    "badge": "Power + function",
+    "purpose": "Getting out of a chair is the movement most affected by Parkinson's and the one that most often ends in a fall. Trained fast, it also builds the leg power that fades earliest.",
+    "dose": "8 fast repetitions × 3 sets, 3 days a week",
+    "how_to": [
+      "Firm chair, back against a wall. Feet flat, heels drawn back under your knees.",
+      "Lean forward — nose over toes — and count '3, 2, 1, UP'.",
+      "Stand up **as fast as you can**, driving through your heels and coming all the way to full height with a strong squeeze of the buttocks.",
+      "Lower back down slowly, over 3 seconds, with control.",
+      "Eight repetitions, then rest a minute. Three sets."
+    ],
+    "progression": "Fold your arms across your chest. Then add a reach for the ceiling at the top of each stand. Then use a lower chair.",
+    "regression": "Push off your thighs; use a higher seat; drop the speed and simply do controlled repetitions.",
+    "safety": "Fast standing can drop your blood pressure. If you feel light-headed on standing, stand up more slowly, pause holding the chair, and tell me — orthostatic drops are common in Parkinson's and are treatable.",
+    "evidence_note": "The countdown before the movement is itself a treatment: an external cue like this bypasses the faulty internal 'go' signal, and is the same principle used for freezing of gait."
+  },
+
+  "big-steps": {
+    "name": "Big steps in four directions",
+    "badge": "Amplitude + balance",
+    "purpose": "Trains the long, deliberate step that shuffling steals, in every direction you actually need to move.",
+    "dose": "10 steps in each of 4 directions, daily",
+    "how_to": [
+      "Stand beside a bench with one hand resting on it.",
+      "**Forward:** take one deliberately long step forward, landing heel first, then step back to the start. Ten times with each leg.",
+      "**Backward:** take one long step back, landing on the ball of the foot, then return. Ten each leg. Check behind you first.",
+      "**Sideways:** take one wide step out to the side and return. Ten each way.",
+      "**Diagonal:** step long and diagonally forwards, then back. Ten each way.",
+      "Every step should be bigger than feels natural, with a firm heel strike you can hear."
+    ],
+    "progression": "Reduce hand support; add speed; call out the direction to yourself before each step; have someone call directions at random.",
+    "regression": "Smaller steps with both hands on the bench, and keep to forwards and sideways only.",
+    "safety": "Clear floor, no rugs, bench within reach. Backward stepping is the one most likely to cause a fall — keep a hand on the bench for it.",
+    "evidence_note": "Step training in multiple directions targets the protective stepping response, which is impaired in Parkinson's and is the last defence against a fall."
+  },
+
+  "fast-feet": {
+    "name": "Fast feet",
+    "badge": "Speed drill",
+    "purpose": "Trains rapid, repeated stepping — the ability to get a foot down quickly when you are pushed or trip.",
+    "dose": "20 seconds × 5, with rests",
+    "how_to": [
+      "Stand facing the kitchen bench with both hands on it.",
+      "Step rapidly on the spot, small quick steps, as fast as you can manage cleanly, for 20 seconds.",
+      "Rest for 40 seconds.",
+      "Repeat five times.",
+      "Speed matters more than height here — this is the one exercise where small is fine."
+    ],
+    "progression": "Fingertip support; then tapping the feet on and off a low step; then adding a count-down out loud while you do it.",
+    "regression": "Slow marching on the spot with both hands supported.",
+    "safety": "Both hands on a solid surface until you are confident. Stop if you feel your feet 'sticking' to the floor and use the freezing strategies below.",
+    "evidence_note": "Rapid stepping trains the same system as the protective step reaction, and speed-focused training addresses bradykinesia in a way that strength training alone does not."
+  },
+
+  "high-intensity-aerobic": {
+    "name": "High-intensity aerobic exercise",
+    "badge": "Possible disease-modifying effect",
+    "purpose": "This is the exercise with the most interesting evidence in Parkinson's — the possibility that it does not merely treat symptoms but slows progression.",
+    "dose": "30 minutes, 4 days a week, at 80–85% of maximum heart rate",
+    "how_to": [
+      "Choose something you can do vigorously and safely: a stationary bike is the safest choice, then a treadmill with rails, then brisk outdoor walking, then swimming.",
+      "Warm up for 5 minutes at an easy pace.",
+      "Work for 30 minutes at an intensity where you are breathing hard and can speak only a few words at a time. If you use a heart-rate monitor, aim for 80–85% of your maximum (roughly 220 minus your age, though this is only an estimate).",
+      "If 30 continuous minutes is too much, break it into 5-minute hard blocks with 2 minutes easy between them, and build up.",
+      "Cool down for 5 minutes.",
+      "Four days a week is the studied dose."
+    ],
+    "progression": "Increase duration first, then intensity. Add hills or resistance on the bike.",
+    "regression": "Start at a moderate intensity (60–65% of maximum heart rate) — that is the comparison arm in the trials, and it is far better than nothing.",
+    "safety": "**Talk to me before starting high-intensity exercise** if you have heart disease, uncontrolled blood pressure, significant orthostatic drops, or have not exercised vigorously in years. A stationary bike removes almost all the falls risk and is the right choice if your balance is impaired.",
+    "evidence_note": "The SPARX2 trial found that high-intensity treadmill exercise at 80–85% of maximum heart rate, four days a week, was safe in early Parkinson's and that motor scores did not worsen over six months, unlike the control group. The larger SPARX3 trial has been testing whether that translates into genuinely slowed progression."
+  },
+
+  "dual-task-training": {
+    "name": "Doing two things at once, on purpose",
+    "badge": "Real-world training",
+    "purpose": "In Parkinson's, walking stops being automatic and starts requiring attention. That is why people freeze in doorways while talking, or fall while carrying a cup. Practising it deliberately, in a safe place, is how you get some of that automaticity back.",
+    "dose": "5 minutes, most days",
+    "how_to": [
+      "Walk up and down a clear corridor at your normal pace.",
+      "As you walk, add a thinking task: count backwards from 100 in threes, name as many animals as you can beginning with 'B', or recite the months of the year backwards.",
+      "Then add a carrying task: walk while carrying a tray with an empty cup on it.",
+      "If you notice your steps shrinking or your voice fading, stop, reset your posture, take a big breath, and start again deliberately BIG.",
+      "Five minutes is plenty."
+    ],
+    "progression": "Harder mental tasks; carrying something less stable; adding a turn at each end.",
+    "regression": "Do the thinking task standing still first, then while marching on the spot with a hand on the bench.",
+    "safety": "Corridor only, with clear floor. Do not practise dual tasking on stairs, and do not practise it if you have had a fall in the last month without discussing it with me first.",
+    "evidence_note": "Dual-task training improves gait under dual-task conditions in Parkinson's. Note the caution in the European Physiotherapy Guideline: for people with significant cognitive impairment or a recent fall history, dual tasking should be trained cautiously and supervised, because the same divided attention that we are training is what causes falls."
+  },
+
+  "freezing-strategies": {
+    "name": "Getting out of a freeze",
+    "badge": "Cueing strategies",
+    "purpose": "Freezing — feet glued to the floor, usually at doorways, on turns, in crowds, or when hurrying — does not respond to trying harder. It responds to changing the task.",
+    "dose": "Rehearse weekly so it is automatic when you need it",
+    "how_to": [
+      "**Stop.** Do not fight it, and do not let anyone pull you. Struggling forwards while your feet are stuck is exactly how people fall.",
+      "**Stand tall and shift your weight** from side to side a few times to break the deadlock.",
+      "**Give yourself an external cue** — this is the key. Count out loud '1, 2, 3, GO'. March to a rhythm. Hum a marching tune. Some people carry a metronome app or a music playlist at about 100–120 beats per minute.",
+      "**Give yourself a visual target:** step over a line on the floor, over the handle of an upturned walking stick, or over your own foot placed in front of you. Aim for a specific floor tile.",
+      "**Make the first step deliberately huge** and heel-first rather than shuffling forwards.",
+      "**For turns:** never pivot on the spot. Walk a wide arc, like a clock hand, taking marching steps around it."
+    ],
+    "progression": "Practise with a family member so they know to cue you rather than pull you. Identify your own personal triggers — doorways, the bathroom, the phone ringing — and rehearse the strategy in exactly those places.",
+    "regression": "Start with counting out loud as the single strategy and add others later.",
+    "safety": "Freezing is a major cause of falls. If it is new or worsening, tell me — the timing relative to your medication doses matters, and freezing that occurs only when the medication is wearing off is often treatable by adjusting it.",
+    "evidence_note": "External cueing works because it bypasses the damaged internal timing system in the basal ganglia and routes movement through intact pathways. Cueing is a standard recommendation of the European Physiotherapy Guideline for Parkinson's Disease."
+  },
+
+  "big-writing": {
+    "name": "Big writing and other carry-over",
+    "badge": "Amplitude off the mat",
+    "purpose": "Amplitude training is useless if it stays in the exercise session. The point is to make BIG the way you move all day.",
+    "dose": "5 minutes daily, plus reminders through the day",
+    "how_to": [
+      "Take lined paper and write the alphabet, deliberately filling the full height between two lines for every letter.",
+      "Then write a sentence about your day, keeping every letter equally large — most people's writing shrinks by the end of a line, and watching for that is the exercise.",
+      "Through the day, pick three ordinary movements and do them deliberately big: standing up from a chair, stepping over the door threshold, and reaching into a cupboard.",
+      "Speak deliberately loudly at the same time — the voice shrinks along with the movement, and both respond to the same 'go bigger' strategy."
+    ],
+    "progression": "Add a daily 'big' task — sweeping, gardening, throwing a ball — that demands large movements naturally.",
+    "regression": "Just the alphabet, once a day.",
+    "safety": "None.",
+    "evidence_note": "LSVT BIG and LSVT LOUD share a single principle: recalibrating the internal sense of effort so that normal-sized movement and normal-volume speech stop feeling excessive. If your voice is becoming quiet, ask me about a speech pathology referral."
+  },
+
+  "posture-reset": {
+    "name": "Posture reset against the wall",
+    "badge": "Anti-stoop",
+    "purpose": "Counteracts the forward stoop, which shortens your stride, tips your balance forwards and makes freezing more likely.",
+    "dose": "5 × 20 seconds, twice a day",
+    "how_to": [
+      "Stand with your back against a wall, heels a few centimetres out from it.",
+      "Press your bottom, your upper back and, if you can, the back of your head against the wall. If your head does not reach, do not force it — get as close as is comfortable and let it improve over weeks.",
+      "Pull your shoulder blades back towards the wall and open your chest.",
+      "Hold for 20 seconds, breathing normally, then step away and try to keep that height as you walk a few steps.",
+      "Repeat five times."
+    ],
+    "progression": "Add slow arm slides up the wall (wall angels). Hold the position for longer.",
+    "regression": "Sit in a firm chair against the wall and do the same thing.",
+    "safety": "Do not force your head back if your neck is stiff or painful.",
+    "evidence_note": "Postural exercise is a standard component of Parkinson's physiotherapy; a stooped posture measurably shortens stride length and shifts the centre of mass towards the toes."
+  }
+}

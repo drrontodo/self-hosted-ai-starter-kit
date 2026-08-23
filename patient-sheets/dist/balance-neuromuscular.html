@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balance When the Problem Is Nerve or Muscle | East Neurology</title>
+<meta name="description" content="A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.">
+<meta name="author" content="Dr Ron Granot, East Neurology">
+<meta property="og:title" content="Balance When the Problem Is Nerve or Muscle">
+<meta property="og:description" content="A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5f7a;
+  --primary-light: #2a7a9e;
+  --accent: #e67e22;
+  --accent-light: #f39c12;
+  --accent2: #8e44ad;
+  --text-dark: #2c3e50;
+  --text-medium: #546e7a;
+  --text-light: #78909c;
+  --bg-cream: #fdfbf7;
+  --bg-light: #f8f6f2;
+  --border: #e0ddd6;
+  --success: #27ae60;
+  --phase-b: #2980b9;
+  --phase-c: #8e44ad;
+  --danger: #c0392b;
+  --gradient-primary: linear-gradient(135deg, #1a5f7a 0%, #2a7a9e 100%);
+  --gradient-warm: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+  --font-heading: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--text-dark);
+  background: var(--bg-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 700; line-height: 1.2; }
+
+a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(26,95,122,.3); transition: all .2s ease; }
+a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ---------- Skip link (accessibility) ---------- */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; background: #fff; color: var(--primary);
+  padding: .75rem 1.25rem; z-index: 100; border-radius: 0 0 8px 0; font-weight: 600;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- Header ---------- */
+.hero {
+  background: var(--gradient-primary);
+  color: #fff;
+  padding: 5rem 1.5rem 6rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.10) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(230,126,34,.18) 0%, transparent 45%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; max-width: 820px; margin: 0 auto; }
+.hero .eyebrow {
+  display: inline-block; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 600; opacity: .9; margin-bottom: 1rem;
+  border: 1px solid rgba(255,255,255,.35); border-radius: 50px; padding: .4rem 1rem;
+  animation: fadeInUp .8s ease both;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1.25rem;
+  animation: fadeInUp .8s ease both;
+}
+.hero p {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  opacity: .95; max-width: 640px; margin: 0 auto;
+  animation: fadeInUp .8s ease .2s both;
+}
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Intro card ---------- */
+.intro {
+  background: #fff;
+  max-width: 820px;
+  margin: -3rem auto 3rem;
+  padding: 2.5rem 2.5rem 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(26,95,122,.08);
+  position: relative;
+  overflow: hidden;
+}
+.intro::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--gradient-warm);
+}
+.intro p { font-size: 1.125rem; line-height: 1.8; color: var(--text-medium); }
+.intro p + p { margin-top: 1rem; }
+
+/* ---------- Section shell ---------- */
+section { margin-bottom: 3.5rem; }
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  color: var(--primary);
+  margin-bottom: .75rem;
+}
+.section-lede { color: var(--text-medium); margin-bottom: 2rem; font-size: 1.05rem; }
+
+/* ---------- Phase banner ---------- */
+.phase-banner {
+  border-radius: 16px; padding: 2rem 1.5rem; text-align: center; margin-bottom: 2.25rem;
+  border: 2px solid; background: var(--bg-light);
+}
+.phase-banner h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .5rem; }
+.phase-banner p { color: var(--text-medium); max-width: 620px; margin: 0 auto; }
+.phase-a { border-color: rgba(26,95,122,.25); background: linear-gradient(135deg, #f2f8fa 0%, #e8f1f5 100%); }
+.phase-a h2 { color: var(--primary); }
+.phase-b { border-color: rgba(41,128,185,.25); background: linear-gradient(135deg, #f1f7fc 0%, #e4eff9 100%); }
+.phase-b h2 { color: var(--phase-b); }
+.phase-c { border-color: rgba(142,68,173,.22); background: linear-gradient(135deg, #f8f3fb 0%, #f0e6f7 100%); }
+.phase-c h2 { color: var(--phase-c); }
+.phase-warm { border-color: rgba(230,126,34,.25); background: linear-gradient(135deg, #fff6ec 0%, #ffeeda 100%); }
+.phase-warm h2 { color: var(--accent); }
+
+/* ---------- Pathway / numbered step cards ---------- */
+.pathway { position: relative; padding-left: .5rem; }
+.pathway::before {
+  content: ''; position: absolute; left: 22px; top: 12px; bottom: 12px; width: 3px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+  opacity: .3; border-radius: 3px;
+}
+.step-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.75rem 1.75rem 1.75rem 5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
+  border-top: 3px solid var(--primary);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,95,122,.12); }
+.step-card.type-accent { border-top-color: var(--accent); }
+.step-card.type-success { border-top-color: var(--success); }
+.step-card.type-purple { border-top-color: var(--phase-c); }
+.step-card.type-blue { border-top-color: var(--phase-b); }
+.step-number {
+  position: absolute; left: 1rem; top: 1.6rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gradient-primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem;
+}
+.step-card.type-accent .step-number { background: var(--gradient-warm); }
+.step-card.type-success .step-number { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
+.step-card.type-purple .step-number { background: linear-gradient(135deg, #8e44ad 0%, #a569bd 100%); }
+.step-card.type-blue .step-number { background: linear-gradient(135deg, #2980b9 0%, #5dade2 100%); }
+.step-card h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: .6rem; }
+.step-card p { color: var(--text-medium); }
+.step-card p + p { margin-top: .75rem; }
+.evidence-badge {
+  display: inline-block; background: var(--gradient-warm); color: #fff;
+  font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  padding: .25rem .7rem; border-radius: 50px; margin-bottom: .6rem;
+}
+
+/* ---------- Card grids ---------- */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.75rem; }
+.info-card {
+  background: #fff; border-radius: 12px; padding: 1.5rem;
+  border-top: 4px solid var(--primary);
+  box-shadow: 0 4px 16px rgba(0,0,0,.05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.info-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(26,95,122,.12); }
+.info-card h4 { color: var(--primary); font-size: 1.1rem; margin-bottom: .5rem; }
+.info-card p { color: var(--text-medium); font-size: .97rem; }
+.info-card.type-accent { border-top-color: var(--accent); }
+.info-card.type-accent h4 { color: var(--accent); }
+.info-card.type-success { border-top-color: var(--success); }
+.info-card.type-success h4 { color: var(--success); }
+.info-card.type-purple { border-top-color: var(--phase-c); }
+.info-card.type-purple h4 { color: var(--phase-c); }
+.info-card.type-blue { border-top-color: var(--phase-b); }
+.info-card.type-blue h4 { color: var(--phase-b); }
+.info-card.type-danger { border-top-color: var(--danger); }
+.info-card.type-danger h4 { color: var(--danger); }
+
+/* Side-bordered variant (used for tests / options lists) */
+.side-grid .info-card { border-top: none; border-left: 4px solid var(--primary); }
+.side-grid .info-card.type-accent { border-left-color: var(--accent); }
+.side-grid .info-card.type-success { border-left-color: var(--success); }
+.side-grid .info-card.type-purple { border-left-color: var(--phase-c); }
+.side-grid .info-card.type-blue { border-left-color: var(--phase-b); }
+.side-grid .info-card.type-danger { border-left-color: var(--danger); }
+
+/* ---------- Exercise cards ---------- */
+.exercise-card {
+  background: #fff; border-radius: 16px; padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
+  border-top: 3px solid var(--accent);
+  margin-bottom: 1.5rem;
+}
+.exercise-head { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; margin-bottom: .35rem; }
+.exercise-card h3 { color: var(--primary); font-size: 1.25rem; }
+.exercise-card .purpose { color: var(--text-medium); font-style: italic; margin-bottom: 1rem; }
+.exercise-card ol { margin: 0 0 1rem 1.2rem; color: var(--text-medium); }
+.exercise-card ol li { margin-bottom: .45rem; padding-left: .2rem; }
+.exercise-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: .75rem; margin-top: 1rem; }
+.meta-item {
+  background: var(--bg-light); border-radius: 10px; padding: .8rem 1rem;
+  font-size: .92rem; color: var(--text-medium);
+}
+.meta-item strong { display: block; color: var(--primary); font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; margin-bottom: .25rem; }
+.meta-item.safety { background: #fdf3ef; }
+.meta-item.safety strong { color: var(--accent); }
+.dose-pill {
+  display: inline-block; background: rgba(26,95,122,.09); color: var(--primary);
+  border-radius: 50px; padding: .25rem .8rem; font-size: .82rem; font-weight: 600;
+}
+
+/* ---------- Boxes ---------- */
+.highlight-box {
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  font-style: italic; color: var(--text-dark);
+}
+.reassurance-box {
+  background: linear-gradient(135deg, #e8f8f0 0%, #d5f5e3 100%);
+  border-left: 4px solid var(--success);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  color: var(--text-dark);
+}
+.warning-box {
+  background: linear-gradient(135deg, #fdecea 0%, #fadbd8 100%);
+  border-left: 4px solid var(--danger);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+  color: var(--text-dark);
+}
+.box-title { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; margin-bottom: .4rem; font-style: normal; }
+.highlight-box .box-title { color: var(--accent); }
+.reassurance-box .box-title { color: var(--success); }
+.warning-box .box-title { color: var(--danger); }
+.research-note {
+  background: var(--bg-light); border-radius: 10px; padding: 1rem 1.25rem;
+  font-size: .9rem; color: var(--text-light); font-style: italic; margin: 1.25rem 0;
+}
+.content-card {
+  background: #fff; border-radius: 16px; padding: 1.75rem 1.75rem 1.75rem 2.25rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06); position: relative; overflow: hidden; margin-bottom: 1.5rem;
+}
+.content-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gradient-warm); }
+.content-card h3 { color: var(--primary); margin-bottom: .6rem; }
+.content-card p { color: var(--text-medium); }
+.content-card p + p { margin-top: .75rem; }
+
+/* ---------- Science / info section ---------- */
+.science-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px; padding: 3rem 2rem;
+}
+.science-section > h2 { text-align: center; color: var(--primary); font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .6rem; }
+.science-section > .section-lede { text-align: center; max-width: 640px; margin: 0 auto 2rem; }
+.science-section .info-card { box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+
+/* ---------- Lists ---------- */
+.check-list { list-style: none; }
+.check-list li { position: relative; padding: .7rem 0 .7rem 2rem; border-bottom: 1px solid var(--border); color: var(--text-medium); }
+.check-list li:last-child { border-bottom: none; }
+.check-list li::before { content: '✓'; position: absolute; left: 0; top: .7rem; color: var(--success); font-weight: 700; }
+.check-list.cross li::before { content: '✕'; color: var(--danger); }
+.check-list.arrow li::before { content: '→'; color: var(--accent); }
+.check-list li strong { color: var(--text-dark); }
+
+/* ---------- Weekly plan table ---------- */
+.table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.06); background: #fff; }
+table.plan { width: 100%; border-collapse: collapse; min-width: 520px; }
+table.plan th, table.plan td { padding: .9rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: .95rem; }
+table.plan thead th { background: var(--gradient-primary); color: #fff; font-family: var(--font-heading); font-size: .95rem; letter-spacing: .02em; }
+table.plan tbody tr:nth-child(even) { background: var(--bg-light); }
+table.plan tbody tr:last-child td { border-bottom: none; }
+table.plan td { color: var(--text-medium); }
+table.plan td:first-child { color: var(--text-dark); font-weight: 600; }
+
+/* ---------- FAQ ---------- */
+.faq details {
+  background: #fff; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: .9rem;
+  box-shadow: 0 3px 14px rgba(0,0,0,.05); border-left: 4px solid var(--primary-light);
+}
+.faq summary { cursor: pointer; font-family: var(--font-heading); font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; float: right; color: var(--accent); font-size: 1.3rem; line-height: 1; }
+.faq details[open] summary::after { content: '–'; }
+.faq details p { color: var(--text-medium); margin-top: .8rem; }
+.faq details p + p { margin-top: .6rem; }
+
+/* ---------- CTA ---------- */
+.cta {
+  background: var(--gradient-primary); color: #fff; border-radius: 16px;
+  padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 75% 25%, rgba(230,126,34,.22) 0%, transparent 50%);
+}
+.cta > * { position: relative; }
+.cta h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: .75rem; }
+.cta p { opacity: .95; max-width: 560px; margin: 0 auto 1.75rem; }
+.btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; background: #fff; color: var(--primary);
+  padding: .85rem 1.9rem; border-radius: 50px; font-weight: 600; border: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.2); color: var(--primary); border: none; }
+.btn.ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.7); }
+.btn.ghost:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+/* ---------- Related sheets ---------- */
+.related { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+.related a {
+  display: block; background: #fff; border-radius: 12px; padding: 1.25rem 1.4rem;
+  border: 1px solid var(--border); border-left: 4px solid var(--accent);
+  box-shadow: 0 3px 14px rgba(0,0,0,.05); transition: transform .2s ease, box-shadow .2s ease;
+}
+.related a:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(26,95,122,.12); }
+.related a strong { display: block; font-family: var(--font-heading); color: var(--primary); font-size: 1.05rem; margin-bottom: .25rem; }
+.related a span { color: var(--text-medium); font-size: .92rem; }
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center; color: var(--text-light); font-size: .92rem;
+  padding: 3rem 1.5rem 4rem; border-top: 1px solid var(--border); margin-top: 3rem;
+}
+footer p + p { margin-top: .5rem; }
+footer .practice { font-family: var(--font-heading); color: var(--primary); font-size: 1.05rem; }
+footer .fineprint { font-size: .82rem; max-width: 620px; margin: 1rem auto 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .hero { padding: 3.5rem 1.25rem 4.5rem; }
+  .intro { margin: -2.5rem 1rem 2.5rem; padding: 1.75rem 1.5rem 1.75rem 2rem; }
+  .step-card { padding: 1.5rem 1.25rem 1.5rem 4.5rem; }
+  .step-number { width: 36px; height: 36px; font-size: 1.05rem; left: .8rem; top: 1.4rem; }
+  .pathway::before { left: 17px; }
+  .science-section { padding: 2rem 1.25rem; }
+  .cta { padding: 2.25rem 1.25rem; }
+  .exercise-card { padding: 1.4rem; }
+}
+
+/* ---------- Print (these sheets get handed out on paper) ---------- */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .hero { padding: 1.5rem 0; background: none; color: var(--primary); }
+  .hero::before, .cta::before, .intro::before { display: none; }
+  .hero .eyebrow { border-color: var(--border); color: var(--text-medium); }
+  .hero p { color: var(--text-medium); }
+  .intro, .step-card, .info-card, .exercise-card, .content-card, .faq details { box-shadow: none; border: 1px solid var(--border); }
+  .cta { background: none; color: var(--text-dark); border: 1px solid var(--border); }
+  .cta h2 { color: var(--primary); }
+  .btn { border: 1px solid var(--border); color: var(--primary); }
+  .step-card, .exercise-card, .info-card, .highlight-box, .reassurance-box, .warning-box { break-inside: avoid; }
+  .faq details { break-inside: avoid; }
+  .faq details summary::after { display: none; }
+  section { margin-bottom: 1.5rem; }
+  a { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Patient Information</span>
+    <h1>Balance When the Problem Is Nerve or Muscle</h1>
+    <p>A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.</p>
+  </div>
+</header>
+<main id="main" class="container">
+
+<div class="intro">
+  <p>If your unsteadiness comes from the nerves in your legs or from the muscles themselves, the ordinary balance advice needs adjusting. The problem is not that your brain has forgotten how to balance. It is that the information reaching it, or the power leaving it, has been reduced — and a programme has to be built around that.</p>
+<p><strong>In neuropathy</strong>, the nerves that report where your feet and ankles are have become unreliable. Your brain is left balancing with two of its three senses. <strong>In myopathy</strong>, the sensing is intact but the muscles cannot produce the force to correct you in time. Both are trainable, but in different ways, and both have a few specific hazards that do not apply to anyone else.</p>
+  <div class="highlight-box"><span class="box-title">What this programme can and cannot do</span><p>Balance training will not restore feeling in your feet, and no exercise regrows a damaged nerve quickly. What it does is teach your brain to lean harder on vision, on the inner ear and on light hand contact, and it builds the hip and calf strength that buys you time to correct. That is a real and worthwhile gain — and it is honest to say it is a workaround rather than a cure.</p></div>
+</div>
+<div class="reassurance-box"><span class="box-title">How to use this sheet</span><ul class="check-list"><li>Read it once through, then start with the first two or three exercises only.</li><li>Add an exercise every week or two rather than starting everything at once.</li><li>Print it, tick off the days, and bring it back to your appointment.</li><li>This sheet is general information for my patients. If you have been given different, specific advice about your own condition, that advice comes first.</li></ul></div>
+<div class="warning-box"><span class="box-title">Before you start — making this safe to do alone</span><ul class="check-list"><li><strong>Always have something solid to grab.</strong> A kitchen bench, a heavy table, a wall on each side, or the back of a chair wedged against a wall. Not a wheeled chair, not a towel rail.</li><li><strong>Choose the right floor.</strong> Bare, level, non-slip. Move rugs and cords out of the way. Do not do balance work on a rug edge or a wet bathroom floor.</li><li><strong>Wear shoes or bare feet, not socks.</strong> Well-fitting shoes with a firm heel counter and a thin sole let you feel the floor.</li><li><strong>If you have fallen in the last six months, or you feel unsafe standing still with your feet together, do not start alone.</strong> Do these first with a family member present, or ask me to arrange a physiotherapist.</li><li><strong>Carry your phone, or wear a personal alarm,</strong> if you live alone.</li><li><strong>Stop and contact your doctor</strong> if an exercise causes chest pain, sudden severe dizziness, a new weakness, or a fall.</li></ul></div>
+<div class="warning-box"><span class="box-title">Extra rules that apply specifically to you</span><ul class="check-list"><li><strong>Never train with your eyes closed, or on any soft surface, without both hands on a fixed bench.</strong> This is where people with neuropathy fall at home.</li><li><strong>Do not train barefoot</strong> if you have an active or healed foot ulcer, a significant foot deformity, or poor circulation — wear a well-fitting shoe instead.</li><li><strong>Never use heat</strong> — hot water bottles, heat packs, foot spas, radiant heaters — on feet with reduced sensation, and never treat corns or calluses yourself.</li><li><strong>Do not train to failure.</strong> In muscle disease, the correct target is &#39;somewhat hard&#39; and stopping with two or three repetitions in reserve.</li><li><strong>Stop and get help the same day</strong> for a hot, red or swollen foot, or for dark, red or cola-coloured urine after exercise.</li></ul></div>
+
+<section class="science-section">
+  <h2>Balance runs on three senses. You have lost one of them.</h2>
+  <p class="section-lede">Understanding which one explains why your symptoms behave the way they do — and what the training is actually doing.</p>
+  
+<div class="card-grid">
+
+  <div class="info-card type-danger">
+    <h4>🦶 The feet (position sense)</h4>
+    <p>Normally the dominant sense on firm ground. In large-fibre neuropathy this is the one that fails, which is why your balance is worst on carpet, sand, grass and gravel — surfaces where the signal was already poor.</p>
+    
+  </div>
+  <div class="info-card type-primary">
+    <h4>👁️ Vision</h4>
+    <p>The sense that takes over, which is why you are steady in a lit room and unsafe in the dark. It explains why turning the bathroom light on is not a small matter, and why your balance is worse when you are tired or your glasses are wrong.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>👂 The inner ear</h4>
+    <p>Usually the sense with most spare capacity. It can be trained to take on more work — but it is slower and cruder than the feet were, which is why quick corrections and uneven ground remain hard.</p>
+    
+  </div>
+</div>
+</section>
+
+<div class="phase-banner phase-warm">
+  <h2>Part 1 — The three things that prevent most of the falls</h2>
+  <p>Do these before, and alongside, any exercise. They matter more than the exercises do.</p>
+</div>
+
+<div class="exercise-card" id="ex-night-time-and-darkness-planning">
+  <div class="exercise-head">
+    <h3>Night-time and darkness planning</h3>
+    <span class="dose-pill">Set it up once; check it every few months</span>
+  </div>
+  <span class="evidence-badge">Where these falls happen</span>
+  <p class="purpose">Vision is doing the work your feet used to do. Take the light away and the system fails — which is why so many falls in neuropathy happen on the way to the toilet at 2 am.</p>
+  <ol><li>Put a plug-in sensor night light in the bedroom, the hallway and the bathroom. This is the single highest-value change on this page.</li><li>Keep a torch and your phone within reach of the bed.</li><li>Clear the entire route to the bathroom — no shoes, no charging cables, no pets&#39; bowls, no low furniture. Do it once, properly, and keep it that way.</li><li>Sit on the edge of the bed for a count of ten before standing, and stand for a count of ten before walking. Blood pressure and stiff ankles both need that moment.</li><li>Consider slip-resistant slippers with a firm back kept beside the bed — not loose scuffs and not bare feet on tiles.</li><li>If you are up more than twice a night, tell me. Nocturia is a strong, treatable falls risk factor, and so are the medications that cause it.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Add a grab rail beside the toilet and in the shower. An occupational therapist home visit is worth arranging if you have had any fall at night.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Start with the night lights alone.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Never walk in the dark to avoid waking a partner. Falls in the dark are the ones that break hips.</div>
+    <div class="meta-item"><strong>Why it works</strong>Home fall-hazard reduction reduces falls by around a quarter overall, and by considerably more — nearly 40% — in people already at high risk. Note that this benefit comes from an actual assessment and actual changes, not from a leaflet.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-light-touch-training-the-fingertip-trick">
+  <div class="exercise-head">
+    <h3>Light-touch training (the fingertip trick)</h3>
+    <span class="dose-pill">Use it as the support setting for every balance exercise</span>
+  </div>
+  <span class="evidence-badge">Substitution strategy</span>
+  <p class="purpose">When your feet cannot report where you are in space, your hand can. Resting a fingertip on a surface steadies you dramatically — and it works through information, not through physical support.</p>
+  <ol><li>Stand at the bench in whatever balance position you are working on.</li><li>Instead of gripping, rest <strong>one fingertip</strong> lightly on the surface — press no harder than you would to touch a soap bubble without popping it.</li><li>Notice how much steadier you are. That steadiness is not coming from the strength of your finger; it is your brain using the contact to work out where your body is.</li><li>Practise progressing between four settings: two hands gripping → one hand → one fingertip → hand hovering a centimetre above the bench.</li><li>Move down a setting only when the current one is easy, and always keep the next setting up within reach.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Fingertip → hovering hand → no hand, always beside the bench.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Back to whole-hand contact. There is no shame in it, and the training effect is nearly as good.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Hovering is the highest-risk setting: keep the hand directly above the bench so that catching yourself takes no time at all.</div>
+    <div class="meta-item"><strong>Why it works</strong>Light fingertip contact at forces under one newton — far too little to hold you up — substantially reduces body sway, including in people with peripheral neuropathy. This is also the argument for walking poles: two poles give the same information on both sides, and are often better than one stick.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-the-daily-foot-check">
+  <div class="exercise-head">
+    <h3>The daily foot check</h3>
+    <span class="dose-pill">Every day, at the same time</span>
+  </div>
+  <span class="evidence-badge">Non-negotiable if sensation is reduced</span>
+  <p class="purpose">If you cannot feel your feet, they cannot tell you when something is wrong. Your eyes have to do the job instead. This takes 30 seconds and prevents most serious foot problems.</p>
+  <ol><li>Every evening, look at the whole of both feet — top, sole, heel, and between every toe. Use a mirror on the floor, or your phone camera, if you cannot see the soles.</li><li>You are looking for: redness, blisters, cuts, cracks, new hard skin, a change in colour, or anything wet.</li><li>Feel the temperature of each foot with the back of your hand and compare the two.</li><li>Check inside your shoes with your hand before you put them on — for a stone, a fold in the insole, or a protruding stitch.</li><li><strong>Never</strong> use hot water bottles, heat packs, foot spas or radiant heaters on feet you cannot feel, and never cut corns or calluses yourself.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Add an annual (or more frequent) podiatry review, which for people with diabetes is subsidised in Australia.</div>
+    <div class="meta-item"><strong>Make it easier</strong>If you cannot see or reach your feet, ask someone else to check them, or make it a regular podiatry task.</div>
+    <div class="meta-item safety"><strong>Safety</strong><strong>A hot, red, swollen foot needs same-day assessment</strong>, even without a wound and even if it does not hurt. In diabetic neuropathy this can be an acute Charcot foot, and continuing to walk on it can destroy the joint.</div>
+    <div class="meta-item"><strong>Why it works</strong>Daily foot self-examination is a standing recommendation of the International Working Group on the Diabetic Foot. A persistent difference of more than about 2°C between the same spot on the two feet, on two consecutive days, is a recognised early warning worth acting on.</div>
+  </div>
+</div>
+
+<div class="phase-banner phase-a">
+  <h2>Part 2 — Strength</h2>
+  <p>Three days a week, on non-consecutive days. Read the loading rule first — it governs everything below it.</p>
+</div>
+
+<div class="exercise-card" id="ex-how-hard-to-push-a-diseased-muscle">
+  <div class="exercise-head">
+    <h3>How hard to push a diseased muscle</h3>
+    <span class="dose-pill">Effort 6–7 out of 10; never to failure</span>
+  </div>
+  <span class="evidence-badge">The rule that governs everything else</span>
+  <p class="purpose">Two opposite mistakes are common: not exercising at all for fear of damage, and training to exhaustion. The evidence supports a clear middle path.</p>
+  <ol><li>Work at an effort you would rate about 6 or 7 out of 10 — &#39;somewhat hard&#39;. You should finish each set feeling you could have done two or three more repetitions.</li><li><strong>Never train to failure</strong>, and never chase &#39;the burn&#39;.</li><li>Prefer lifting and pushing (concentric work) over slow lowering of heavy loads (eccentric work). If you have a muscular dystrophy, actively avoid heavy eccentric work: no downhill hiking on steep gradients, no jumping, no slowly lowering heavy weights.</li><li>Leave at least one rest day between sessions for the same muscle group — two or three sessions a week, not daily.</li><li>Judge the last session by how you feel <strong>two days later</strong>: normal training soreness settles within 24 to 48 hours.</li><li><strong>Halve the load</strong> if soreness is severe, lasts beyond 72 hours, or comes with swelling — do not push through it.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Add repetitions before adding load. When you can comfortably do 15 repetitions at a given effort, add a small amount of weight and return to 10.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Reduce range, then repetitions, then frequency — in that order.</div>
+    <div class="meta-item safety"><strong>Safety</strong><strong>Stop and seek urgent medical care if your urine turns dark, red or cola-coloured after exercise</strong>, which suggests muscle breakdown. If you have a metabolic muscle disease (such as McArdle disease or a fatty-acid oxidation disorder), never exercise fasted, take carbohydrate beforehand, warm up gently, and stop immediately if a muscle cramps and will not release — that is a contracture, not fatigue, and pushing through it is what causes damage.</div>
+    <div class="meta-item"><strong>Why it works</strong>The old fear of &#39;overwork weakness&#39; comes largely from post-polio observation and a mouse model, not from human trials. Moderate resistance and aerobic training has repeatedly proved safe in inclusion body myositis, limb-girdle and Becker dystrophy and inflammatory myopathy, with no rise in muscle enzymes or biopsy inflammation. A Cochrane review classifies the benefit as low-certainty — safe, probably helpful, not miraculous. The genuine exceptions are high-force eccentric loading in the dystrophies and unpaced exertion in metabolic myopathy.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-sit-to-stand-endurance-test-and-training">
+  <div class="exercise-head">
+    <h3>Sit-to-stand endurance test and training</h3>
+    <span class="dose-pill">Test monthly; train 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Track your own progress</span>
+  <p class="purpose">A simple number you can measure at home, repeat monthly, and bring to your appointment. It tracks exactly the muscles that fail first in myopathy — the thigh and hip.</p>
+  <ol><li><strong>The test:</strong> sit on a firm dining chair, arms folded across your chest. Time how many complete stands you can do in 30 seconds. Write down the number and the date.</li><li>If you cannot stand without using your arms, record that instead — &#39;five stands in 30 seconds with hands on thighs&#39; is a perfectly good baseline.</li><li><strong>The training:</strong> do 3 sets of as many stands as you can comfortably manage in 30 seconds, resting a full minute between sets, three days a week.</li><li>Keep the chair against a wall and stop each set with two or three repetitions still in reserve.</li><li>Retest on the first of each month, under the same conditions.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Fewer arm assists, then a lower seat, then a slower lowering phase, then holding a light weight against the chest.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Use a higher chair or a cushion, and push off your thighs.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Chair against a wall. If you have inclusion body myositis, be aware that the knees can buckle without warning — keep a hand within reach of the bench for every set.</div>
+    <div class="meta-item"><strong>Why it works</strong>In limb-girdle and Becker dystrophy, twelve weeks of moderate resistance training improved sit-to-stand and stair times by roughly 18–36%, with no evidence of damage. In inclusion body myositis, training maintained quadriceps strength over three months while untrained controls lost around 9%.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-heel-raises-calf-strength">
+  <div class="exercise-head">
+    <h3>Heel raises (calf strength)</h3>
+    <span class="dose-pill">10–15 repetitions × 2 sets, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Otago exercise</span>
+  <p class="purpose">The calf is the engine of push-off in walking and the first muscle that catches you when you sway forwards.</p>
+  <ol><li>Stand at the bench, feet hip-width apart, hands resting on it for balance only.</li><li>Rise up onto the balls of both feet as high as you can.</li><li>Pause for a second at the top — most people cheat this part.</li><li>Lower slowly, taking about 3 seconds, until your heels touch the floor.</li><li>Repeat 10 to 15 times.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Fingertip support only. Then single-leg heel raises (holding the bench), building to 10 each side. Then do them with the balls of your feet on the edge of a step so the heel drops below the step — only with a solid rail.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Smaller range, both hands on the bench, and do them seated first if standing is unsteady.</div>
+    <div class="meta-item safety"><strong>Safety</strong>If you get calf cramps, reduce the number and stretch afterwards. Stop if you get sudden calf pain and swelling — that needs assessment.</div>
+    <div class="meta-item"><strong>Why it works</strong>Calf strength and ankle power decline steeply with age and correlate closely with walking speed, which itself predicts falls, hospitalisation and independence.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-standing-leg-raises-front-side-and-back">
+  <div class="exercise-head">
+    <h3>Standing leg raises — front, side and back</h3>
+    <span class="dose-pill">10 raises in each of the 3 directions, each leg, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Strength + balance in one</span>
+  <p class="purpose">Strengthens the hip muscles (particularly the side-hip muscles that stop your pelvis dropping) while forcing you to balance on the other leg. Two exercises for the price of one.</p>
+  <ol><li>Stand tall behind a firm chair or at the bench, hands resting on it.</li><li><strong>Front:</strong> keeping the knee straight and the body upright, lift one leg forward about 20–30 cm. Lower slowly under control. Repeat 10 times.</li><li><strong>Side:</strong> lift the same leg directly out to the side, toes pointing forwards (not turned out), 20–30 cm. Do not lean away — the trick is to keep your trunk vertical. Lower slowly. Repeat 10 times.</li><li><strong>Back:</strong> lift the leg straight behind you, squeezing the buttock, without arching your low back or leaning forwards. Repeat 10 times.</li><li>Swap legs and repeat all three directions.</li><li>If your balance on the standing leg is poor, do all three directions lying on your side and on your back instead — you get most of the strengthening effect and none of the risk.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Reduce hand support to fingertips. Then add a 2-second hold at the top of each raise. Then add a light ankle weight (start at 0.5–1 kg) for the side and back raises.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do them seated for the front raises, and do side and back raises with both hands firmly on the bench and a smaller range.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Slow and controlled beats high. A 20 cm raise done with a still trunk builds far more than a 50 cm raise done by swinging and leaning. If your sensation is reduced, keep <strong>both</strong> hands on the bench for these until the movement is second nature — you cannot rely on your feet to tell you that you are drifting.</div>
+    <div class="meta-item"><strong>Why it works</strong>Ankle-weighted hip and knee exercises are the strength backbone of the Otago programme, which cut falls by roughly a third (rate ratio 0.68) across seven trials, and which also reduced falls in people referred to a falls clinic after an injury.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-step-ups-on-the-bottom-stair">
+  <div class="exercise-head">
+    <h3>Step-ups on the bottom stair</h3>
+    <span class="dose-pill">5–10 step-ups each leg, 2 sets, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Power + confidence</span>
+  <p class="purpose">Rebuilds the leg power you need for stairs, kerbs and buses, and rehearses the exact task people become frightened of.</p>
+  <ol><li>Use the bottom step of a staircase with a solid handrail, or a sturdy step block.</li><li>Hold the rail. Place one whole foot on the step.</li><li>Push down through that heel to lift yourself up — try to let the leg on the step do the work rather than pushing off the floor with the back foot.</li><li>Step back down slowly, leading with the same leg, and touch down quietly.</li><li>Do 10 with that leg, then swap.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Light fingertip contact on the rail; then a slower 3-second lowering; then a higher step (only with a rail).</div>
+    <div class="meta-item"><strong>Make it easier</strong>A single low step or a thick book taped down; or start by simply stepping up and down onto a doorway threshold.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Handrail in hand for every repetition until you are certain. Shoes on. With reduced sensation, look at your foot as you place it on the step, every single time — do not place it by feel.</div>
+    <div class="meta-item"><strong>Why it works</strong>Stair negotiation demands more strength than walking and is where a lot of serious falls occur, so it is worth training deliberately rather than avoiding.</div>
+  </div>
+</div>
+
+<div class="phase-banner phase-b">
+  <h2>Part 3 — Balance, adapted</h2>
+  <p>Same exercises as the general programme, with the support settings turned up and the progressions taken more slowly.</p>
+</div>
+
+<div class="exercise-card" id="ex-weight-shifts-and-reaching">
+  <div class="exercise-head">
+    <h3>Weight shifts and reaching</h3>
+    <span class="dose-pill">10 shifts in each direction, daily</span>
+  </div>
+  <span class="evidence-badge">Starting point</span>
+  <p class="purpose">Teaches you where your limits of balance actually are, and how to move to the edge of them and come back without panicking.</p>
+  <ol><li>Stand at the bench, feet hip-width apart, hands lightly resting on it.</li><li>Keeping your body straight like a tall mast, sway slowly forwards over your toes, then back over your heels. Go only as far as you can come back from.</li><li>Do ten of those, then sway slowly side to side, taking your weight over one foot then the other, ten times.</li><li>Then reach one hand slowly out to the side and across your body, following your hand with your eyes, and return.</li><li>Finish by reaching down towards a spot on the floor beside your foot and back up.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Reduce hand support; increase how far you reach; reach to place and pick up an object on a low stool.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do it seated on a firm chair first, or with both hands on the bench and very small movements.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Small ranges first. The point is control, not distance.</div>
+    <div class="meta-item"><strong>Why it works</strong>Reaching while standing is one of the functional balance tasks named in the 2022 World Falls Guidelines, and it directly rehearses the movements that cause household falls.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-tandem-and-semi-tandem-standing">
+  <div class="exercise-head">
+    <h3>Tandem and semi-tandem standing</h3>
+    <span class="dose-pill">3 × 30 seconds each foot in front, daily</span>
+  </div>
+  <span class="evidence-badge">Foundation</span>
+  <p class="purpose">The static version of tandem walking — the safest way to start if walking heel-to-toe is still too much.</p>
+  <ol><li>Stand beside a kitchen bench with one hand resting on it.</li><li>Put one foot half a step in front of the other, heel beside the opposite big toe (semi-tandem).</li><li>Hold for 30 seconds, breathing normally, eyes ahead.</li><li>Swap which foot is in front and repeat.</li><li>When 30 seconds is comfortable, move the front foot fully in front (true tandem) so heel touches toe.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Whole hand → one hand → one fingertip → hovering hand. Progress the <em>support</em>, not the eyes. Do not attempt eyes closed in tandem stance at home.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Feet together, both hands on the bench, 30 seconds.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Stand facing into the corner of a bench, not out into the room, so there is something to catch on either side. Keep the light on. Practising in dim light is not a useful challenge for you — it is simply dangerous.</div>
+    <div class="meta-item"><strong>Why it works</strong>Feet-together, semi-tandem and tandem stance are the standard progression used in the Otago programme and in nearly every trial that reduced falls.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-single-leg-standing">
+  <div class="exercise-head">
+    <h3>Single-leg standing</h3>
+    <span class="dose-pill">Build to 15–30 seconds each leg, 2 rounds, daily, with hand support</span>
+  </div>
+  <span class="evidence-badge">Otago exercise</span>
+  <p class="purpose">Almost every step you take is a moment of standing on one leg. This trains the hip and ankle muscles that stop you toppling sideways.</p>
+  <ol><li>Stand at the bench with both hands on it.</li><li>Shift your weight fully onto one leg and lift the other foot a few centimetres off the floor — just enough to clear it.</li><li>Keep the standing knee soft, hips level, and look at a fixed point ahead.</li><li>Hold as long as you can steadily, up to 30 seconds, then swap.</li><li>Do two rounds on each leg.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Two fingers on the bench → one finger → hands hovering just above it. Then add slow head turns, or stand on a firm cushion.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Keep the toes of the lifted foot resting lightly on the floor (a &#39;kickstand&#39;), taking almost no weight.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Always within arm&#39;s reach of support. Do not test yourself in the middle of the room to &#39;see how long you can last&#39;. If you have inclusion body myositis, the knee can give way without warning — keep a hand on the bench for every repetition, no exceptions.</div>
+    <div class="meta-item"><strong>Why it works</strong>Single-leg stance time is one of the balance tests used to decide who needs a falls intervention. Being unable to hold it for 10 seconds is a marker worth telling me about — it has been linked to higher mortality and to injurious falls, though it is a warning light rather than a target in itself.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-tandem-walking-heel-to-toe-corridor-only">
+  <div class="exercise-head">
+    <h3>Tandem walking (heel-to-toe), corridor only</h3>
+    <span class="dose-pill">10 steps × 2, once a day</span>
+  </div>
+  <span class="evidence-badge">Core balance drill</span>
+  <p class="purpose">Trains the side-to-side balance control that keeps you upright when you turn, step around something, or are jostled.</p>
+  <ol><li>Do this in a corridor narrow enough that you can touch both walls with your elbows out, or beside a kitchen bench. Never in the middle of a room.</li><li>Stand at one end with your fingertips lightly brushing one wall.</li><li>Place one foot directly in front of the other so the heel of the front foot touches the toes of the back foot, as if walking a tightrope.</li><li>Take ten slow heel-to-toe steps, looking ahead at a point on the wall rather than at your feet.</li><li>Turn around carefully — wide, slow steps, not a quick pivot — and walk back.</li><li>Rest, then repeat twice more.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Reduce from whole hand to fingertips on the wall. Do <strong>not</strong> progress to no hands, to head turns, or to walking backwards heel-to-toe unless a physiotherapist has assessed you.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Walk with one whole hand on the wall, and use a semi-tandem step (front heel beside the back toes, not in front of them) until that feels steady.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Never in an open room, never on a rug, never in socks. If you find yourself repeatedly grabbing the wall, the drill is too hard — go back a stage. Corridor with two reachable walls, well lit, shoes on. Semi-tandem is a perfectly good end point if full tandem never becomes steady.</div>
+    <div class="meta-item"><strong>Why it works</strong>Narrowing your base of support is the most efficient way to challenge balance, and challenging balance is what makes falls prevention work. In the Cochrane review of 108 trials, exercise reduced the rate of falls by 23% overall — but programmes that genuinely challenged balance <em>and</em> totalled three or more hours a week reduced falls by around 40%. Comfortable, seated, low-dose programmes did not.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-training-the-inner-ear-to-take-over-carefully">
+  <div class="exercise-head">
+    <h3>Training the inner ear to take over (carefully)</h3>
+    <span class="dose-pill">3 × 15 seconds, feet apart, both hands down, every second day</span>
+  </div>
+  <span class="evidence-badge">Advanced — read the safety note</span>
+  <p class="purpose">With your eyes open, vision does most of the work and the damaged system stays lazy. Closing your eyes forces the inner ear and the sensation in your feet to take over — which is how they improve.</p>
+  <ol><li>Stand in a corner, or facing into the corner of a kitchen bench, so support is available on both sides. Have someone nearby the first time.</li><li><strong>Stage 1:</strong> feet together, eyes open, 30 seconds. Then eyes closed, 30 seconds.</li><li><strong>Stage 2:</strong> semi-tandem (one heel beside the other big toe), eyes open then closed.</li><li><strong>Stage 3:</strong> full tandem (heel to toe), eyes open then closed.</li><li><strong>Stage 4:</strong> repeat the whole sequence standing on a firm sofa cushion or folded pillow, which removes reliable information from your feet as well.</li><li>Move to the next stage only when you can hold the current one for 30 seconds without touching down.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Increase the time before you narrow the feet. Never combine a narrow stance with closed eyes at home.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Do it with your eyes open in a dim room instead — you get some of the same effect with far less risk.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Never with your eyes closed in an open room. Corner or bench, every time. <strong>This is the highest-risk exercise on the page for you.</strong> Both hands stay on the bench throughout, feet stay hip-width apart, and someone should be in the house. If in doubt, skip it — the rest of the programme works without it.</div>
+    <div class="meta-item"><strong>Why it works</strong>Balance training that systematically removes vision and reliable foot sensation is a core recommendation in the vestibular hypofunction guideline, alongside gaze stabilisation.</div>
+  </div>
+</div>
+
+<div class="phase-banner phase-c">
+  <h2>Part 4 — Conditioning</h2>
+  <p>The part that protects against becoming weaker for reasons that have nothing to do with your diagnosis.</p>
+</div>
+
+<div class="exercise-card" id="ex-steady-aerobic-exercise">
+  <div class="exercise-head">
+    <h3>Steady aerobic exercise</h3>
+    <span class="dose-pill">20–30 minutes at a moderate pace, 3 days a week</span>
+  </div>
+  <span class="evidence-badge">Safe and worthwhile</span>
+  <p class="purpose">Nerve and muscle disease make everyday activity more expensive in energy terms, so people become deconditioned quickly — and deconditioning then gets blamed on the disease. Aerobic training treats the part that is reversible.</p>
+  <ol><li>A stationary bike is the best choice: it is seated, it removes the falls risk, and the resistance is easy to control. Walking, swimming or water walking also work well.</li><li>Work at a pace where you can talk in short sentences but not sing — around 60–65% of your maximum heart rate.</li><li>Start with 10 minutes if that is where you are, and add 2–3 minutes per week.</li><li>Warm up for 5 minutes at a very easy pace and cool down the same way, which matters more in muscle disease than in healthy muscle.</li><li>Pace it: it is better to do 20 minutes three times a week than 60 minutes once and then need three days to recover.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Add duration first, then a little intensity. Interval formats (2 minutes harder, 3 minutes easy) suit people who fatigue quickly.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Split into two 10-minute sessions. Water-based exercise offloads the joints and the falls risk together.</div>
+    <div class="meta-item safety"><strong>Safety</strong>In metabolic myopathies, avoid sudden high-intensity bursts and never exercise fasted. Stop for chest pain, unusual breathlessness, or muscle pain that is sharp rather than tired.</div>
+    <div class="meta-item"><strong>Why it works</strong>Submaximal cycling has been shown to be safe and effective in limb-girdle dystrophy and in mitochondrial myopathy, with meaningful gains in aerobic capacity and no significant rise in muscle enzymes. In early diabetic neuropathy, sustained aerobic exercise over a year has even been associated with an increase in small nerve fibre density in the skin — the one intervention with any evidence of a structural nerve effect.</div>
+  </div>
+</div>
+
+<div class="exercise-card" id="ex-walking-the-background-to-everything-else">
+  <div class="exercise-head">
+    <h3>Walking — the background to everything else</h3>
+    <span class="dose-pill">Build towards 30 minutes on most days</span>
+  </div>
+  <span class="evidence-badge">Aerobic base</span>
+  <p class="purpose">Walking will not by itself fix your balance, but it maintains leg strength, bone, mood, sleep and blood pressure control, and it is the platform the rest of the programme sits on.</p>
+  <ol><li>Start from where you actually are. If that is five minutes to the letterbox and back, start there.</li><li>Add roughly 10% per week — an extra two or three minutes.</li><li>Walk at a pace where you could talk but not sing.</li><li>Take a route you can shorten easily if you tire: laps of a level block beat a one-way walk you have to complete.</li><li>If you are unsteady, walk with someone, or use walking poles or your stick — using an aid is not a failure, it is what allows you to do more.</li></ol>
+  <div class="exercise-meta">
+    <div class="meta-item"><strong>Make it harder</strong>Add a hill, add pace intervals (two minutes brisk, two minutes easy), or add uneven ground such as a grassy park — but only once your balance work is solid.</div>
+    <div class="meta-item"><strong>Make it easier</strong>Split it into three 10-minute walks. Indoor shopping-centre laps are a legitimate winter option.</div>
+    <div class="meta-item safety"><strong>Safety</strong>Do not do your balance-challenging exercises outdoors on uneven ground unsupervised. Check your feet after every longer walk, and check inside your shoes before it.</div>
+    <div class="meta-item"><strong>Why it works</strong>Be clear about this: walking alone has <strong>not</strong> been shown to prevent falls, and across 88 trials the programmes that included walking training had <em>smaller</em> effects on falls than those that did not. Walking is essential for fitness, mood, bone and nerve health. It is not a substitute for the balance work above.</div>
+  </div>
+</div>
+<section id="things-people-are-told-that-are-not-true">
+<h2 class="section-title">Things people are told that are not true</h2>
+
+
+<div class="faq">
+
+  <details>
+    <summary>&quot;Exercising a weak muscle will wear it out permanently.&quot;</summary>
+    <p>This is the &#39;overwork weakness&#39; idea, and it comes largely from observations after polio and from a mouse model — not from human trials. Moderate resistance training has been studied in inclusion body myositis, limb-girdle and Becker muscular dystrophy and inflammatory myopathy, and it improved or maintained strength without raising muscle enzymes or inflammation on biopsy.</p>
+<p>The nuance that does survive is narrow but real: avoid <strong>heavy eccentric loading</strong> (slowly lowering heavy weights, steep downhill walking, jumping) if you have a muscular dystrophy, and avoid unpaced, all-out exertion if you have a metabolic muscle disease.</p>
+  </details>
+  <details>
+    <summary>&quot;My CK went up, so the exercise is damaging my muscles.&quot;</summary>
+    <p>Creatine kinase rises modestly after unaccustomed exercise in almost everyone. In the training trials it did not rise significantly, and where it did there was no accompanying loss of function. Your symptoms, your function and the colour of your urine are far more useful safety monitors than a single CK level.</p>
+  </details>
+  <details>
+    <summary>&quot;If I can&#39;t feel my feet I shouldn&#39;t be walking on them.&quot;</summary>
+    <p>Weight-bearing exercise was formally discouraged in diabetic neuropathy for decades. A randomised trial of a walking programme found no increase in foot ulcers, and the advice was reversed. What is required is the footwear, the daily foot check and prompt attention to any break in the skin — not inactivity.</p>
+  </details>
+  <details>
+    <summary>&quot;Balance training will bring the feeling back in my feet.&quot;</summary>
+    <p>It will not, and I would rather you knew that at the start. It trains substitution — vision, the inner ear, hip strength and hand contact. The only intervention with any evidence of a structural effect on small nerve fibres is sustained aerobic exercise over about a year, mostly in people whose neuropathy is early or not yet established.</p>
+  </details>
+  <details>
+    <summary>&quot;Wobble boards and balance cushions are the proper way to train.&quot;</summary>
+    <p>For someone with proprioceptive loss they are the worst possible choice for unsupervised use: an unstable surface is precisely where you have no capacity to correct. They are clinic tools, used with a therapist beside you. The home version is a folded towel with both hands on the bench, once everything on firm ground is easy.</p>
+  </details>
+  <details>
+    <summary>&quot;Using poles or a stick means giving in.&quot;</summary>
+    <p>A hand resting on a stable surface reduces body sway even at pressures far too light to hold you up — the hand is supplying the position information your feet no longer can. Two poles give that on both sides and are often better than a single stick. This is physiology, not weakness.</p>
+  </details>
+  <details>
+    <summary>&quot;Textured or vibrating insoles will fix my balance.&quot;</summary>
+    <p>The evidence is thin and mixed — around a 5% change in sway in one small trial, and other studies show textured insoles slowing walking. Spend the money on good shoes and a night light instead.</p>
+  </details>
+</div>
+</section>
+<section id="if-you-do-fall-the-plan-you-make-in-advance">
+<h2 class="section-title">If you do fall: the plan you make in advance</h2>
+<p class="section-lede">Long lies on the floor cause far more harm than the fall itself. Rehearse this before you need it.</p>
+
+<div class="pathway">
+
+  <div class="step-card type-accent">
+    <div class="step-number">1</div>
+    
+    <h3>Do not rush to get up</h3>
+    <p>Lie still for a moment. Check whether anything hurts badly, and whether you can move both arms and both legs. If you suspect a broken bone, or you hit your head, or you are on blood thinners, call for help and stay where you are.</p>
+    
+    
+  </div>
+  <div class="step-card type-accent">
+    <div class="step-number">2</div>
+    
+    <h3>Roll, crawl, kneel, rise</h3>
+    <p>Roll onto your side, then onto your hands and knees. Crawl to a solid chair or a bed. Put both hands on the seat, bring your strongest leg up so that foot is flat on the floor, then push up through that leg and both arms and turn to sit.</p>
+    
+    
+  </div>
+  <div class="step-card type-accent">
+    <div class="step-number">3</div>
+    
+    <h3>If you cannot get up</h3>
+    <p>Get to a warm place if you can — drag a blanket or cushion down. Keep moving your arms and legs to protect your skin and circulation. Bang on a wall or floor. This is exactly what a personal alarm pendant is for, and why it must be worn rather than left on the bedside table.</p>
+    
+    
+  </div>
+  <div class="step-card type-success">
+    <div class="step-number">4</div>
+    
+    <h3>Tell me about it</h3>
+    <p>Every fall is worth reporting, even one you were not hurt by. A fall is the single strongest predictor of the next fall, and most causes are treatable — blood pressure medication, vision, inner ear, sensation in the feet, or simple loss of leg strength.</p>
+    
+    
+  </div>
+</div>
+</section>
+<div class="highlight-box"><span class="box-title">Hurt is not the same as harm</span><p>Muscles that have worked will ache. As a rule of thumb, discomfort up to about 4 or 5 out of 10 during and after exercise is acceptable, provided it settles back to your normal level within 24 hours and is not getting worse week on week. Sharp, sudden or one-sided pain is a reason to stop.</p></div>
+<section id="making-it-actually-happen">
+<h2 class="section-title">Making it actually happen</h2>
+<p class="section-lede">The best programme is the one you will still be doing in three months. These are the things that reliably make the difference.</p>
+
+<div class="card-grid">
+
+  <div class="info-card type-success">
+    <h4>🔗 Attach it to something you already do</h4>
+    <p>Balance work while the kettle boils. Neck exercises after brushing your teeth. Relaxation practice as you get into bed. A new habit hooked onto an old one survives; a new habit floating free does not.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>📅 Keep a tick sheet</h4>
+    <p>A calendar on the fridge with a tick for each day. Self-monitoring is one of the few adherence strategies with consistent evidence behind it, and it gives us something real to look at in clinic.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>🎯 Set a specific, checkable goal</h4>
+    <p>Not &#39;improve my balance&#39;, but &#39;stand on one leg for 30 seconds each side by the end of March&#39;, or &#39;walk to the shops and back without stopping&#39;. Write it down.</p>
+    
+  </div>
+  <div class="info-card type-success">
+    <h4>⏱️ Ten minutes beats an hour you never start</h4>
+    <p>Short daily sessions beat one long weekly effort. The programmes below are designed to be done in ten to twenty minutes, most days, in your own kitchen or hallway.</p>
+    
+  </div>
+</div>
+<div class="research-note">Almost every trial that produced a real result ran for at least eight to twelve weeks. Judge the programme at three months, not at three days.</div>
+</section>
+<section id="getting-extra-help-in-australia">
+<h2 class="section-title">Getting extra help in Australia</h2>
+<p class="section-lede">You do not have to do this alone, and supervised programmes work better than unsupervised ones for people at higher risk.</p>
+
+<div class="card-grid side-grid">
+
+  <div class="info-card type-blue">
+    <h4>🩺 Your GP can subsidise allied health</h4>
+    <p>Under a GP Chronic Condition Management Plan (the successor to the old GP Management Plan / Team Care Arrangements), patients with a chronic condition can access a limited number of Medicare-rebated allied health sessions each calendar year — typically five in total, shared across all providers. Ask your GP whether you are eligible for physiotherapy or exercise physiology under this.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>🏃 Physiotherapist or exercise physiologist</h4>
+    <p>A physiotherapist is the right choice for a specific problem — a painful neck, an unsteady gait, vestibular rehabilitation. An accredited exercise physiologist is the right choice for building and supervising a long-term conditioning programme. Both can be seen privately without a referral.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>👥 Community falls programmes</h4>
+    <p>NSW Health and many local councils run group strength-and-balance programmes such as Stepping On. Group programmes add the two things a home sheet cannot: supervision and company. Ask your GP or your local council, or search Active and Healthy NSW.</p>
+    
+  </div>
+  <div class="info-card type-blue">
+    <h4>🏠 My Aged Care and NDIS</h4>
+    <p>If you are over 65 and finding daily tasks harder, a My Aged Care assessment can fund home exercise support, home modifications such as rails, and an occupational therapy home-safety visit. Under 65 with a permanent disability, the same supports may be available through the NDIS.</p>
+    
+  </div>
+</div>
+</section>
+<div class="warning-box"><span class="box-title">Contact me, or seek urgent care, if</span><ul class="check-list"><li><strong>Your foot becomes hot, red or swollen</strong>, with or without pain and with or without a wound — same-day assessment.</li><li><strong>Your urine turns dark, red or cola-coloured after exercise</strong> — this needs urgent assessment. Do not take ibuprofen or similar anti-inflammatories for post-exercise muscle pain if you have a metabolic muscle disease.</li><li>A muscle cramps during exercise and will not release within seconds — stop immediately.</li><li>You develop any break in the skin, blister or new callus on a foot with reduced sensation.</li><li>Your balance or strength deteriorates quickly, over days or weeks. That is not a training problem — it needs re-examination.</li><li>You develop new difficulty swallowing, or your legs give way without warning.</li><li>Muscle soreness is severe, lasts beyond 72 hours, or comes with visible swelling.</li></ul></div>
+
+<section>
+  <h2 class="section-title">Other information sheets</h2>
+  <p class="section-lede">These programmes overlap deliberately. If more than one applies to you, do not do them all — tell me, and we will build one combined programme.</p>
+  <div class="related">
+    <a href="balance-falls.html"><strong>Balance &amp; falls prevention</strong><span>A home programme to steady your balance and reduce your risk of falling — no equipment, no gym, ten to twenty minutes a day.</span></a>
+    <a href="balance-vestibular.html"><strong>Dizziness &amp; vestibular exercises</strong><span>Exercises that retrain the balance organ of the inner ear — for dizziness, unsteadiness and the sense that the world moves when you do.</span></a>
+    <a href="parkinsons-exercise.html"><strong>Parkinson&#39;s exercise programme</strong><span>A comprehensive home programme — big movements, fast movements, hard aerobic work and balance training — built on the principles behind PD Warrior and LSVT BIG.</span></a>
+    <a href="insomnia.html"><strong>Insomnia</strong><span>What actually works for persistent insomnia — the behavioural treatment that outperforms sleeping tablets, relaxation techniques, sleep hygiene, daytime activity and pain control.</span></a>
+    <a href="back-core.html"><strong>Back pain &amp; core</strong><span>A static, spine-sparing core programme built on holds rather than sit-ups — plus the daily habits that decide whether back pain keeps coming back.</span></a>
+    <a href="neck-pain.html"><strong>Neck pain &amp; ergonomics</strong><span>How to set up your desk, phone, car and pillow — and a short daily programme of gentle neck and shoulder-blade exercises that has good evidence behind it.</span></a>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Questions about your own programme?</h2>
+  <p>Bring this sheet to your next appointment and we will adapt it to you — your diagnosis, your other conditions, and what you are actually willing to do.</p>
+  <div class="btn-row"><a class="btn" href="https://www.eastneurology.com.au">East Neurology</a><a class="btn ghost" href="https://eastneuro.info/stress">Stress &amp; relaxation guide</a></div>
+</section>
+</main>
+<footer>
+  <p class="practice">East Neurology</p>
+  <p>301/251 Oxford St, Bondi Junction, Sydney</p>
+  <p><a href="https://www.eastneurology.com.au">eastneurology.com.au</a></p>
+  <p class="fineprint">Written by Dr Ron Granot. Last reviewed August 2026.</p>
+  <p class="fineprint">This information is for educational purposes and does not replace individual medical advice. Content © Dr Ron Granot &amp; East Neurology.</p>
+</footer>
+</body>
+</html>
