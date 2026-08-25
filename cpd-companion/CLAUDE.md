@@ -1,12 +1,25 @@
 # CPD Companion — project notes for Claude sessions
 
-**Status (2026-08-25):** code-complete on branch
-`claude/cpd-companion-phase-2-2hklwj` — all SPEC phases 1–6 + M7 meetings +
-M5b response library; 66 pytest tests green; adversarially reviewed twice,
-findings fixed. Not yet deployed to the server.
-**Next:** server deployment per `../docs/cme-tracker/NEXT-SESSION-PROMPT.md`
-(clone → `.env` keys from user → docker compose → GPU whisper check → feeds
-probe → Task Scheduler → backfill trial), then merge to main.
+**Status (2026-08-26): DEPLOYED on the Windows server**, branch
+`claude/cpd-companion-phase-2-2hklwj`. All SPEC phases 1–6 + M7 + M5b; 69
+pytest tests green; adversarially reviewed twice.
+
+Running **natively, not under Docker** — that host has no Docker Desktop and
+no WSL2. See `../docs/cme-tracker/DEPLOYMENT.md` for the venvs, launcher,
+scheduled tasks, and the Norton-TLS / CUDA-DLL gotchas. Verified on the
+server: real RTX 5090 whisper transcription end-to-end, 14/14 feeds polling,
+PBS baseline 551 items, all pages + exports.
+
+**Blocked / next:**
+1. `claude -p` is **not authenticated** on this host — sign in interactively,
+   then run `scripts\drain_claude.ps1`. One `meeting_summary` job is waiting.
+2. `.env` still holds a **temporary** dashboard password hash — replace with
+   Ron's own, and add `GOOGLE_PLACES_API_KEY` / `EAST_NEURO_PLACE_ID`.
+3. Backfill trial not yet run (needs real reports in
+   `data\inbox\medicolegal\backfill`).
+4. `compute_metrics` instruction-date parsing is unreliable — see the note in
+   `../docs/cme-tracker/DEPLOYMENT.md`.
+5. Then merge to main.
 
 ## Guardrails — binding, do not break
 

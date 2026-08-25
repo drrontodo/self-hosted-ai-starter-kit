@@ -98,6 +98,28 @@ The monthly email-harvest session (`scripts\email-harvest.md`) is still a
 manual Claude Code run — it needs the Gmail connector and an interactive
 session, so it is deliberately not scheduled.
 
+## Known issue — medicolegal instruction-date parsing
+
+`medicolegal.compute_metrics()` finds the instruction date by scanning a
+120-character window after any `_INSTRUCTION_CONTEXT` match and then taking
+`min()` of the dates found. A bare prose mention — "the assumed facts are those
+set out in **the letter of instruction**. The history was of a collision on
+5 January 2025…" — therefore captures the *accident* date, and `min()` prefers
+it over the genuine instruction date.
+
+Observed on a synthetic report: instruction date parsed as 2025-01-05 (the
+accident) rather than 2026-02-02 (the actual letter), which pushed the
+turnaround past the 400-day sanity cap so `turnaround_days` silently became
+`NULL`. A near-miss is worse — it would produce a plausible but wrong
+turnaround feeding the monthly Cat 3 audit.
+
+Suggested fix (not applied — it changes audit metric semantics, and the right
+answer depends on how real reports are actually worded): prefer dates from an
+explicit anchored pattern such as `letter of instruction dated X` /
+`Date of letter of instruction: X`, and only fall back to the loose proximity
+window when no anchored match exists. Tighten the window and drop `min()` in
+favour of the first anchored hit.
+
 ## Restarting the app
 
 Restarts are the user's to perform. To restart: end the running
