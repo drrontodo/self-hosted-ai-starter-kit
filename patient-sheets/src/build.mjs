@@ -12,7 +12,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildCss } from './css.mjs';
+import { buildCss, scopeCss, hostArmour } from './css.mjs';
 import { makeResolver } from './resolve.mjs';
 import { renderBlocks } from './render.mjs';
 import { esc, escText } from './inline.mjs';
@@ -94,7 +94,7 @@ ${body.main}
 </html>`;
 }
 
-function buildSheet(sheet, css, asArtifact = false) {
+function buildSheet(sheet, css, mode = 'page') {
   const { resolve, usage } = makeResolver({
     library,
     globals: { ...theme, sheet: sheet.meta },
@@ -125,7 +125,8 @@ function buildSheet(sheet, css, asArtifact = false) {
   if (sheet.meta.autoRelated !== false) tail.push(resolve('@fragment:related-sheets', { sheet: sheet.meta }));
   if (sheet.meta.autoCta !== false) tail.push(resolve('@fragment:cta-standard', { sheet: sheet.meta }));
 
-  const html = (asArtifact ? artifactPage : page)({
+  const renderPage = { page, artifacts: artifactPage, embed: embedPage }[mode];
+  const html = renderPage({
     sheet,
     css,
     body: {
@@ -137,7 +138,7 @@ function buildSheet(sheet, css, asArtifact = false) {
   return { html, usage: usage() };
 }
 
-function buildIndex(css, asArtifact = false) {
+function buildIndex(css, mode = 'page') {
   const groups = [...new Set(index.map(i => i.group))];
   const blocks = [
     {
@@ -165,7 +166,7 @@ function buildIndex(css, asArtifact = false) {
   };
   const ctx = { sheetId: 'index', renderAll: bs => renderBlocks(bs, ctx), relatedFor: () => [] };
   const heroBlock = { type: 'hero', eyebrow: sheet.meta.eyebrow, title: sheet.meta.title, subtitle: sheet.meta.summary };
-  return (asArtifact ? artifactPage : page)({
+  return { page, artifacts: artifactPage, embed: embedPage }[mode]({
     sheet,
     css,
     body: { hero: renderBlocks([heroBlock], ctx), main: renderBlocks(blocks, ctx) },
@@ -201,13 +202,62 @@ ${body.main}
 </footer>`;
 }
 
-const artifactUrls = (() => {
-  try { return readJson('content/artifact-urls.json'); } catch { return {}; }
-})();
+/**
+ * Embed mode (`--embed`) emits a single <div> per sheet, with the stylesheet scoped
+ * under `.en-sheet`, for pasting into a CMS custom-HTML block (MailerLite, WordPress,
+ * Squarespace). Nothing leaks into the host page's styles and no ids collide.
+ */
+function embedPage({ sheet, body, css }) {
+  const m = sheet.meta;
+  const scoped = `${scopeCss(css)}\n${hostArmour()}`;
+  const fonts = `@import url('${theme.fonts.googleHref}');`;
+  const html = `<div class="en-sheet" data-sheet="${esc(m.id)}">
+<style>
+${fonts}
+${scoped}
+</style>
+${body.hero}
+<main id="en-sheet-main" class="container">
+${body.main}
+</main>
+<footer>
+  <p class="practice">${esc(theme.practice.name)}</p>
+  <p>${esc(theme.practice.address)}</p>
+  <p><a href="${esc(theme.practice.siteUrl)}">${esc(theme.practice.site)}</a></p>
+  ${m.reviewed ? `<p class="fineprint">Written by ${esc(theme.practice.clinician)}. Last reviewed ${esc(m.reviewed)}.</p>` : ''}
+  <p class="fineprint">${esc(theme.practice.copyright)}</p>
+</footer>
+</div>`;
+  return html.replace('href="#main"', 'href="#en-sheet-main"');
+}
 
-function rewriteLinks(html) {
+/**
+ * Where a sheet lives once published, per output mode:
+ *   artifacts -> the published Artifact URLs in content/artifact-urls.json
+ *   embed     -> the practice site, {{links.home}}/<slug>, overridable in content/site-urls.json
+ */
+function linkMapFor(mode) {
+  if (mode === 'artifacts') {
+    try { return readJson('content/artifact-urls.json'); } catch { return {}; }
+  }
+  if (mode === 'embed') {
+    const overrides = (() => {
+      try { return readJson('content/site-urls.json'); } catch { return {}; }
+    })();
+    const base = (theme.links.home ?? '').replace(/\/$/, '');
+    const map = {};
+    for (const s2 of sheets) {
+      map[s2.meta.id] = overrides[s2.meta.id] ?? `${base}/${s2.meta.slug ?? s2.meta.id}`;
+    }
+    return { ...map, ...overrides };
+  }
+  return {};
+}
+
+function rewriteLinks(html, mode) {
+  const map = linkMapFor(mode);
   return html.replace(/href="([a-z0-9-]+)\.html"/g, (whole, id) =>
-    artifactUrls[id] ? `href="${artifactUrls[id]}"` : whole);
+    map[id] ? `href="${map[id]}"` : whole);
 }
 
 const only = process.argv[2];
@@ -215,28 +265,42 @@ const css = buildCss(theme);
 fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
 
 const artifactMode = process.argv.includes('--artifacts');
-if (artifactMode) fs.mkdirSync(path.join(ROOT, 'dist/artifacts'), { recursive: true });
+const embedMode = process.argv.includes('--embed');
+const mode = embedMode ? 'embed' : artifactMode ? 'artifacts' : 'page';
+const outDir = mode === 'page' ? 'dist' : `dist/${mode}`;
+fs.mkdirSync(path.join(ROOT, outDir), { recursive: true });
 
 let count = 0;
 const allUsage = new Map();
 for (const sheet of sheets) {
-  if (only && only !== '--artifacts' && sheet.meta.id !== only) continue;
-  const { html, usage } = buildSheet(sheet, css, artifactMode);
-  const out = artifactMode
-    ? path.join(ROOT, 'dist/artifacts', `${sheet.meta.id}.html`)
-    : path.join(ROOT, 'dist', `${sheet.meta.id}.html`);
-  fs.writeFileSync(out, artifactMode ? rewriteLinks(html) : html);
+  if (only && only.startsWith('--') === false && sheet.meta.id !== only) continue;
+  const { html, usage } = buildSheet(sheet, css, mode);
+  const out = path.join(ROOT, outDir, `${sheet.meta.id}.html`);
+  fs.writeFileSync(out, mode === 'page' ? html : rewriteLinks(html, mode));
   usage.forEach(u => allUsage.set(u, (allUsage.get(u) ?? 0) + 1));
   console.log(`  ✓ ${sheet.meta.id.padEnd(22)} ${(html.length / 1024).toFixed(1)} KB  ${sheet.meta.title}`);
   count++;
 }
-if (!only || artifactMode) {
-  const idx = buildIndex(css, artifactMode);
-  fs.writeFileSync(
-    path.join(ROOT, artifactMode ? 'dist/artifacts' : 'dist', 'index.html'),
-    artifactMode ? rewriteLinks(idx) : idx
-  );
+if (!only || only.startsWith('--')) {
+  const idx = buildIndex(css, mode);
+  fs.writeFileSync(path.join(ROOT, outDir, 'index.html'), mode === 'page' ? idx : rewriteLinks(idx, mode));
   console.log(`  ✓ ${'index'.padEnd(22)} contents page`);
+
+  if (mode === 'embed') {
+    // A publishing manifest: what to call each page and where to put it.
+    const manifest = sheets.map(s2 => ({
+      id: s2.meta.id,
+      file: `${s2.meta.id}.html`,
+      pageHeading: s2.meta.pageHeading ?? s2.meta.title,
+      slug: s2.meta.slug ?? s2.meta.id,
+      navLabel: s2.meta.shortTitle ?? s2.meta.title,
+      metaDescription: s2.meta.summary,
+      group: s2.meta.group,
+      order: s2.meta.order,
+    }));
+    fs.writeFileSync(path.join(ROOT, outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
+    console.log(`  ✓ ${'manifest.json'.padEnd(22)} page headings, slugs and meta descriptions`);
+  }
 }
 
 const shared = [...allUsage.entries()].filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]);

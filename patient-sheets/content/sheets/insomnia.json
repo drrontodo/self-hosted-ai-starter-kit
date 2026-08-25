@@ -8,7 +8,9 @@
     "eyebrow": "Patient Information",
     "summary": "What actually works for persistent insomnia — the behavioural treatment that outperforms sleeping tablets, relaxation techniques, sleep hygiene, daytime activity and pain control.",
     "reviewed": "August 2026",
-    "artifactTitle": "Treating Insomnia"
+    "artifactTitle": "Treating Insomnia",
+    "slug": "insomnia",
+    "pageHeading": "Treating Insomnia"
   },
   "blocks": [
     {

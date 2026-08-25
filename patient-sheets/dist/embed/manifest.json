@@ -1,0 +1,72 @@
+[
+  {
+    "id": "balance-falls",
+    "file": "balance-falls.html",
+    "pageHeading": "Balance and Strength at Home",
+    "slug": "balance",
+    "navLabel": "Balance & falls prevention",
+    "metaDescription": "A home programme to steady your balance and reduce your risk of falling — no equipment, no gym, ten to twenty minutes a day.",
+    "group": "Balance and falls",
+    "order": 1
+  },
+  {
+    "id": "balance-neuromuscular",
+    "file": "balance-neuromuscular.html",
+    "pageHeading": "Balance When the Problem Is Nerve or Muscle",
+    "slug": "balance-nerve",
+    "navLabel": "Neuropathy & myopathy balance",
+    "metaDescription": "A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.",
+    "group": "Balance and falls",
+    "order": 2
+  },
+  {
+    "id": "balance-vestibular",
+    "file": "balance-vestibular.html",
+    "pageHeading": "Vestibular Rehabilitation at Home",
+    "slug": "dizziness",
+    "navLabel": "Dizziness & vestibular exercises",
+    "metaDescription": "Exercises that retrain the balance organ of the inner ear — for dizziness, unsteadiness and the sense that the world moves when you do.",
+    "group": "Balance and falls",
+    "order": 3
+  },
+  {
+    "id": "parkinsons-exercise",
+    "file": "parkinsons-exercise.html",
+    "pageHeading": "Exercise for Parkinson's Disease",
+    "slug": "parkinsons",
+    "navLabel": "Parkinson's exercise programme",
+    "metaDescription": "A comprehensive home programme — big movements, fast movements, hard aerobic work and balance training — built on the principles behind PD Warrior and LSVT BIG.",
+    "group": "Balance and falls",
+    "order": 4
+  },
+  {
+    "id": "insomnia",
+    "file": "insomnia.html",
+    "pageHeading": "Treating Insomnia",
+    "slug": "insomnia",
+    "navLabel": "Insomnia",
+    "metaDescription": "What actually works for persistent insomnia — the behavioural treatment that outperforms sleeping tablets, relaxation techniques, sleep hygiene, daytime activity and pain control.",
+    "group": "Sleep and stress",
+    "order": 5
+  },
+  {
+    "id": "back-core",
+    "file": "back-core.html",
+    "pageHeading": "Core Strengthening for Back Pain",
+    "slug": "back",
+    "navLabel": "Back pain & core",
+    "metaDescription": "A static, spine-sparing core programme built on holds rather than sit-ups — plus the daily habits that decide whether back pain keeps coming back.",
+    "group": "Spine",
+    "order": 6
+  },
+  {
+    "id": "neck-pain",
+    "file": "neck-pain.html",
+    "pageHeading": "Neck Pain: Ergonomics and Gentle Strengthening",
+    "slug": "neck",
+    "navLabel": "Neck pain & ergonomics",
+    "metaDescription": "How to set up your desk, phone, car and pillow — and a short daily programme of gentle neck and shoulder-blade exercises that has good evidence behind it.",
+    "group": "Spine",
+    "order": 7
+  }
+]

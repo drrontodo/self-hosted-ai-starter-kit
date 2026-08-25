@@ -8,7 +8,9 @@
     "eyebrow": "Patient Information",
     "summary": "A static, spine-sparing core programme built on holds rather than sit-ups — plus the daily habits that decide whether back pain keeps coming back.",
     "reviewed": "August 2026",
-    "artifactTitle": "Core Strengthening for Back Pain"
+    "artifactTitle": "Core Strengthening for Back Pain",
+    "slug": "back",
+    "pageHeading": "Core Strengthening for Back Pain"
   },
   "blocks": [
     {

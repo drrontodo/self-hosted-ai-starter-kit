@@ -8,7 +8,9 @@
     "eyebrow": "Patient Information",
     "summary": "A home programme for imbalance caused by peripheral neuropathy or muscle disease — training the senses that still work, and the muscles that still respond.",
     "reviewed": "August 2026",
-    "artifactTitle": "Balance with Neuropathy and Myopathy"
+    "artifactTitle": "Balance with Neuropathy and Myopathy",
+    "slug": "balance-nerve",
+    "pageHeading": "Balance When the Problem Is Nerve or Muscle"
   },
   "blocks": [
     {

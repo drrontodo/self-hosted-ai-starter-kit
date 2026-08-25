@@ -369,3 +369,115 @@ footer .fineprint { font-size: .82rem; max-width: 620px; margin: 1rem auto 0; }
 }
 `.trim();
 }
+
+/**
+ * Scope a stylesheet under a single wrapper class so the page can be pasted into a
+ * CMS (MailerLite, WordPress, Squarespace) without its rules leaking out and
+ * fighting the site's own stylesheet.
+ *
+ *   :root / body  ->  .en-sheet          (custom properties land on the wrapper)
+ *   .step-card    ->  .en-sheet .step-card
+ *   @media { … }  ->  contents scoped the same way
+ *   @keyframes    ->  left intact, but renamed so it cannot collide
+ */
+export function scopeCss(css, scope = '.en-sheet') {
+  const keyframeRename = name => `enSheet_${name}`;
+
+  function scopeSelector(sel) {
+    return sel
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean)
+      .map(s => {
+        if (s === ':root' || s === 'body' || s === 'html') return scope;
+        if (s === '*') return `${scope}, ${scope} *`;
+        if (s.startsWith('@')) return s;
+        return `${scope} ${s}`;
+      })
+      .join(', ');
+  }
+
+  function walk(input) {
+    let out = '';
+    let buf = '';
+    for (let i = 0; i < input.length; i++) {
+      const ch = input[i];
+      if (ch !== '{') { buf += ch; continue; }
+
+      // find the matching close brace
+      let depth = 1, j = i + 1;
+      while (j < input.length && depth > 0) {
+        if (input[j] === '{') depth++;
+        else if (input[j] === '}') depth--;
+        j++;
+      }
+      const head = buf.trim();
+      const body = input.slice(i + 1, j - 1);
+      buf = '';
+      i = j - 1;
+
+      if (head.startsWith('@keyframes')) {
+        out += `${head.replace(/@keyframes\s+([\w-]+)/, (_, n) => `@keyframes ${keyframeRename(n)}`)} {${body}}\n`;
+      } else if (/^@(media|supports|layer)/.test(head)) {
+        out += `${head} {\n${walk(body)}}\n`;
+      } else if (head.startsWith('@')) {
+        out += `${head} {${body}}\n`;
+      } else {
+        out += `${scopeSelector(head)} {${body}}\n`;
+      }
+    }
+    return out + buf;
+  }
+
+  let scoped = walk(css);
+  // keep animation references pointing at the renamed keyframes
+  scoped = scoped.replace(/animation:\s*([\w-]+)/g, (whole, name) =>
+    whole.replace(name, keyframeRename(name)));
+  return scoped;
+}
+
+/**
+ * A CMS page's own stylesheet often forces fonts and colours with !important, and
+ * generic selectors like `.container` or `section` collide by name. This block is
+ * appended in embed mode only: it re-asserts the handful of declarations a host
+ * page most commonly overrides, scoped to the wrapper so nothing escapes.
+ */
+export function hostArmour(scope = '.en-sheet') {
+  const S = scope;
+  return `
+/* ---------- host-stylesheet armour (embed builds only) ---------- */
+${S}, ${S} p, ${S} li, ${S} td, ${S} th, ${S} summary, ${S} strong, ${S} em { font-family: var(--font-body) !important; }
+${S} h1, ${S} h2, ${S} h3, ${S} h4, ${S} h5, ${S} .step-number, ${S} .faq summary { font-family: var(--font-heading) !important; }
+${S} .container, ${S} section, ${S} main, ${S} footer { background: transparent !important; border: 0 !important; max-width: 900px; }
+${S} .hero, ${S} .cta, ${S} .science-section, ${S} .phase-banner { border: 0 !important; }
+${S} table, ${S} th, ${S} td { border: 0 !important; }
+${S} table.plan th, ${S} table.plan td { border-bottom: 1px solid var(--border) !important; }
+${S} p { color: var(--text-medium) !important; }
+${S} .intro p, ${S} .highlight-box, ${S} .reassurance-box, ${S} .warning-box { color: var(--text-dark) !important; }
+${S} .intro p { color: var(--text-medium) !important; }
+${S} h1, ${S} h2, ${S} h3, ${S} h4 { color: var(--primary) !important; }
+${S} .phase-b h2 { color: var(--phase-b) !important; }
+${S} .phase-c h2 { color: var(--phase-c) !important; }
+${S} .phase-warm h2 { color: var(--accent) !important; }
+${S} .info-card.type-accent h4 { color: var(--accent) !important; }
+${S} .info-card.type-success h4 { color: var(--success) !important; }
+${S} .info-card.type-purple h4 { color: var(--phase-c) !important; }
+${S} .info-card.type-blue h4 { color: var(--phase-b) !important; }
+${S} .info-card.type-danger h4 { color: var(--danger) !important; }
+${S} .highlight-box .box-title { color: var(--accent) !important; }
+${S} .reassurance-box .box-title { color: var(--success) !important; }
+${S} .warning-box .box-title { color: var(--danger) !important; }
+${S} .research-note { color: var(--text-light) !important; }
+${S} .hero h1, ${S} .hero p, ${S} .hero .eyebrow, ${S} .cta h2, ${S} .cta p,
+${S} .step-number, ${S} .evidence-badge, ${S} table.plan thead th { color: #fff !important; }
+${S} .btn { color: var(--primary) !important; }
+${S} .btn.ghost { color: #fff !important; }
+${S} a { color: var(--primary); }
+${S} .meta-item strong { color: var(--primary) !important; }
+${S} .meta-item.safety strong { color: var(--accent) !important; }
+${S} li::before { content: none; }
+${S} .check-list li::before { content: '✓'; color: var(--success); }
+${S} .check-list.cross li::before { content: '✕'; color: var(--danger); }
+${S} .check-list.arrow li::before { content: '→'; color: var(--accent); }
+`.trim();
+}

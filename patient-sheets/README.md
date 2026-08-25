@@ -93,18 +93,29 @@ Built 7 sheet(s). 24 content items were reused across sheets:
 
 ## Publishing
 
+Three output modes:
+
 ```
-node src/build.mjs --artifacts
+node src/build.mjs              # dist/*.html            standalone single-file pages
+node src/build.mjs --embed      # dist/embed/*.html      paste into a CMS page
+node src/build.mjs --artifacts  # dist/artifacts/*.html  Claude Artifact fragments
 ```
 
-writes `dist/artifacts/*.html` — the same pages as body-only fragments suitable
-for publishing as Claude Artifacts (no `<html>`/`<head>` wrapper, a clean title
-without the practice suffix). Put the published URLs in
-`content/artifact-urls.json` and rebuild; the cross-links between sheets are
+**Embed mode** emits one `<div class="en-sheet">` per sheet with the whole stylesheet
+scoped under that class (selectors prefixed, keyframes renamed) plus an armour layer
+that re-asserts the fonts and colours a host stylesheet commonly overrides with
+`!important`. Paste it into a custom-HTML block and nothing leaks in either
+direction. It also writes `dist/embed/manifest.json` — page heading, slug and meta
+description for each sheet — and rewrites inter-sheet links to
+`{{links.home}}/<slug>`, overridable per sheet in `content/site-urls.json`.
+
+**Artifact mode**
+
+emits body-only fragments with a clean title for publishing as Claude Artifacts. Put
+the published URLs in `content/artifact-urls.json` and rebuild; the cross-links are
 rewritten to those URLs so the set browses as one site.
 
-For the practice website, use the full pages in `dist/` instead — they are
-self-contained single files with the CSS inlined.
+See `HANDOVER.md` for the step-by-step MailerLite publishing brief.
 
 ## Block types
 
