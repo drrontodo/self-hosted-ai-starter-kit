@@ -71,16 +71,23 @@ DEFAULT_FEEDS = [
     ("NeurologyLive", "rss", "https://www.neurologylive.com/rss", "General", 1, ""),
     ("The Medical Republic", "rss", "https://www.medicalrepublic.com.au/feed",
      "General", 1, ""),
+    # The four feeds below were seeded from unverified URLs and were probed
+    # from the deployment network on 2026-08-25; see the deployment notes.
     ("Neurology (AAN) eTOC", "rss",
      "https://www.neurology.org/action/showFeed?type=etoc&feed=rss&jc=wnl",
-     "General", 1, "unverified URL — copy the exact feed from neurology.org/rss"),
+     "General", 1, ""),
+    # onlineFirst_16.xml 404s; site_16 is JAMA Neurology but the feed id is 72.
     ("JAMA Neurology Online First", "rss",
-     "https://jamanetwork.com/rss/site_16/onlineFirst_16.xml",
-     "General", 1, "unverified URL — copy the exact feed from jamanetwork.com/pages/rss"),
-    ("Lancet Neurology", "rss", "https://www.thelancet.com/rssfeed/laneur_online.xml",
-     "General", 1, "unverified URL — copy the exact feed from thelancet.com/content/rss"),
-    ("Medscape Neurology", "rss", "https://www.medscape.com/cx/rssfeeds/2698.xml",
-     "General", 0, "disabled until the URL is confirmed from the home network"),
+     "https://jamanetwork.com/rss/site_16/onlineFirst_72.xml",
+     "General", 1, ""),
+    # laneur_online.xml parses but carries ~2 entries; the issue TOC feed is the
+    # one that actually delivers.
+    ("Lancet Neurology", "rss", "https://www.thelancet.com/rssfeed/laneur_current.xml",
+     "General", 1, ""),
+    # 2698 serves *Urology* headlines despite the neurology-looking legacy id;
+    # 2684 is "Medscape Neurology". Enabled now the id is confirmed.
+    ("Medscape Neurology", "rss", "https://www.medscape.com/cx/rssfeeds/2684.xml",
+     "General", 1, ""),
     ("PubMed — stroke", "pubmed", f"(stroke) AND {_PUBMED_FILTER}", "Stroke", 1, ""),
     ("PubMed — epilepsy", "pubmed", f"(epilepsy) AND {_PUBMED_FILTER}", "Epilepsy", 1, ""),
     ("PubMed — multiple sclerosis", "pubmed",
@@ -315,6 +322,78 @@ def _save_snapshot(conn, source: str, content: dict) -> None:
     )
 
 
+PBS_PAGE_LIMIT = 1000
+# Guard against an API that never stops reporting more records.
+PBS_MAX_PAGES = 60
+
+
+def _pbs_get(url: str, params: dict, headers: dict) -> dict:
+    """One PBS API call, retrying the (aggressive) per-minute rate limit."""
+    delay = 5.0
+    last = None
+    for attempt in range(5):
+        last = httpx.get(url, params=params, headers=headers, timeout=60,
+                         follow_redirects=True)
+        if last.status_code == 429 and attempt < 4:
+            time.sleep(delay)
+            delay *= 2
+            continue
+        break
+    last.raise_for_status()
+    return last.json()
+
+
+def _pbs_pages(url: str, params: dict, headers: dict):
+    """Yield each page of `data` rows from a PBS collection endpoint.
+
+    The v3 API reports `_meta.total_records`, never `total_pages`. Paging on
+    `total_pages` (as this code first did) defaulted to the current page and so
+    silently stopped after page 1 — one tenth of the schedule.
+    """
+    page = 1
+    while page <= PBS_MAX_PAGES:
+        body = _pbs_get(url, {**params, "limit": PBS_PAGE_LIMIT, "page": page}, headers)
+        rows = body.get("data", body if isinstance(body, list) else [])
+        if not rows:
+            return
+        yield rows
+        meta = body.get("_meta", {}) if isinstance(body, dict) else {}
+        total = int(meta.get("total_records") or 0)
+        if total:
+            if page * PBS_PAGE_LIMIT >= total:
+                return
+        elif len(rows) < PBS_PAGE_LIMIT:
+            return
+        page += 1
+        time.sleep(1.0)
+
+
+def _fetch_pbs_atc_map(base: str, params: dict, headers: dict) -> dict[str, str]:
+    """{pbs_code: atc_code} for the current schedule.
+
+    `/items` rows carry no ATC field at all, so the ATC prefix filter has to be
+    driven from `/item-atc-relationships`. Where an item maps to several ATC
+    codes, the highest `atc_priority_pct` wins.
+    """
+    best: dict[str, tuple[float, str]] = {}
+    for rows in _pbs_pages(f"{base}/item-atc-relationships", params, headers):
+        for row in rows:
+            code = str(row.get("pbs_code") or "").strip()
+            atc = str(row.get("atc_code") or "").strip().upper()
+            if not code or not atc:
+                continue
+            try:
+                priority = float(row.get("atc_priority_pct") or 0)
+            except (TypeError, ValueError):
+                priority = 0.0
+            current = best.get(code)
+            # Tie-break on the code itself so the map is order-independent:
+            # a month-to-month diff must not churn on API row ordering.
+            if current is None or (priority, atc) > current:
+                best[code] = (priority, atc)
+    return {code: atc for code, (_priority, atc) in best.items()}
+
+
 def _fetch_pbs_items() -> dict[str, dict]:
     """Current PBS schedule, filtered to the configured ATC prefixes.
 
@@ -330,36 +409,37 @@ def _fetch_pbs_items() -> dict[str, dict]:
     headers = {"User-Agent": USER_AGENT}
     if config.PBS_SUBSCRIPTION_KEY:
         headers["Subscription-Key"] = config.PBS_SUBSCRIPTION_KEY
+    base = config.PBS_API_BASE.rstrip("/")
+    params = {"get_latest_schedule_only": "true"}
+
+    atc_by_code = _fetch_pbs_atc_map(base, params, headers)
+    wanted = {code: atc for code, atc in atc_by_code.items()
+              if not prefixes or atc.startswith(prefixes)}
+    if not wanted:
+        return {}
+
+    # Several brands share one pbs_code, so brands are accumulated and sorted
+    # rather than last-write-wins — otherwise row ordering alone would show up
+    # as a "changed" listing every month.
+    brands: dict[str, set[str]] = {}
     items: dict[str, dict] = {}
-    url = f"{config.PBS_API_BASE}/items"
-    page = 1
-    while True:
-        resp = httpx.get(url, params={
-            "get_latest_schedule_only": "true", "limit": 1000, "page": page,
-        }, headers=headers, timeout=60, follow_redirects=True)
-        resp.raise_for_status()
-        body = resp.json()
-        rows = body.get("data", body if isinstance(body, list) else [])
-        if not rows:
-            break
+    for rows in _pbs_pages(f"{base}/items", params, headers):
         for row in rows:
-            atc = str(row.get("atc5_code") or row.get("atc_code") or "").upper()
-            if prefixes and not atc.startswith(prefixes):
+            code = str(row.get("pbs_code") or "").strip()
+            atc = wanted.get(code)
+            if atc is None:
                 continue
-            code = str(row.get("pbs_code") or row.get("li_item_id") or "")
-            if not code:
-                continue
-            items[code] = {
-                "name": str(row.get("drug_name") or row.get("li_drug_name") or ""),
-                "brand": str(row.get("brand_name") or ""),
-                "atc": atc,
-                "restriction": str(row.get("benefit_type_code") or ""),
-            }
-        meta = body.get("_meta", {})
-        if page >= int(meta.get("total_pages", page)):
-            break
-        page += 1
-        time.sleep(0.5)
+            entry = items.setdefault(code, {"name": "", "brand": "", "atc": atc,
+                                            "restriction": ""})
+            if not entry["name"]:
+                entry["name"] = str(row.get("drug_name") or row.get("li_drug_name") or "")
+            if not entry["restriction"]:
+                entry["restriction"] = str(row.get("benefit_type_code") or "")
+            brand = str(row.get("brand_name") or "").strip()
+            if brand:
+                brands.setdefault(code, set()).add(brand)
+    for code, names in brands.items():
+        items[code]["brand"] = ", ".join(sorted(names))
     return items
 
 

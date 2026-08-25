@@ -354,3 +354,107 @@ def test_feeds_page_management(client):
     client.post(f"/feeds/{feed['id']}/delete", follow_redirects=False)
     with db.tx() as conn:
         assert conn.execute("SELECT * FROM feeds WHERE id = ?", (feed["id"],)).fetchone() is None
+
+
+# --- _fetch_pbs_items against the real v3 response shape ----------------------
+# The live API carries no ATC field on /items and reports total_records rather
+# than total_pages, so these exercise the HTTP layer the other PBS tests stub.
+
+class FakePbsResponse:
+    def __init__(self, payload, status_code=200):
+        self._payload = payload
+        self.status_code = status_code
+
+    def raise_for_status(self):
+        if self.status_code >= 400:
+            raise RuntimeError(f"HTTP {self.status_code}")
+
+    def json(self):
+        return self._payload
+
+
+def _pbs_page(rows, total):
+    return {"data": rows, "_meta": {"total_records": total}}
+
+
+@pytest.fixture
+def no_sleep(monkeypatch):
+    monkeypatch.setattr(news.time, "sleep", lambda *_: None)
+
+
+def test_pbs_fetch_joins_atc_and_filters_by_prefix(client, monkeypatch, no_sleep):
+    """ATC comes from /item-atc-relationships; /items rows have no ATC field."""
+    db.set_setting("pbs_atc_prefixes", "N03,L04")
+    rel = [
+        {"pbs_code": "1001A", "atc_code": "N03AX16", "atc_priority_pct": "100"},
+        {"pbs_code": "1002B", "atc_code": "A07AA11", "atc_priority_pct": "100"},
+        {"pbs_code": "1003C", "atc_code": "L04AA27", "atc_priority_pct": "100"},
+    ]
+    items = [
+        {"pbs_code": "1001A", "drug_name": "Pregabalin", "brand_name": "Lyrica",
+         "benefit_type_code": "A"},
+        {"pbs_code": "1001A", "drug_name": "Pregabalin", "brand_name": "Alyrica",
+         "benefit_type_code": "A"},
+        {"pbs_code": "1002B", "drug_name": "Rifaximin", "brand_name": "Xifaxan",
+         "benefit_type_code": "A"},
+        {"pbs_code": "1003C", "drug_name": "Fingolimod", "brand_name": "Gilenya",
+         "benefit_type_code": "A"},
+    ]
+
+    def fake_get(url, params=None, headers=None, **kwargs):
+        rows = rel if "item-atc-relationships" in url else items
+        return FakePbsResponse(_pbs_page(rows, len(rows)))
+
+    monkeypatch.setattr(news.httpx, "get", fake_get)
+    out = news._fetch_pbs_items()
+
+    assert set(out) == {"1001A", "1003C"}, "A07 item must be filtered out by ATC"
+    assert out["1001A"]["atc"] == "N03AX16"
+    assert out["1001A"]["name"] == "Pregabalin"
+    # brands accumulate and sort, so row order alone never reads as a change
+    assert out["1001A"]["brand"] == "Alyrica, Lyrica"
+
+
+def test_pbs_fetch_pages_past_the_first_page(client, monkeypatch, no_sleep):
+    """total_pages does not exist in v3; paging must follow total_records."""
+    db.set_setting("pbs_atc_prefixes", "N03")
+    total = news.PBS_PAGE_LIMIT + 1
+    rel_rows = [{"pbs_code": f"P{i}", "atc_code": "N03AX16", "atc_priority_pct": "100"}
+                for i in range(total)]
+    item_rows = [{"pbs_code": f"P{i}", "drug_name": "Drug", "brand_name": "B",
+                  "benefit_type_code": "A"} for i in range(total)]
+    seen_pages = []
+
+    def fake_get(url, params=None, headers=None, **kwargs):
+        page = int(params["page"])
+        limit = int(params["limit"])
+        rows = rel_rows if "item-atc-relationships" in url else item_rows
+        seen_pages.append((("rel" if rows is rel_rows else "items"), page))
+        return FakePbsResponse(_pbs_page(rows[(page - 1) * limit: page * limit], total))
+
+    monkeypatch.setattr(news.httpx, "get", fake_get)
+    out = news._fetch_pbs_items()
+
+    assert len(out) == total, "the tail page was dropped"
+    assert ("items", 2) in seen_pages
+
+
+def test_pbs_fetch_retries_rate_limit(client, monkeypatch, no_sleep):
+    db.set_setting("pbs_atc_prefixes", "N03")
+    calls = {"n": 0}
+
+    def fake_get(url, params=None, headers=None, **kwargs):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return FakePbsResponse({"errors": [{"code": "429"}]}, status_code=429)
+        rows = ([{"pbs_code": "1001A", "atc_code": "N03AX16", "atc_priority_pct": "100"}]
+                if "item-atc-relationships" in url
+                else [{"pbs_code": "1001A", "drug_name": "Pregabalin",
+                       "brand_name": "Lyrica", "benefit_type_code": "A"}])
+        return FakePbsResponse(_pbs_page(rows, len(rows)))
+
+    monkeypatch.setattr(news.httpx, "get", fake_get)
+    out = news._fetch_pbs_items()
+
+    assert calls["n"] > 1, "a 429 must be retried, not raised"
+    assert set(out) == {"1001A"}

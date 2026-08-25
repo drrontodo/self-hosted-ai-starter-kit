@@ -4,7 +4,16 @@ Self-hosted tracker for RACP MyCPD requirements. See [../docs/cme-tracker/SPEC.m
 
 **Built so far (Phases 1–6 + M7 — feature-complete per the spec):** FastAPI + SQLite app with dashboard (progress bars, mandatory-items checklist, audit-readiness score, activity log, draft inbox), the Claude Code session-logging endpoint with weekly rollup into draft Category 1 activities, the meeting-recording pipeline (upload → local faster-whisper transcription → de-identified minutes via Claude Code → draft entry with evidence), the neurology news digest (RSS + PubMed polling, PBS schedule diff, Stroke Foundation guidelines diff, nightly Claude digest job, reading timer + weekly reading rollup with a generated reading-log evidence document), the medicolegal report audit engine (watched inbox folder, local docx/pdf text extraction, objective metrics vs a configurable NSW UCPR Sch 7 checklist, monthly Claude-drafted audit with month-on-month trends, sign-off into a confirmed Cat 3 activity with a de-identified evidence document), the patient-feedback loop (daily Google reviews polling + quarterly themed review cycles with a practice-improvement backlog), the PDP builder, per-activity evidence upload, the monthly email-harvest runner prompt, the practice growth loop (digest items → house-style patient info sheets, quarterly service-opportunity briefs and referrer newsletters, published-page refresh flagging), MyCPD CSV export, the per-year audit bundle (register + all evidence in one zip — the 30 June audit response, pre-built), and nightly backups.
 
-## Run it (Windows server, Docker Desktop)
+## Run it
+
+> **On the deployed server this app runs natively, not under Docker** — that
+> host has no Docker Desktop and no WSL2. See
+> [`../docs/cme-tracker/DEPLOYMENT.md`](../docs/cme-tracker/DEPLOYMENT.md) for
+> the actual deployment (venvs, `scripts\start-cpd.ps1`, scheduled tasks, and
+> the Norton TLS / CUDA DLL gotchas). The Docker path below still works
+> anywhere Docker is installed.
+
+### Docker Desktop
 
 ```powershell
 cd cpd-companion
@@ -17,7 +26,9 @@ Dashboard: http://localhost:8340 (or http://<server-ip>:8340 from other LAN devi
 
 Storage layout: the SQLite database lives on a Docker named volume (`cpd_data`) — reliable WAL locking on Docker Desktop. Evidence documents, meeting audio, transcripts, and the nightly backup zips are bind-mounted under `cpd-companion/data/` on the host so you (and `drain_whisper.py`) can reach them from Windows; include `data/backups/` in your normal backup routine — each zip contains the full database plus evidence.
 
-Without Docker: `pip install -r requirements.txt`, set the same env vars plus `CPD_DATA_DIR=C:\cpd-data`, then `uvicorn app.main:app --host 0.0.0.0 --port 8340`. Run a **single process** (no `--workers`) — the scheduler and SQLite assume it.
+### Without Docker
+
+`pip install -r requirements.txt`, set the same env vars plus a `CPD_DATA_DIR` (e.g. `CPD_DATA_DIR=C:\cpd-data`), then `uvicorn app.main:app --host 0.0.0.0 --port 8340 --env-file .env`. Run a **single process** (no `--workers`) — the scheduler and SQLite assume it. This is how the server runs; `scripts\start-cpd.ps1` wraps exactly this.
 
 ### Meeting recordings (Annual Conversation, peer discussions, M&M)
 
