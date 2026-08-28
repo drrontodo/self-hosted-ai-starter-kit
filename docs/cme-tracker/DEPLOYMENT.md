@@ -98,27 +98,45 @@ The monthly email-harvest session (`scripts\email-harvest.md`) is still a
 manual Claude Code run — it needs the Gmail connector and an interactive
 session, so it is deliberately not scheduled.
 
-## Known issue — medicolegal instruction-date parsing
+## Turnaround = appointment → completed report (fixed 2026-08-28)
 
-`medicolegal.compute_metrics()` finds the instruction date by scanning a
-120-character window after any `_INSTRUCTION_CONTEXT` match and then taking
-`min()` of the dates found. A bare prose mention — "the assumed facts are those
+Turnaround was originally instruction-date → report-date, and the instruction
+date was found by scanning 120 characters after *any* `_INSTRUCTION_CONTEXT`
+match, then taking `min()`. A bare prose mention — "the assumed facts are those
 set out in **the letter of instruction**. The history was of a collision on
-5 January 2025…" — therefore captures the *accident* date, and `min()` prefers
-it over the genuine instruction date.
+5 January 2025…" — captured the *accident* date, which `min()` then preferred.
+On a test report that produced an instruction date of 2025-01-05 instead of
+2026-02-02, pushing the turnaround past the 400-day cap so `turnaround_days`
+silently became `NULL`. A near-miss would have been worse: a plausible but
+wrong turnaround feeding the monthly Cat 3 audit.
 
-Observed on a synthetic report: instruction date parsed as 2025-01-05 (the
-accident) rather than 2026-02-02 (the actual letter), which pushed the
-turnaround past the 400-day sanity cap so `turnaround_days` silently became
-`NULL`. A near-miss is worse — it would produce a plausible but wrong
-turnaround feeding the monthly Cat 3 audit.
+Turnaround now measures what Ron actually wants — **the days from the
+appointment to the completed report**:
 
-Suggested fix (not applied — it changes audit metric semantics, and the right
-answer depends on how real reports are actually worded): prefer dates from an
-explicit anchored pattern such as `letter of instruction dated X` /
-`Date of letter of instruction: X`, and only fall back to the loose proximity
-window when no anchored match exists. Tighten the window and drop `min()` in
-favour of the first anchored hit.
+- `report_date`: an explicitly labelled "date of report" if present, else the
+  first date in the top `_TOP_OF_FILE_CHARS` (1500) of the document, else the
+  latest date anywhere.
+- `appointment_date`: **anchored patterns only** (`date of appointment`,
+  `date of examination/assessment/consultation`, `examined … on`, `attended on`
+  and the like) with a tight 60-character window. No appointment date means
+  `turnaround_days` is `NULL` — never a guess from another date.
+- `instruction_date` is still parsed and stored, but no longer drives
+  turnaround.
+
+Report wording varies, so check the first real month's `appointment_date`
+values on the Audits page. Extending `_APPOINTMENT_CONTEXT` in
+`app/medicolegal.py` is the place to add any phrasing the reports use.
+
+## Schema changes after first deployment
+
+`db.SCHEMA` only ever `CREATE`s, and SQLite has no `ADD COLUMN IF NOT EXISTS`.
+Now that the deployed database holds real data it is no longer disposable, so
+`db._ADDED_COLUMNS` + `_apply_added_columns()` apply new columns idempotently
+at startup (this is how `reports.appointment_date` reached the live DB without
+losing the 300-plus news items already in it).
+
+That helper covers **column additions only**. Renames, type changes or new
+constraints still need a real migration path built first.
 
 ## Restarting the app
 

@@ -10,16 +10,22 @@ scheduled tasks, and the Norton-TLS / CUDA-DLL gotchas. Verified on the
 server: real RTX 5090 whisper transcription end-to-end, 14/14 feeds polling,
 PBS baseline 551 items, all pages + exports.
 
+Keys verified live: Google Places (East Neurology, 4.8 / 155 ratings), NCBI,
+PBS. Note the app reads **`cpd-companion\.env`** — the repo-root `.env` is the
+old n8n starter kit's, is not read, and is now untracked so a stray key pasted
+there cannot be committed.
+
 **Blocked / next:**
-1. `claude -p` is **not authenticated** on this host — sign in interactively,
-   then run `scripts\drain_claude.ps1`. One `meeting_summary` job is waiting.
-2. `.env` still holds a **temporary** dashboard password hash — replace with
-   Ron's own, and add `GOOGLE_PLACES_API_KEY` / `EAST_NEURO_PLACE_ID`.
-3. Backfill trial not yet run (needs real reports in
-   `data\inbox\medicolegal\backfill`).
-4. `compute_metrics` instruction-date parsing is unreliable — see the note in
-   `../docs/cme-tracker/DEPLOYMENT.md`.
-5. Then merge to main.
+1. `.env` still holds the **temporary** dashboard password hash generated
+   during deployment — replace it with Ron's own, then restart.
+2. Backfill trial not yet run (needs real reports in
+   `data\inbox\medicolegal\backfill`). Check `appointment_date` parses on the
+   first real batch — report wording varies; extend `_APPOINTMENT_CONTEXT`.
+3. Then merge to main.
+
+Turnaround is **appointment → completed report** (changed 2026-08-28); see
+`../docs/cme-tracker/DEPLOYMENT.md`. Post-deployment column additions go in
+`db._ADDED_COLUMNS` — the DB is no longer disposable.
 
 ## Guardrails — binding, do not break
 

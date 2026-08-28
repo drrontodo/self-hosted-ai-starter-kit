@@ -141,6 +141,7 @@ CREATE TABLE IF NOT EXISTS reports (
     detected_at TEXT NOT NULL,
     report_date TEXT,
     instruction_date TEXT,
+    appointment_date TEXT,
     turnaround_days INTEGER,
     word_count INTEGER NOT NULL DEFAULT 0,
     sections TEXT NOT NULL DEFAULT '{}',
@@ -232,10 +233,29 @@ def tx():
         conn.close()
 
 
+# SCHEMA only ever CREATEs; SQLite has no "ADD COLUMN IF NOT EXISTS". Columns
+# added to a table after it was first deployed are listed here and applied
+# idempotently, so an already-populated database picks them up on restart
+# without a migration tool. Adding a column is the only shape change this
+# supports — anything more (renames, type changes, constraints) needs a real
+# migration path first.
+_ADDED_COLUMNS = (
+    ("reports", "appointment_date", "TEXT"),
+)
+
+
+def _apply_added_columns(conn) -> None:
+    for table, column, decl in _ADDED_COLUMNS:
+        cols = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})")}
+        if cols and column not in cols:
+            conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {decl}")
+
+
 def init_db() -> None:
     config.ensure_dirs()
     with tx() as conn:
         conn.executescript(SCHEMA)
+        _apply_added_columns(conn)
 
 
 def now_iso() -> str:

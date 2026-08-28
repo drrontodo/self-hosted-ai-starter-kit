@@ -1,0 +1,5 @@
+
+# The repo-root .env belongs to the old n8n starter kit and is NOT read by the
+# CPD Companion (that lives in cpd-companion/.env). Untracked so a stray API key
+# pasted here can never be committed.
+.env

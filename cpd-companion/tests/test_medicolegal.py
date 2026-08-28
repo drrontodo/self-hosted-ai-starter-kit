@@ -12,6 +12,8 @@ from app import config, db, medicolegal
 
 REPORT_TEXT = """Expert report prepared for the Supreme Court of NSW.
 
+Date of appointment: 10 June 2026
+
 1. Qualifications: I am a consultant neurologist with 20 years experience.
 2. Instructions: I refer to your letter of instruction dated 3 June 2026.
 3. Facts and assumptions relied on: the history is set out below.
@@ -100,7 +102,9 @@ def test_scan_extract_and_metrics(client):
     assert all(sections.values()), sections  # every checklist element present
     assert full["instruction_date"] == "2026-06-03"
     assert full["report_date"] == "2026-06-24"
-    assert full["turnaround_days"] == 21
+    # turnaround runs appointment -> completed report, not instruction -> report
+    assert full["appointment_date"] == "2026-06-10"
+    assert full["turnaround_days"] == 14
     assert full["word_count"] > 50
 
     partial_sections = json.loads(partial["sections"])
@@ -233,3 +237,51 @@ def test_future_period_refused(client):
     assert out["status"] == "future_period"
     with db.tx() as conn:
         assert conn.execute("SELECT * FROM audits WHERE period = '2099-01'").fetchone() is None
+
+
+# --- turnaround: appointment -> completed report --------------------------------
+
+PROSE_INSTRUCTION_TEXT = """MEDICO-LEGAL REPORT
+Date of report: 20 March 2026
+
+Date of appointment: 4 March 2026
+
+Opinion: the assumed facts are those set out in the letter of instruction. The
+history I obtained was of a motor vehicle collision on 5 January 2025 with
+immediate onset of neck pain.
+"""
+
+
+def test_turnaround_ignores_dates_after_prose_instruction_mention(client):
+    """A bare prose "the letter of instruction." used to capture whatever date
+    followed within 120 chars — here the 2025 accident date — and min() then
+    preferred it, pushing turnaround past the 400-day cap and silently nulling
+    it. Turnaround must come from the appointment date instead."""
+    metrics = medicolegal.compute_metrics(PROSE_INSTRUCTION_TEXT,
+                                          medicolegal.get_checklist())
+    assert metrics["report_date"] == "2026-03-20"
+    assert metrics["appointment_date"] == "2026-03-04"
+    assert metrics["turnaround_days"] == 16
+
+
+def test_report_date_falls_back_to_the_top_of_the_file(client):
+    """No "date of report" label: the completion date is the one at the top."""
+    text = ("2 May 2026\n\nMEDICO-LEGAL REPORT\n\n"
+            "Date of examination: 14 April 2026\n\n"
+            "Opinion: the headaches are post-traumatic. The fall at work occurred "
+            "on 20 November 2025.\n")
+    metrics = medicolegal.compute_metrics(text, medicolegal.get_checklist())
+    assert metrics["report_date"] == "2026-05-02"
+    assert metrics["appointment_date"] == "2026-04-14"
+    assert metrics["turnaround_days"] == 18
+
+
+def test_turnaround_none_without_an_appointment_date(client):
+    """No appointment date means unknown, never a guess from another date."""
+    text = ("Date of report: 20 March 2026\n"
+            "I refer to your letter of instruction dated 2 February 2026.\n"
+            "Opinion: the injury was mild.\n")
+    metrics = medicolegal.compute_metrics(text, medicolegal.get_checklist())
+    assert metrics["report_date"] == "2026-03-20"
+    assert metrics["appointment_date"] is None
+    assert metrics["turnaround_days"] is None

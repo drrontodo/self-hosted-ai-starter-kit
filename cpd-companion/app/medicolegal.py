@@ -57,6 +57,18 @@ _INSTRUCTION_CONTEXT = re.compile(
     r"your letter|brief(?:ing)?(?: was)? (?:dated|received))", re.I)
 _REPORT_DATE_CONTEXT = re.compile(
     r"(?:date of (?:this )?report|report (?:is )?dated|dated this)", re.I)
+# Turnaround is measured from the consultation to the day the report was
+# finished, so this anchors on the appointment/examination date. Only labelled
+# forms count: an unanchored scan picks up accident and referral dates, which
+# is exactly how the old instruction-date heuristic went wrong.
+_APPOINTMENT_CONTEXT = re.compile(
+    r"(?:date of (?:the )?(?:appointment|examination|assessment|consultation)|"
+    r"(?:appointment|examination|assessment|consultation) date|"
+    r"(?:examined|assessed|reviewed|seen)(?: (?:him|her|them|the \w+))?"
+    r"(?: by me)? on|attended (?:for|on))", re.I)
+# How far into the document counts as "the top" when looking for the date the
+# report was completed.
+_TOP_OF_FILE_CHARS = 1500
 
 
 def get_checklist() -> list[dict]:
@@ -131,13 +143,26 @@ def compute_metrics(text: str, checklist: list[dict]) -> dict:
         sections[item["key"]] = any(
             re.search(p, text, re.I) for p in item.get("patterns", []))
     all_dates = _parse_dates(text)
+    # Completion date: a labelled "date of report" if there is one, otherwise
+    # the date block at the top of the file, and only then the last resort of
+    # the latest date anywhere.
     report_dates = _dates_near(_REPORT_DATE_CONTEXT, text)
-    report_date = report_dates[0] if report_dates else (max(all_dates) if all_dates else None)
+    if report_dates:
+        report_date = report_dates[0]
+    else:
+        top_dates = _parse_dates(text[:_TOP_OF_FILE_CHARS])
+        report_date = top_dates[0] if top_dates else (max(all_dates) if all_dates else None)
+
+    appointment_dates = _dates_near(_APPOINTMENT_CONTEXT, text, window=60)
+    appointment_date = appointment_dates[0] if appointment_dates else None
+
     instruction_dates = _dates_near(_INSTRUCTION_CONTEXT, text)
     instruction_date = min(instruction_dates) if instruction_dates else None
+
+    # Turnaround = consultation -> completed report.
     turnaround = None
-    if report_date and instruction_date:
-        diff = (report_date - instruction_date).days
+    if report_date and appointment_date:
+        diff = (report_date - appointment_date).days
         if 0 <= diff <= 400:
             turnaround = diff
     return {
@@ -145,6 +170,7 @@ def compute_metrics(text: str, checklist: list[dict]) -> dict:
         "sections": sections,
         "report_date": report_date.isoformat() if report_date else None,
         "instruction_date": instruction_date.isoformat() if instruction_date else None,
+        "appointment_date": appointment_date.isoformat() if appointment_date else None,
         "turnaround_days": turnaround,
     }
 
@@ -169,7 +195,8 @@ def scan_inbox() -> list[int]:
                     continue
                 parse_error = ""
                 metrics = {"word_count": 0, "sections": {}, "report_date": None,
-                           "instruction_date": None, "turnaround_days": None}
+                           "instruction_date": None, "appointment_date": None,
+                           "turnaround_days": None}
                 try:
                     metrics = compute_metrics(extract_text(path), checklist)
                 except Exception as exc:  # noqa: BLE001 - record and keep scanning
@@ -177,12 +204,13 @@ def scan_inbox() -> list[int]:
                     log.warning("failed to parse %s: %s", path.name, exc)
                 cur = conn.execute(
                     "INSERT INTO reports (filename, sha256, detected_at, report_date,"
-                    " instruction_date, turnaround_days, word_count, sections,"
-                    " parse_error, backfill) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    " instruction_date, appointment_date, turnaround_days, word_count,"
+                    " sections, parse_error, backfill)"
+                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     (path.name, sha, db.now_iso(), metrics["report_date"],
-                     metrics["instruction_date"], metrics["turnaround_days"],
-                     metrics["word_count"], json.dumps(metrics["sections"]),
-                     parse_error, backfill),
+                     metrics["instruction_date"], metrics["appointment_date"],
+                     metrics["turnaround_days"], metrics["word_count"],
+                     json.dumps(metrics["sections"]), parse_error, backfill),
                 )
                 new_ids.append(cur.lastrowid)
     return new_ids
@@ -219,7 +247,8 @@ def _audit_prompt(period: str, checklist: list[dict]) -> str:
         "Return a JSON result with key:\n"
         "  audit_md: a markdown audit document with sections — 1) summary,"
         " 2) checklist compliance table (section, % of reports, which anonymised"
-        " reports are missing it), 3) turnaround analysis, 4) month-on-month trends"
+        " reports are missing it), 3) turnaround analysis (turnaround_days is the"
+        " number of days from the appointment to the completed report), 4) month-on-month trends"
         " vs the previous aggregates, 5) 2-4 concrete improvement suggestions.\n"
         "STRICT RULES: use only the metrics provided — never invent report contents,"
         " parties, or numbers; refer to reports only by their anonymised ids; note"
