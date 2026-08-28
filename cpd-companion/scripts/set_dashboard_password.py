@@ -3,6 +3,11 @@
 
     & ".\.venv\Scripts\python.exe" .\scripts\set_dashboard_password.py
 
+Check a password against the stored hash without changing anything — useful
+before restarting, so a typo is caught here rather than at the login screen:
+
+    & ".\.venv\Scripts\python.exe" .\scripts\set_dashboard_password.py --check
+
 The plaintext is never echoed, never written to disk, and never passed as a
 command-line argument (argv is visible to other processes). Only the hash is
 stored. Writes to cpd-companion/.env specifically — the repo-root .env belongs
@@ -19,6 +24,30 @@ HASH_KEY = "CPD_DASHBOARD_PASSWORD_HASH"
 PLAIN_KEY = "CPD_DASHBOARD_PASSWORD"
 
 
+def _stored_hash() -> str:
+    for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
+        if line.strip().startswith(f"{HASH_KEY}="):
+            return line.split("=", 1)[1].strip()
+    return ""
+
+
+def check(bcrypt) -> int:
+    """Verify a typed password against the stored hash. Changes nothing."""
+    stored = _stored_hash()
+    if not stored:
+        print(f"{HASH_KEY} is not set in {ENV_PATH}", file=sys.stderr)
+        return 1
+    candidate = getpass.getpass("Password to check: ")
+    try:
+        ok = bcrypt.checkpw(candidate.encode(), stored.encode())
+    except ValueError as exc:
+        print(f"Stored hash is not valid bcrypt ({exc}) — set it again.", file=sys.stderr)
+        return 1
+    print("MATCH — this is the dashboard password." if ok else
+          "NO MATCH — this is not the stored password.")
+    return 0 if ok else 1
+
+
 def main() -> int:
     try:
         import bcrypt
@@ -30,6 +59,9 @@ def main() -> int:
     if not ENV_PATH.exists():
         print(f"missing {ENV_PATH}", file=sys.stderr)
         return 1
+
+    if "--check" in sys.argv[1:]:
+        return check(bcrypt)
 
     password = getpass.getpass("New dashboard password: ")
     if len(password) < 8:
