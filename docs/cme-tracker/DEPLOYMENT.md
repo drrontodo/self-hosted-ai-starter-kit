@@ -138,9 +138,30 @@ losing the 300-plus news items already in it).
 That helper covers **column additions only**. Renames, type changes or new
 constraints still need a real migration path built first.
 
-## Restarting the app
+## Starting and restarting the app
 
-Restarts are the user's to perform. To restart: end the running
-`python.exe`/uvicorn process for this app, then run the `CPD Companion - app`
-task (or `scripts\start-cpd.ps1`). Only ever run **one** instance —
-`CPD_SCHEDULER=1` assumes a single process.
+**Double-click `cpd-companion\start.bat`.** It frees port 8340, launches the
+app in its own minimised window, waits until `/health` actually answers, and
+opens the dashboard. Safe when nothing is running, and safe to run twice — it
+is the restart button as well as the start button.
+
+Behind it, `scripts\start-cpd.ps1` takes `-Detach` (own window, wait for
+health, return) or runs uvicorn in the foreground, which is the path Task
+Scheduler uses at logon.
+
+Port 8340 is freed **only** if the process holding it is this app — the guard
+matches `uvicorn` *and* `app.main:app` on the command line. Anything else and
+the script refuses and names the process rather than killing it, so a blind
+port-kill can never take down something unrelated. Verified against a decoy
+`python -m http.server`: refused, exit 1, decoy untouched.
+
+Only ever run **one** instance — `CPD_SCHEDULER=1` assumes a single process.
+
+Closing the minimised PowerShell window stops the app. It also restarts on its
+own at logon via the `CPD Companion - app` task (confirmed working across a
+reboot).
+
+> `start.bat` disappeared once across a reboot while `start-cpd.ps1` survived —
+> most likely Norton heuristics, since a `.bat` that kills processes and
+> launches PowerShell is a classic false positive. If it vanishes again, add a
+> Norton exclusion for `cpd-companion\` rather than rewriting the file.
